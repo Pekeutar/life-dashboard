@@ -1,0 +1,86 @@
+import type { SeedTemplate } from "./store";
+
+/**
+ * Starter tree — 7 nodes spanning sport, study and cross-pillar.
+ * Feel free to wipe and rebuild from the app: this only ever runs when
+ * the user taps "Charger un exemple" on an empty tree.
+ */
+export const STARTER_SKILLS: SeedTemplate[] = [
+  {
+    label: "Premier pas",
+    emoji: "👟",
+    description: "Tu as commencé le voyage. La base de tout le reste.",
+    col: 2,
+    row: 0,
+    requiredXp: 0,
+    pillar: "any",
+    parents: [],
+    color: "#06b6d4",
+  },
+  {
+    label: "Coureur débutant",
+    emoji: "🏃",
+    description: "Cumule 300 XP en sport.",
+    col: 0,
+    row: 1,
+    requiredXp: 300,
+    pillar: "sport",
+    parents: ["Premier pas"],
+    color: "#f97316",
+  },
+  {
+    label: "Étudiant appliqué",
+    emoji: "📚",
+    description: "Cumule 300 XP en étude.",
+    col: 4,
+    row: 1,
+    requiredXp: 300,
+    pillar: "study",
+    parents: ["Premier pas"],
+    color: "#a855f7",
+  },
+  {
+    label: "Sportif confirmé",
+    emoji: "🔥",
+    description: "Cumule 1 500 XP en sport.",
+    col: 0,
+    row: 2,
+    requiredXp: 1500,
+    pillar: "sport",
+    parents: ["Coureur débutant"],
+    color: "#ef4444",
+  },
+  {
+    label: "Cerveau affûté",
+    emoji: "🧠",
+    description: "Cumule 1 500 XP en étude.",
+    col: 4,
+    row: 2,
+    requiredXp: 1500,
+    pillar: "study",
+    parents: ["Étudiant appliqué"],
+    color: "#8b5cf6",
+  },
+  {
+    label: "Équilibre",
+    emoji: "⚖️",
+    description: "3 000 XP cumulés toutes catégories.",
+    col: 2,
+    row: 2,
+    requiredXp: 3000,
+    pillar: "any",
+    parents: ["Coureur débutant", "Étudiant appliqué"],
+    color: "#22c55e",
+  },
+  {
+    label: "Élite",
+    emoji: "💎",
+    description: "10 000 XP cumulés — l'ascension.",
+    col: 2,
+    row: 3,
+    requiredXp: 10000,
+    pillar: "any",
+    parents: ["Sportif confirmé", "Cerveau affûté", "Équilibre"],
+    color: "#eab308",
+  },
+];
