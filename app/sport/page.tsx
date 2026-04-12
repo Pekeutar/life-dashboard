@@ -45,7 +45,7 @@ export default function SportPage() {
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         <StreakCard current={streak} best={best} />
-        <LevelBadge totalXp={pillarXp} />
+        <LevelBadge totalXp={pillarXp} mode="pillar" pillarLabel="Sport" />
         <StatsGrid label="Cette semaine" stats={weekStats} />
         <StatsGrid label="Ce mois" stats={monthStats} />
         <WeeklyChart workouts={workouts} />

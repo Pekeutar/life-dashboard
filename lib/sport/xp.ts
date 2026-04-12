@@ -10,6 +10,13 @@ export {
   getLevel,
   getLevelProgress,
   getTitle,
+  getPillarRank,
+  getPillarRankProgress,
+  getStreakBonus,
+  PILLAR_RANKS,
   type Level,
   type LevelProgress,
+  type PillarRank,
+  type PillarRankProgress,
+  type StreakBonus,
 } from "@/lib/gamification";

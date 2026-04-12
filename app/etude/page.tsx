@@ -108,7 +108,7 @@ export default function StudyPage() {
         </Link>
 
         <StreakCard current={streak} best={best} />
-        <LevelBadge totalXp={pillarXp} />
+        <LevelBadge totalXp={pillarXp} mode="pillar" pillarLabel="Études" />
         <StudyStatsGrid label="Cette semaine" stats={weekStats} />
         <StudyStatsGrid label="Ce mois" stats={monthStats} />
         <WeeklyStudyChart sessions={sessions} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -33,6 +33,7 @@ import {
 import { computeQuestProgress } from "@/lib/quests/progress";
 import { computeCrossStreak, computeBestCrossStreak } from "@/lib/streak-shared";
 import { getLevelProgress, getTitle } from "@/lib/gamification";
+import LevelRoadmap from "@/components/shared/LevelRoadmap";
 import { dayKey, formatLongDate, isSameDay } from "@/lib/utils";
 import { useAgendaItems, type AgendaItem } from "@/lib/agenda/use-agenda-items";
 import type { Quest } from "@/lib/quests/types";
@@ -99,18 +100,21 @@ export default function HomePage() {
     ? thisWeekStudyStats(sessions)
     : { count: 0, totalMin: 0, totalXp: 0 };
 
-  const { level, next, progress, xpToNext } = getLevelProgress(totalXp);
+  const { level, next, progress, xpToNext, display } = getLevelProgress(totalXp);
+  const [roadmapOpen, setRoadmapOpen] = useState(false);
 
   return (
     <>
       <PageHeader title="Bonjour 👋" subtitle={formatLongDate()} />
 
       <div className="flex flex-col gap-4 px-5 pb-6">
-        {/* Hero card gamifiée */}
+        {/* Hero card gamifiée — cliquable pour voir la roadmap */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl p-5 ring-1 ring-[var(--color-border)]"
+          whileTap={{ scale: 0.98 }}
+          onClick={() => setRoadmapOpen(true)}
+          className="relative cursor-pointer overflow-hidden rounded-3xl p-5 ring-1 ring-[var(--color-border)]"
           style={{
             background:
               "linear-gradient(135deg, rgba(249,115,22,0.18) 0%, rgba(168,85,247,0.18) 55%, rgba(28,28,33,0.9) 100%)",
@@ -119,7 +123,7 @@ export default function HomePage() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
-                <Trophy size={12} /> Niveau {level.label}
+                <Trophy size={12} /> {display}
               </p>
               <h2 className="mt-1 text-2xl font-bold leading-tight">
                 {getTitle(level)}
@@ -179,6 +183,13 @@ export default function HomePage() {
             </div>
           </div>
         </motion.div>
+
+        <LevelRoadmap
+          open={roadmapOpen}
+          onClose={() => setRoadmapOpen(false)}
+          totalXp={totalXp}
+          mode="global"
+        />
 
         {/* Pillars */}
         <section className="flex flex-col gap-2">

@@ -15,7 +15,7 @@ import { computeStreak, computeBestStreak } from "@/lib/sport/streak";
 import { totalStats, thisWeekStats } from "@/lib/sport/stats";
 import { totalStudyStats, thisWeekStudyStats } from "@/lib/study/stats";
 import { dueCards } from "@/lib/flashcards/stats";
-import { getLevel, getLevelProgress } from "@/lib/gamification";
+import { getLevel, getLevelProgress, getPillarRank } from "@/lib/gamification";
 import type {
   AgentContext,
   SportSnapshot,
