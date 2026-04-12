@@ -97,6 +97,29 @@ export function useShoppingLists() {
     [setLists]
   );
 
+  const toggleRecipe = useCallback(
+    (listId: string, recipeId: string) => {
+      setLists((prev) =>
+        prev.map((l) => {
+          if (l.id !== listId) return l;
+          // If all items from this recipe are checked, uncheck them; otherwise check all
+          const recipeItems = l.items.filter((it) =>
+            it.fromRecipes.includes(recipeId)
+          );
+          const allChecked =
+            recipeItems.length > 0 && recipeItems.every((it) => it.checked);
+          const items = l.items.map((it) =>
+            it.fromRecipes.includes(recipeId)
+              ? { ...it, checked: !allChecked }
+              : it
+          );
+          return { ...l, items };
+        })
+      );
+    },
+    [setLists]
+  );
+
   const remove = useCallback(
     (id: string) => {
       setLists((prev) => prev.filter((l) => l.id !== id));
@@ -104,7 +127,7 @@ export function useShoppingLists() {
     [setLists]
   );
 
-  return { lists, create, toggleItem, remove, hydrated };
+  return { lists, create, toggleItem, toggleRecipe, remove, hydrated };
 }
 
 /** Merge ingredients from multiple recipes, consolidating duplicates. */

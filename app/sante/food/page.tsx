@@ -299,7 +299,8 @@ export default function FoodPage() {
 }
 
 function ShoppingListsTab() {
-  const { lists, toggleItem, remove } = useShoppingLists();
+  const { lists, toggleItem, toggleRecipe, remove } = useShoppingLists();
+  const { recipes: allRecipes } = useRecipes();
 
   if (lists.length === 0) {
     return (
@@ -330,6 +331,25 @@ function ShoppingListsTab() {
         );
         const checkedCount = list.items.filter((it) => it.checked).length;
 
+        // Recipe chips data
+        const recipeChips = list.recipeIds.map((rid) => {
+          const recipe = allRecipes.find((r) => r.id === rid);
+          const recipeItems = list.items.filter((it) =>
+            it.fromRecipes.includes(rid)
+          );
+          const allChecked =
+            recipeItems.length > 0 && recipeItems.every((it) => it.checked);
+          const checkedInRecipe = recipeItems.filter((it) => it.checked).length;
+          return {
+            id: rid,
+            title: recipe?.title ?? "Recette",
+            emoji: recipe?.emoji ?? "🍽️",
+            allChecked,
+            checked: checkedInRecipe,
+            total: recipeItems.length,
+          };
+        });
+
         return (
           <motion.div
             key={list.id}
@@ -352,6 +372,34 @@ function ShoppingListsTab() {
                 </button>
               </div>
             </div>
+
+            {/* Recipe chips — tap to check/uncheck all ingredients for a recipe */}
+            {recipeChips.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {recipeChips.map((chip) => (
+                  <button
+                    key={chip.id}
+                    type="button"
+                    onClick={() => toggleRecipe(list.id, chip.id)}
+                    className={cn(
+                      "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium transition ring-1 active:scale-95",
+                      chip.allChecked
+                        ? "bg-[var(--color-success)]/15 text-[var(--color-success)] ring-[var(--color-success)]/30"
+                        : "bg-[var(--color-surface-2)] text-[var(--color-text-muted)] ring-[var(--color-border)]"
+                    )}
+                  >
+                    <span>{chip.emoji}</span>
+                    <span className="max-w-[120px] truncate">{chip.title}</span>
+                    <span className="text-[9px] opacity-60">
+                      {chip.checked}/{chip.total}
+                    </span>
+                    {chip.allChecked && (
+                      <span className="text-[10px]">✓</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className="mt-3 flex flex-col gap-3">
               {sortedAisles.map(([aisle, items]) => (

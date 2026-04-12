@@ -42,10 +42,12 @@ export function useLocalStorage<T>(
           typeof next === "function" ? (next as (p: T) => T)(prev) : next;
         try {
           window.localStorage.setItem(key, JSON.stringify(resolved));
-          // Notify other hook instances in the same tab
-          window.dispatchEvent(
-            new CustomEvent(LOCAL_STORAGE_EVENT, { detail: { key } })
-          );
+          // Notify other hook instances in the same tab (deferred to avoid setState-during-render)
+          queueMicrotask(() => {
+            window.dispatchEvent(
+              new CustomEvent(LOCAL_STORAGE_EVENT, { detail: { key } })
+            );
+          });
         } catch (err) {
           console.warn(`[useLocalStorage] failed to write ${key}`, err);
         }
