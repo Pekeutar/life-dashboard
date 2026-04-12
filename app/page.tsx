@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Dumbbell,
   Flame,
+  Heart,
   Sparkles,
   Target,
   TreePine,
@@ -20,6 +21,7 @@ import YearHeatmap from "@/components/shared/YearHeatmap";
 import { useWorkouts } from "@/lib/sport/store";
 import { useStudySessions } from "@/lib/study/store";
 import { useQuests } from "@/lib/quests/store";
+import { useRecipes } from "@/lib/food/store";
 import { thisWeekStats, totalStats } from "@/lib/sport/stats";
 import {
   thisWeekStudyStats,
@@ -34,20 +36,22 @@ import { computeQuestProgress } from "@/lib/quests/progress";
 import { computeCrossStreak, computeBestCrossStreak } from "@/lib/streak-shared";
 import { getLevelProgress, getTitle } from "@/lib/gamification";
 import LevelRoadmap from "@/components/shared/LevelRoadmap";
+import { useSettings } from "@/lib/settings/store";
 import { dayKey, formatLongDate, isSameDay } from "@/lib/utils";
 import { useAgendaItems, type AgendaItem } from "@/lib/agenda/use-agenda-items";
 import type { Quest } from "@/lib/quests/types";
 
 const FUTURE_PILLARS = [
-  { emoji: "❤️", label: "Santé" },
   { emoji: "💼", label: "Business" },
   { emoji: "📝", label: "Journal" },
 ];
 
 export default function HomePage() {
+  const { settings } = useSettings();
   const { workouts, hydrated: sportReady } = useWorkouts();
   const { sessions, hydrated: studyReady } = useStudySessions();
   const { quests, hydrated: questsReady } = useQuests();
+  const { favorites: favRecipes } = useRecipes();
   const { items: agendaItems, byDay: agendaByDay } = useAgendaItems();
   const hydrated = sportReady && studyReady && questsReady;
 
@@ -105,7 +109,11 @@ export default function HomePage() {
 
   return (
     <>
-      <PageHeader title="Bonjour 👋" subtitle={formatLongDate()} />
+      <PageHeader
+        title={settings.name ? `Bonjour ${settings.name} 👋` : "Bonjour 👋"}
+        subtitle={formatLongDate()}
+        settingsHref="/parametres"
+      />
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         {/* Hero card gamifiée — cliquable pour voir la roadmap */}
@@ -204,6 +212,7 @@ export default function HomePage() {
             label="Sport"
             accent="#f97316"
             weekCount={sportWeek.count}
+            weekGoal={settings.weeklyGoals.sportSessions}
             weekUnit={sportWeek.count <= 1 ? "séance" : "séances"}
             totalXp={sportTotal.totalXp}
           />
@@ -215,8 +224,20 @@ export default function HomePage() {
             label="Étude"
             accent="#a855f7"
             weekCount={studyWeek.count}
+            weekGoal={settings.weeklyGoals.studySessions}
             weekUnit={studyWeek.count <= 1 ? "session" : "sessions"}
             totalXp={studyTotal.totalXp}
+          />
+
+          <PillarCard
+            href="/sante"
+            icon={<Heart size={22} />}
+            emoji="❤️"
+            label="Santé"
+            accent="#ef4444"
+            weekCount={favRecipes.length}
+            weekUnit={favRecipes.length <= 1 ? "recette favorite" : "recettes favorites"}
+            totalXp={0}
           />
         </section>
 
@@ -496,6 +517,7 @@ interface PillarCardProps {
   label: string;
   accent: string;
   weekCount: number;
+  weekGoal?: number;
   weekUnit: string;
   totalXp: number;
 }
@@ -506,33 +528,54 @@ function PillarCard({
   label,
   accent,
   weekCount,
+  weekGoal,
   weekUnit,
   totalXp,
 }: PillarCardProps) {
+  const goalRatio = weekGoal ? Math.min(1, weekCount / weekGoal) : null;
+
   return (
     <Link href={href}>
       <motion.div
         whileTap={{ scale: 0.98 }}
         className="flex items-center justify-between gap-4 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
           <div
-            className="flex h-12 w-12 items-center justify-center rounded-xl"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
             style={{ background: `${accent}22`, color: accent }}
           >
             {icon}
           </div>
-          <div>
-            <h3 className="text-base font-semibold">{label}</h3>
-            <p className="mt-0.5 text-[11px] text-[var(--color-text-muted)]">
-              {weekCount} {weekUnit} cette semaine ·{" "}
-              <span style={{ color: accent }}>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline justify-between">
+              <h3 className="text-base font-semibold">{label}</h3>
+              <span
+                className="text-[11px] font-medium"
+                style={{ color: accent }}
+              >
                 {totalXp.toLocaleString("fr-FR")} XP
               </span>
+            </div>
+            <p className="mt-0.5 text-[11px] text-[var(--color-text-muted)]">
+              {weekGoal
+                ? `${weekCount}/${weekGoal} ${weekUnit} cette semaine`
+                : `${weekCount} ${weekUnit} cette semaine`}
             </p>
+            {goalRatio !== null && (
+              <div className="mt-1.5 relative h-1.5 overflow-hidden rounded-full bg-[var(--color-surface-2)]">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${goalRatio * 100}%` }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="absolute left-0 top-0 h-full rounded-full"
+                  style={{ background: accent }}
+                />
+              </div>
+            )}
           </div>
         </div>
-        <ChevronRight size={20} className="text-[var(--color-text-subtle)]" />
+        <ChevronRight size={20} className="shrink-0 text-[var(--color-text-subtle)]" />
       </motion.div>
     </Link>
   );

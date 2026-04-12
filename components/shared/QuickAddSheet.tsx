@@ -58,12 +58,12 @@ const PILLARS: PillarOption[] = [
   },
   {
     id: "health",
-    label: "Santé",
-    description: "Sommeil, hydratation, humeur",
-    href: null,
-    emoji: "❤️",
+    label: "Recette healthy",
+    description: "Génère une recette par IA",
+    href: "/sante/food",
+    emoji: "🍽️",
     accent: "#ef4444",
-    available: false,
+    available: true,
   },
   {
     id: "biz",
