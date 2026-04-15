@@ -96,12 +96,18 @@ export default function ItemDetailSheet({
               {item.kind !== "event" && (
                 <Link
                   href={
-                    item.kind === "workout" ? "/sport/history" : "/etude/history"
+                    item.kind === "workout"
+                      ? "/sport/history"
+                      : item.kind === "study"
+                        ? "/etude/history"
+                        : "/quetes"
                   }
                   onClick={onClose}
                   className="flex items-center justify-between gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm font-medium ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
                 >
-                  Voir dans l&apos;historique
+                  {item.kind === "quest"
+                    ? "Voir la quête"
+                    : "Voir dans l'historique"}
                   <ArrowRight size={16} />
                 </Link>
               )}

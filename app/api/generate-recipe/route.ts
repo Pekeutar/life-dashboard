@@ -47,6 +47,10 @@ function buildSystemPrompt(body: RequestBody): string {
 
   lines.push(
     "",
+    "LANGUE :",
+    "- Sortie intégralement en FRANÇAIS (titre, description, ingrédients, étapes, tags).",
+    "- Noms d'ingrédients en français courant, unités métriques (g, ml, cl).",
+    "",
     "RÈGLES :",
     "- La recette doit être réaliste, savoureuse et facile à préparer (max 45 min total).",
     "- Ingrédients courants, disponibles en supermarché standard.",

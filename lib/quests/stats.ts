@@ -1,19 +1,27 @@
-import type { Quest, QuestPillar } from "./types";
+import type { Quest, QuestPillarKey } from "./types";
+import { questPillar } from "./types";
 
-/** Sum of XP from completed (claimed) quests. */
+/** Sum of XP from completed quests, toutes catégories confondues. */
 export function totalQuestXp(quests: Quest[]): number {
   return quests
     .filter((q) => q.status === "completed")
     .reduce((sum, q) => sum + q.xpReward, 0);
 }
 
-/** Sum of XP from completed quests for a specific pillar. */
+/** XP des quêtes terminées rattachées à un pilier précis (sport / study). */
 export function totalQuestXpForPillar(
   quests: Quest[],
-  pillar: QuestPillar
+  pillar: QuestPillarKey
 ): number {
   return quests
-    .filter((q) => q.status === "completed" && q.pillar === pillar)
+    .filter((q) => q.status === "completed" && questPillar(q) === pillar)
+    .reduce((sum, q) => sum + q.xpReward, 0);
+}
+
+/** XP des quêtes terminées sans rattachement (transverses). */
+export function totalQuestXpFree(quests: Quest[]): number {
+  return quests
+    .filter((q) => q.status === "completed" && questPillar(q) === null)
     .reduce((sum, q) => sum + q.xpReward, 0);
 }
 

@@ -1,7 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Clock, Heart, ShoppingCart, Users, X } from "lucide-react";
+import {
+  Check,
+  Clock,
+  Heart,
+  Pencil,
+  ShoppingCart,
+  Trash2,
+  Users,
+  X,
+} from "lucide-react";
 import { MEAL_CATEGORIES, GROCERY_AISLES, type Recipe } from "@/lib/food/types";
 
 interface Props {
@@ -9,6 +19,8 @@ interface Props {
   onClose: () => void;
   onToggleFavorite: () => void;
   onAddToList: () => void;
+  onRename?: (title: string) => void;
+  onDelete?: () => void;
 }
 
 export default function RecipeDetail({
@@ -16,7 +28,29 @@ export default function RecipeDetail({
   onClose,
   onToggleFavorite,
   onAddToList,
+  onRename,
+  onDelete,
 }: Props) {
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+
+  useEffect(() => {
+    if (!recipe) {
+      setEditing(false);
+      setConfirmingDelete(false);
+      return;
+    }
+    setDraft(recipe.title);
+    setConfirmingDelete(false);
+  }, [recipe?.id, recipe?.title, recipe]);
+
+  function saveTitle() {
+    if (!recipe || !onRename) return;
+    const t = draft.trim();
+    if (t && t !== recipe.title) onRename(t);
+    setEditing(false);
+  }
   return (
     <AnimatePresence>
       {recipe && (
@@ -43,10 +77,52 @@ export default function RecipeDetail({
             <div className="shrink-0 px-6 pt-4">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--color-surface-2)]" />
               <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                   <span className="text-3xl">{recipe.emoji}</span>
-                  <div>
-                    <h2 className="text-lg font-bold">{recipe.title}</h2>
+                  <div className="min-w-0 flex-1">
+                    {editing ? (
+                      <div className="flex items-center gap-1">
+                        <input
+                          autoFocus
+                          type="text"
+                          value={draft}
+                          onChange={(e) => setDraft(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveTitle();
+                            if (e.key === "Escape") {
+                              setDraft(recipe.title);
+                              setEditing(false);
+                            }
+                          }}
+                          className="w-full rounded-lg bg-[var(--color-surface)] px-2 py-1 text-lg font-bold ring-1 ring-[var(--color-accent)] outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={saveTitle}
+                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] text-white active:scale-95"
+                          aria-label="Valider"
+                        >
+                          <Check size={14} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5">
+                        <h2 className="text-lg font-bold truncate">{recipe.title}</h2>
+                        {onRename && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setDraft(recipe.title);
+                              setEditing(true);
+                            }}
+                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[var(--color-text-subtle)] hover:text-[var(--color-text)] active:scale-95"
+                            aria-label="Renommer"
+                          >
+                            <Pencil size={12} />
+                          </button>
+                        )}
+                      </div>
+                    )}
                     <p className="text-xs text-[var(--color-text-muted)]">
                       {recipe.description}
                     </p>
@@ -123,6 +199,30 @@ export default function RecipeDetail({
                   <ShoppingCart size={14} />
                   Liste de courses
                 </button>
+                {onDelete && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (confirmingDelete) {
+                        onDelete();
+                      } else {
+                        setConfirmingDelete(true);
+                      }
+                    }}
+                    className={
+                      "flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-semibold ring-1 active:scale-[0.98] " +
+                      (confirmingDelete
+                        ? "bg-red-500 text-white ring-red-500"
+                        : "bg-red-500/10 text-red-400 ring-red-500/30")
+                    }
+                    aria-label={
+                      confirmingDelete ? "Confirmer la suppression" : "Supprimer la recette"
+                    }
+                  >
+                    <Trash2 size={14} />
+                    {confirmingDelete && "Confirmer"}
+                  </button>
+                )}
               </div>
             </div>
 

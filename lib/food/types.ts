@@ -98,8 +98,13 @@ export interface ShoppingItem {
   unit?: string;
   aisle: GroceryAisle;
   checked: boolean;
-  /** Source recipe IDs. */
   fromRecipes: string[];
+}
+
+/** Kept for backwards-compat with older consumers (unused by current store). */
+export interface ItemContribution {
+  recipeId: string;
+  quantity: string;
 }
 
 export interface ShoppingList {

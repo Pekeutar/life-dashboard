@@ -1,12 +1,24 @@
-export type QuestPillar = "sport" | "study" | "any";
-
 export type QuestStatus = "active" | "completed" | "archived";
 
+/** Pilier sur lequel une quête est comptabilisée (XP + auto-tracking). */
+export type QuestPillarKey = "sport" | "study";
+
 /**
- * Scope of a quest — the time window during which tracked actions count.
- *  - ongoing: no time limit, counts everything since creation
- *  - week: restricted to a specific week (weekStart = ISO of monday 00:00)
- *  - deadline: restricted to [createdAt, until] inclusive
+ * Rattachement de la quête à un pilier + matière.
+ *  - free: quête transverse, pas de pilier. Tracker forcément manuel.
+ *  - sport/study: pilier + matière optionnelle. Les auto-trackers exigent
+ *    la matière (ex: "Programmation" pour Étude, "Course" pour Sport).
+ */
+export type QuestLink =
+  | { kind: "free" }
+  | { kind: "sport"; sportType?: string }
+  | { kind: "study"; studyTopic?: string };
+
+/**
+ * Fenêtre temporelle pendant laquelle les actions comptent.
+ *  - ongoing: depuis la création, pas de fin.
+ *  - week: une semaine ISO précise.
+ *  - deadline: entre createdAt et until inclus.
  */
 export type QuestScope =
   | { kind: "ongoing" }
@@ -14,50 +26,26 @@ export type QuestScope =
   | { kind: "deadline"; until: string };
 
 /**
- * Optional filter to narrow auto-tracked quests to a specific sport/topic.
- */
-export interface QuestFilter {
-  sportType?: string;
-  studyTopic?: string;
-}
-
-/**
- * How the quest's completion is tracked.
- *  - manual: simple toggle ("I did it")
- *  - count: counts matching actions in scope
- *  - duration: sums matching durations (minutes)
- *  - distance: sums matching distances (km, sport only)
+ * Mode de validation de la quête.
+ *  - manual: à cocher à la main.
+ *  - count/duration/distance: auto, alimenté par les sessions du pilier
+ *    dont la matière correspond à link.sportType / link.studyTopic.
  */
 export type QuestTracker =
   | { kind: "manual"; done: boolean }
-  | {
-      kind: "count";
-      pillar: QuestPillar;
-      target: number;
-      filter?: QuestFilter;
-    }
-  | {
-      kind: "duration";
-      pillar: QuestPillar;
-      targetMin: number;
-      filter?: QuestFilter;
-    }
-  | {
-      kind: "distance";
-      targetKm: number;
-      filter?: QuestFilter;
-    };
+  | { kind: "count"; target: number }
+  | { kind: "duration"; targetMin: number }
+  | { kind: "distance"; targetKm: number };
 
 export interface Quest {
   id: string;
-  /** If present, this quest is a sub-quest (child step) of another. */
+  /** Quête-étape d'une quête parente. */
   parentId?: string;
   title: string;
   description?: string;
   emoji: string;
   color: string;
-  /** For cross-pilier level aggregation. */
-  pillar: QuestPillar;
+  link: QuestLink;
   scope: QuestScope;
   tracker: QuestTracker;
   xpReward: number;
@@ -70,3 +58,9 @@ export type NewQuestInput = Omit<
   Quest,
   "id" | "status" | "createdAt" | "completedAt"
 >;
+
+/** Pilier porteur de la quête, ou null si free. */
+export function questPillar(quest: Quest): QuestPillarKey | null {
+  const link = quest.link ?? { kind: "free" };
+  return link.kind === "free" ? null : link.kind;
+}

@@ -6,9 +6,10 @@ import { motion } from "framer-motion";
 import {
   BookOpen,
   CalendarCheck,
+  Check,
   Dumbbell,
+  Hand,
   Infinity as InfinityIcon,
-  MapPin,
   Plus,
   Route,
   Sparkles,
@@ -20,7 +21,7 @@ import { useSportMetas } from "@/lib/sport/meta";
 import { useStudyMetas } from "@/lib/study/meta";
 import type {
   NewQuestInput,
-  QuestPillar,
+  QuestLink,
   QuestScope,
   QuestTracker,
 } from "@/lib/quests/types";
@@ -40,14 +41,15 @@ const QUEST_COLORS = [
 
 type ScopeKind = "ongoing" | "week" | "deadline";
 type TrackerKind = "manual" | "count" | "duration" | "distance";
+type LinkKind = "free" | "sport" | "study";
 
 interface Props {
   parentId?: string;
-  /** Pre-fill the form from a parent quest (inherits emoji/color/pillar). */
+  /** Hérité d'une quête parente pour garder cohérence visuelle + rattachement. */
   presetFromParent?: {
     emoji: string;
     color: string;
-    pillar: QuestPillar;
+    link: QuestLink;
   };
   onDone?: () => void;
 }
@@ -76,21 +78,44 @@ export default function QuestForm({
     return d.toISOString().slice(0, 10);
   });
 
-  const [trackerKind, setTrackerKind] = useState<TrackerKind>("count");
-  const [pillar, setPillar] = useState<QuestPillar>(
-    presetFromParent?.pillar ?? "sport"
+  const [linkKind, setLinkKind] = useState<LinkKind>(
+    presetFromParent?.link.kind ?? "sport"
   );
+  const [sportMatiere, setSportMatiere] = useState<string>(
+    presetFromParent?.link.kind === "sport"
+      ? (presetFromParent.link.sportType ?? "")
+      : ""
+  );
+  const [studyMatiere, setStudyMatiere] = useState<string>(
+    presetFromParent?.link.kind === "study"
+      ? (presetFromParent.link.studyTopic ?? "")
+      : ""
+  );
+
+  const [trackerKind, setTrackerKind] = useState<TrackerKind>("count");
   const [targetCount, setTargetCount] = useState(3);
   const [targetMin, setTargetMin] = useState(60);
   const [targetKm, setTargetKm] = useState(10);
-  const [sportFilter, setSportFilter] = useState<string>("");
-  const [studyFilter, setStudyFilter] = useState<string>("");
   const [xpReward, setXpReward] = useState(150);
 
   const weekStartIso = useMemo(
     () => startOfWeek(new Date()).toISOString(),
     []
   );
+
+  // Distance n'a de sens qu'avec un rattachement sport.
+  const effectiveLinkKind: LinkKind =
+    trackerKind === "distance" ? "sport" : linkKind;
+  const isFree = effectiveLinkKind === "free";
+  const isAuto = trackerKind !== "manual";
+  // Matière requise sur les auto-trackers rattachés à un pilier.
+  const needsMatiere = isAuto && !isFree;
+  const matiereMissing =
+    needsMatiere &&
+    ((effectiveLinkKind === "sport" && !sportMatiere) ||
+      (effectiveLinkKind === "study" && !studyMatiere));
+  // Free impose manuel.
+  const trackerLocked = isFree && trackerKind !== "manual";
 
   function buildScope(): QuestScope {
     if (scopeKind === "week") return { kind: "week", weekStart: weekStartIso };
@@ -99,53 +124,39 @@ export default function QuestForm({
     return { kind: "ongoing" };
   }
 
-  function buildTracker(): QuestTracker {
-    if (trackerKind === "manual") return { kind: "manual", done: false };
-    if (trackerKind === "count") {
+  function buildLink(): QuestLink {
+    if (effectiveLinkKind === "free") return { kind: "free" };
+    if (effectiveLinkKind === "sport") {
       return {
-        kind: "count",
-        pillar,
-        target: targetCount,
-        filter:
-          pillar === "sport" && sportFilter
-            ? { sportType: sportFilter }
-            : pillar === "study" && studyFilter
-              ? { studyTopic: studyFilter }
-              : undefined,
+        kind: "sport",
+        sportType: sportMatiere || undefined,
       };
     }
-    if (trackerKind === "duration") {
-      return {
-        kind: "duration",
-        pillar,
-        targetMin,
-        filter:
-          pillar === "sport" && sportFilter
-            ? { sportType: sportFilter }
-            : pillar === "study" && studyFilter
-              ? { studyTopic: studyFilter }
-              : undefined,
-      };
-    }
-    // distance (sport only)
     return {
-      kind: "distance",
-      targetKm,
-      filter: sportFilter ? { sportType: sportFilter } : undefined,
+      kind: "study",
+      studyTopic: studyMatiere || undefined,
     };
   }
 
+  function buildTracker(): QuestTracker {
+    const kind: TrackerKind = trackerLocked ? "manual" : trackerKind;
+    if (kind === "manual") return { kind: "manual", done: false };
+    if (kind === "count") return { kind: "count", target: targetCount };
+    if (kind === "duration") return { kind: "duration", targetMin };
+    return { kind: "distance", targetKm };
+  }
+
+  const canSubmit = title.trim().length > 0 && !matiereMissing;
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim()) return;
-    const effectivePillar: QuestPillar =
-      trackerKind === "distance" ? "sport" : pillar;
+    if (!canSubmit) return;
     const input: NewQuestInput = {
       title: title.trim(),
       description: description.trim() || undefined,
       emoji,
       color,
-      pillar: effectivePillar,
+      link: buildLink(),
       scope: buildScope(),
       tracker: buildTracker(),
       xpReward,
@@ -157,6 +168,13 @@ export default function QuestForm({
   }
 
   const accent = color;
+  const linkSummary = summarizeLink(
+    effectiveLinkKind,
+    sportMatiere,
+    studyMatiere,
+    sportMetas,
+    studyMetas
+  );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-5 pb-8">
@@ -172,26 +190,26 @@ export default function QuestForm({
           <p className="truncate text-sm font-semibold text-[var(--color-text)]">
             {title || (parentId ? "Nouvelle étape" : "Nouvelle quête")}
           </p>
-          <p className="text-[11px]" style={{ color }}>
-            +{xpReward} XP à la clé
+          <p className="truncate text-[11px]" style={{ color }}>
+            {linkSummary} · +{xpReward} XP
           </p>
         </div>
       </div>
 
-      {/* Title */}
+      {/* Titre */}
       <section>
         <Label>Titre</Label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder={parentId ? "Ex: Courir lundi 10 km" : "Ex: Courir 3× cette semaine"}
+          placeholder={parentId ? "Ex: Courir 10 km lundi" : "Ex: Courir 3× cette semaine"}
           maxLength={64}
           className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
           style={{ caretColor: accent }}
         />
       </section>
 
-      {/* Description */}
+      {/* Motivation */}
       <section>
         <Label>Motivation (optionnel)</Label>
         <textarea
@@ -204,7 +222,156 @@ export default function QuestForm({
         />
       </section>
 
-      {/* Scope */}
+      {/* Rattachement */}
+      <section>
+        <Label>Rattachement</Label>
+        <p className="-mt-1 mb-2 text-[11px] text-[var(--color-text-subtle)]">
+          Une quête auto n&apos;avance que pour la matière choisie.
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          <LinkPill
+            active={effectiveLinkKind === "sport"}
+            onClick={() => setLinkKind("sport")}
+            icon={<Dumbbell size={16} />}
+            label="Sport"
+            accent={accent}
+          />
+          <LinkPill
+            active={effectiveLinkKind === "study"}
+            onClick={() => {
+              if (trackerKind === "distance") setTrackerKind("count");
+              setLinkKind("study");
+            }}
+            icon={<BookOpen size={16} />}
+            label="Étude"
+            accent={accent}
+          />
+          <LinkPill
+            active={effectiveLinkKind === "free"}
+            disabled={trackerKind === "distance"}
+            onClick={() => {
+              if (trackerKind === "distance") return;
+              setLinkKind("free");
+            }}
+            icon={<Sparkles size={16} />}
+            label="Libre"
+            accent={accent}
+          />
+        </div>
+
+        {effectiveLinkKind === "sport" && (
+          <div className="mt-3">
+            <p className="mb-1.5 text-[11px] font-medium text-[var(--color-text-muted)]">
+              Matière {needsMatiere ? "(requise pour l'auto-tracking)" : "(optionnel en manuel)"}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {!needsMatiere && (
+                <FilterChip
+                  active={sportMatiere === ""}
+                  onClick={() => setSportMatiere("")}
+                  label="Aucune"
+                  accent={accent}
+                />
+              )}
+              {sportMetas.map((s) => (
+                <FilterChip
+                  key={s.id}
+                  active={sportMatiere === s.id}
+                  onClick={() => setSportMatiere(s.id)}
+                  label={`${s.emoji} ${s.label}`}
+                  accent={s.color}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {effectiveLinkKind === "study" && (
+          <div className="mt-3">
+            <p className="mb-1.5 text-[11px] font-medium text-[var(--color-text-muted)]">
+              Matière {needsMatiere ? "(requise pour l'auto-tracking)" : "(optionnel en manuel)"}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {!needsMatiere && (
+                <FilterChip
+                  active={studyMatiere === ""}
+                  onClick={() => setStudyMatiere("")}
+                  label="Aucune"
+                  accent={accent}
+                />
+              )}
+              {studyMetas.map((s) => (
+                <FilterChip
+                  key={s.id}
+                  active={studyMatiere === s.id}
+                  onClick={() => setStudyMatiere(s.id)}
+                  label={`${s.emoji} ${s.label}`}
+                  accent={s.color}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {effectiveLinkKind === "free" && (
+          <p className="mt-2 rounded-xl bg-[var(--color-surface)]/60 px-3 py-2 text-[11px] text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]">
+            Quête transverse : validation uniquement manuelle.
+          </p>
+        )}
+      </section>
+
+      {/* Validation */}
+      <section>
+        <Label>Comment la valider ?</Label>
+        <div className="grid grid-cols-2 gap-2">
+          <TrackerPill
+            active={trackerKind === "manual"}
+            onClick={() => setTrackerKind("manual")}
+            icon={<Hand size={16} />}
+            label="Manuel"
+            hint="Je coche à la main"
+            accent={accent}
+          />
+          <TrackerPill
+            active={trackerKind === "count" && !trackerLocked}
+            disabled={isFree}
+            onClick={() => !isFree && setTrackerKind("count")}
+            icon={<Check size={16} />}
+            label="Nb de séances"
+            hint={isFree ? "Rattache la quête" : "ex: 3 sessions"}
+            accent={accent}
+          />
+          <TrackerPill
+            active={trackerKind === "duration" && !trackerLocked}
+            disabled={isFree}
+            onClick={() => !isFree && setTrackerKind("duration")}
+            icon={<Timer size={16} />}
+            label="Durée"
+            hint={isFree ? "Rattache la quête" : "ex: 2 h cumulées"}
+            accent={accent}
+          />
+          <TrackerPill
+            active={trackerKind === "distance" && !trackerLocked}
+            disabled={effectiveLinkKind !== "sport" && !isFree}
+            onClick={() => {
+              setLinkKind("sport");
+              setTrackerKind("distance");
+            }}
+            icon={<Route size={16} />}
+            label="Distance"
+            hint="Sport uniquement"
+            accent={accent}
+          />
+        </div>
+
+        {matiereMissing && (
+          <p className="mt-2 rounded-xl bg-amber-500/10 px-3 py-2 text-[11px] font-medium text-amber-400 ring-1 ring-amber-500/30">
+            Choisis une matière pour activer l&apos;auto-tracking.
+          </p>
+        )}
+      </section>
+
+      {/* Durée (scope) */}
       <section>
         <Label>Durée de la quête</Label>
         <div className="grid grid-cols-3 gap-2">
@@ -241,128 +408,8 @@ export default function QuestForm({
         )}
       </section>
 
-      {/* Tracker kind */}
-      <section>
-        <Label>Comment la valider ?</Label>
-        <div className="grid grid-cols-2 gap-2">
-          <TrackerPill
-            active={trackerKind === "count"}
-            onClick={() => setTrackerKind("count")}
-            icon={<Sparkles size={16} />}
-            label="Nb de séances"
-            hint="ex: 3 runs"
-            accent={accent}
-          />
-          <TrackerPill
-            active={trackerKind === "duration"}
-            onClick={() => setTrackerKind("duration")}
-            icon={<Timer size={16} />}
-            label="Durée"
-            hint="ex: 2h de sport"
-            accent={accent}
-          />
-          <TrackerPill
-            active={trackerKind === "distance"}
-            onClick={() => setTrackerKind("distance")}
-            icon={<Route size={16} />}
-            label="Distance"
-            hint="ex: 20 km"
-            accent={accent}
-          />
-          <TrackerPill
-            active={trackerKind === "manual"}
-            onClick={() => setTrackerKind("manual")}
-            icon={<MapPin size={16} />}
-            label="Manuel"
-            hint="Je coche à la main"
-            accent={accent}
-          />
-        </div>
-      </section>
-
-      {/* Pillar (hidden for manual/distance) */}
-      {(trackerKind === "count" || trackerKind === "duration") && (
-        <section>
-          <Label>Pilier concerné</Label>
-          <div className="grid grid-cols-3 gap-2">
-            <PillarPill
-              active={pillar === "sport"}
-              onClick={() => setPillar("sport")}
-              icon={<Dumbbell size={14} />}
-              label="Sport"
-              accent={accent}
-            />
-            <PillarPill
-              active={pillar === "study"}
-              onClick={() => setPillar("study")}
-              icon={<BookOpen size={14} />}
-              label="Étude"
-              accent={accent}
-            />
-            <PillarPill
-              active={pillar === "any"}
-              onClick={() => setPillar("any")}
-              icon={<Sparkles size={14} />}
-              label="Les 2"
-              accent={accent}
-            />
-          </div>
-        </section>
-      )}
-
-      {/* Filter (sport) */}
-      {(trackerKind === "distance" ||
-        ((trackerKind === "count" || trackerKind === "duration") &&
-          pillar === "sport")) && (
-        <section>
-          <Label>Sport spécifique (optionnel)</Label>
-          <div className="flex flex-wrap gap-1.5">
-            <FilterChip
-              active={sportFilter === ""}
-              onClick={() => setSportFilter("")}
-              label="Tous"
-              accent={accent}
-            />
-            {sportMetas.map((s) => (
-              <FilterChip
-                key={s.id}
-                active={sportFilter === s.id}
-                onClick={() => setSportFilter(s.id)}
-                label={`${s.emoji} ${s.label}`}
-                accent={s.color}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Filter (study) */}
-      {(trackerKind === "count" || trackerKind === "duration") &&
-        pillar === "study" && (
-          <section>
-            <Label>Matière spécifique (optionnel)</Label>
-            <div className="flex flex-wrap gap-1.5">
-              <FilterChip
-                active={studyFilter === ""}
-                onClick={() => setStudyFilter("")}
-                label="Toutes"
-                accent={accent}
-              />
-              {studyMetas.map((s) => (
-                <FilterChip
-                  key={s.id}
-                  active={studyFilter === s.id}
-                  onClick={() => setStudyFilter(s.id)}
-                  label={`${s.emoji} ${s.label}`}
-                  accent={s.color}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-      {/* Target value */}
-      {trackerKind !== "manual" && (
+      {/* Objectif */}
+      {!trackerLocked && trackerKind !== "manual" && (
         <section>
           <Label>Objectif</Label>
           {trackerKind === "count" && (
@@ -429,7 +476,7 @@ export default function QuestForm({
         </div>
       </section>
 
-      {/* Color */}
+      {/* Couleur */}
       <section>
         <Label>Couleur</Label>
         <div className="flex flex-wrap gap-2">
@@ -454,7 +501,7 @@ export default function QuestForm({
         </div>
       </section>
 
-      {/* XP Reward */}
+      {/* XP */}
       <section>
         <Label>Récompense XP</Label>
         <NumberRow
@@ -471,7 +518,7 @@ export default function QuestForm({
       <motion.button
         type="submit"
         whileTap={{ scale: 0.97 }}
-        disabled={!title.trim()}
+        disabled={!canSubmit}
         className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
         style={{
           background: accent,
@@ -482,6 +529,24 @@ export default function QuestForm({
       </motion.button>
     </form>
   );
+}
+
+function summarizeLink(
+  kind: LinkKind,
+  sportMatiere: string,
+  studyMatiere: string,
+  sportMetas: ReadonlyArray<{ id: string; label: string; emoji: string }>,
+  studyMetas: ReadonlyArray<{ id: string; label: string; emoji: string }>
+): string {
+  if (kind === "free") return "Libre";
+  if (kind === "sport") {
+    if (!sportMatiere) return "Sport · matière à choisir";
+    const m = sportMetas.find((x) => x.id === sportMatiere);
+    return m ? `Sport · ${m.label}` : "Sport";
+  }
+  if (!studyMatiere) return "Étude · matière à choisir";
+  const m = studyMetas.find((x) => x.id === studyMatiere);
+  return m ? `Étude · ${m.label}` : "Étude";
 }
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -499,6 +564,7 @@ interface PillProps {
   label: string;
   hint?: string;
   accent: string;
+  disabled?: boolean;
 }
 
 function ScopePill({ active, onClick, icon, label, accent }: PillProps) {
@@ -525,17 +591,27 @@ function ScopePill({ active, onClick, icon, label, accent }: PillProps) {
   );
 }
 
-function TrackerPill({ active, onClick, icon, label, hint, accent }: PillProps) {
+function TrackerPill({
+  active,
+  onClick,
+  icon,
+  label,
+  hint,
+  accent,
+  disabled,
+}: PillProps) {
   return (
     <motion.button
       type="button"
-      whileTap={{ scale: 0.97 }}
+      whileTap={disabled ? undefined : { scale: 0.97 }}
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         "flex items-center gap-3 rounded-2xl px-3 py-3 text-left transition",
         active
           ? "bg-[var(--color-surface-2)]"
-          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]",
+        disabled && "opacity-40"
       )}
       style={active ? { boxShadow: `inset 0 0 0 2px ${accent}` } : undefined}
     >
@@ -562,17 +638,26 @@ function TrackerPill({ active, onClick, icon, label, hint, accent }: PillProps) 
   );
 }
 
-function PillarPill({ active, onClick, icon, label, accent }: PillProps) {
+function LinkPill({
+  active,
+  onClick,
+  icon,
+  label,
+  accent,
+  disabled,
+}: PillProps) {
   return (
     <motion.button
       type="button"
-      whileTap={{ scale: 0.94 }}
+      whileTap={disabled ? undefined : { scale: 0.94 }}
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         "flex items-center justify-center gap-1.5 rounded-2xl px-3 py-2.5 text-xs font-semibold transition",
         active
           ? "bg-[var(--color-surface-2)]"
-          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]",
+        disabled && "opacity-40"
       )}
       style={active ? { boxShadow: `inset 0 0 0 2px ${accent}` } : undefined}
     >

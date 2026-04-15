@@ -9,6 +9,7 @@ import StatsGrid from "@/components/sport/StatsGrid";
 import WeeklyChart from "@/components/sport/WeeklyChart";
 import SportDistribution from "@/components/sport/SportDistribution";
 import WorkoutCard from "@/components/sport/WorkoutCard";
+import QuestImpactBanner from "@/components/quests/QuestImpactBanner";
 import { useWorkouts } from "@/lib/sport/store";
 import { useQuests } from "@/lib/quests/store";
 import { totalQuestXpForPillar } from "@/lib/quests/stats";
@@ -42,6 +43,8 @@ export default function SportPage() {
   return (
     <>
       <PageHeader title="Sport" subtitle="Ton pilier physique" backHref="/" />
+
+      <QuestImpactBanner pillar="sport" />
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         <StreakCard current={streak} best={best} />

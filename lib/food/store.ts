@@ -51,9 +51,20 @@ export function useRecipes() {
     [setRecipes]
   );
 
+  const rename = useCallback(
+    (id: string, title: string) => {
+      const trimmed = title.trim();
+      if (!trimmed) return;
+      setRecipes((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, title: trimmed } : r))
+      );
+    },
+    [setRecipes]
+  );
+
   const favorites = recipes.filter((r) => r.favorite);
 
-  return { recipes, favorites, add, toggleFavorite, remove, hydrated };
+  return { recipes, favorites, add, toggleFavorite, remove, rename, hydrated };
 }
 
 /* ── Shopping Lists ── */

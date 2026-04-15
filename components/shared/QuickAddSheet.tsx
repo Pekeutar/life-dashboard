@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CalendarPlus, Dumbbell, Lock, Target, X } from "lucide-react";
+import {
+  BookOpen,
+  CalendarPlus,
+  Dumbbell,
+  Lock,
+  StickyNote,
+  Target,
+  X,
+} from "lucide-react";
 
 interface PillarOption {
   id: string;
@@ -16,6 +24,16 @@ interface PillarOption {
 }
 
 const PILLARS: PillarOption[] = [
+  {
+    id: "note",
+    label: "Note rapide",
+    description: "Texte ou dictée — tout capturer",
+    href: "/notes?new=1",
+    emoji: "📝",
+    icon: <StickyNote size={20} />,
+    accent: "#eab308",
+    available: true,
+  },
   {
     id: "quest",
     label: "Nouvelle quête",

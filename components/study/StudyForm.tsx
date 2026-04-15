@@ -10,11 +10,15 @@ import { useStudySessions } from "@/lib/study/store";
 import { computeStudyXp } from "@/lib/study/xp";
 import type { Focus, StudyTopic } from "@/lib/study/types";
 import { useSpeechRecognition } from "@/lib/speech";
+import { useQuests } from "@/lib/quests/store";
+import { questsImpactedBy } from "@/lib/quests/tracker-info";
+import { writeLastImpact } from "@/lib/quests/last-impact";
 import { cn, formatDuration } from "@/lib/utils";
 
 export default function StudyForm() {
   const router = useRouter();
   const { add } = useStudySessions();
+  const { quests } = useQuests();
 
   const [topic, setTopic] = useState<StudyTopic>("programming");
   const [title, setTitle] = useState("");
@@ -43,6 +47,11 @@ export default function StudyForm() {
       durationMin,
       focus,
       notes: notes.trim() || undefined,
+    });
+    const impacted = questsImpactedBy(quests, { pillar: "study", type: topic });
+    writeLastImpact({
+      pillar: "study",
+      questTitles: impacted.map((q) => q.title),
     });
     router.push("/etude");
   }

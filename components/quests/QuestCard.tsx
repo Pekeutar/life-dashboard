@@ -18,6 +18,9 @@ import {
   computeQuestProgress,
   computeSubQuestsSummary,
 } from "@/lib/quests/progress";
+import { describeQuest } from "@/lib/quests/tracker-info";
+import { useSportMetas } from "@/lib/sport/meta";
+import { useStudyMetas } from "@/lib/study/meta";
 import QuestProgressBar from "./QuestProgressBar";
 
 interface Props {
@@ -46,8 +49,14 @@ export default function QuestCard({
   nested = false,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const { resolve: resolveSport } = useSportMetas();
+  const { resolve: resolveStudy } = useStudyMetas();
 
   const progress = computeQuestProgress(quest, workouts, sessions);
+  const badge = describeQuest(quest, {
+    sport: (id) => resolveSport(id).label,
+    study: (id) => resolveStudy(id).label,
+  });
   const subs = allQuests.filter((q) => q.parentId === quest.id);
   const subSummary = computeSubQuestsSummary(quest.id, allQuests);
   const completed = quest.status === "completed";
@@ -106,6 +115,20 @@ export default function QuestCard({
                 {scopeLabel}
                 {nested && " · étape"}
               </p>
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                <span
+                  className={
+                    "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 " +
+                    (badge.mode === "manual"
+                      ? "bg-[var(--color-surface-2)] text-[var(--color-text-muted)] ring-[var(--color-border)]"
+                      : "bg-[var(--color-accent)]/10 text-[var(--color-accent)] ring-[var(--color-accent)]/30")
+                  }
+                  title={badge.description}
+                >
+                  <span>{badge.emoji}</span>
+                  {badge.label}
+                </span>
+              </div>
             </div>
 
             <button

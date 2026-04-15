@@ -27,11 +27,7 @@ import {
   thisWeekStudyStats,
   totalStudyStats,
 } from "@/lib/study/stats";
-import {
-  totalQuestXp,
-  totalQuestXpForPillar,
-  activeQuestsCount,
-} from "@/lib/quests/stats";
+import { totalQuestXp, activeQuestsCount } from "@/lib/quests/stats";
 import { computeQuestProgress } from "@/lib/quests/progress";
 import { computeCrossStreak, computeBestCrossStreak } from "@/lib/streak-shared";
 import { getLevelProgress, getTitle } from "@/lib/gamification";

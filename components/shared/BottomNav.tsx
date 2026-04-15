@@ -3,7 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, CalendarDays, Dumbbell, Home, Plus, Target } from "lucide-react";
+import {
+  CalendarDays,
+  Home,
+  Plus,
+  StickyNote,
+  Target,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import QuickAddSheet from "./QuickAddSheet";
 
@@ -24,35 +30,28 @@ const LEFT_TABS: NavItem[] = [
     activeColor: "var(--color-text)",
   },
   {
-    href: "/sport",
-    icon: <Dumbbell size={18} />,
-    label: "Sport",
-    match: (p) => p.startsWith("/sport") && p !== "/sport/new",
-    activeColor: "var(--color-accent)",
-  },
-  {
-    href: "/etude",
-    icon: <BookOpen size={18} />,
-    label: "Étude",
-    match: (p) => p.startsWith("/etude") && p !== "/etude/new",
-    activeColor: "var(--color-level)",
-  },
-];
-
-const RIGHT_TABS: NavItem[] = [
-  {
     href: "/quetes",
     icon: <Target size={18} />,
     label: "Quêtes",
     match: (p) => p.startsWith("/quetes") && p !== "/quetes/new",
     activeColor: "#ec4899",
   },
+];
+
+const RIGHT_TABS: NavItem[] = [
   {
     href: "/agenda",
     icon: <CalendarDays size={18} />,
     label: "Agenda",
     match: (p) => p.startsWith("/agenda") && p !== "/agenda/new",
     activeColor: "var(--color-accent)",
+  },
+  {
+    href: "/notes",
+    icon: <StickyNote size={18} />,
+    label: "Notes",
+    match: (p) => p.startsWith("/notes"),
+    activeColor: "#eab308",
   },
 ];
 
@@ -66,7 +65,7 @@ export default function BottomNav() {
         className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--color-border)] bg-[var(--color-bg)]/90 backdrop-blur-md"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        <div className="mx-auto grid max-w-md grid-cols-6 items-center px-2 pt-2 pb-2">
+        <div className="mx-auto grid max-w-md grid-cols-5 items-center px-2 pt-2 pb-2">
           {LEFT_TABS.map((item) => (
             <NavTab key={item.href} item={item} active={item.match(pathname)} />
           ))}

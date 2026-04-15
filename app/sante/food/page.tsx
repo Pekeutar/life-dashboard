@@ -8,6 +8,10 @@ import {
   ShoppingCart,
   Sparkles,
   Send,
+  Upload,
+  FileText,
+  Image as ImageIcon,
+  Type,
 } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import RecipeCard from "@/components/food/RecipeCard";
@@ -24,7 +28,8 @@ import {
 } from "@/lib/food/types";
 import { cn } from "@/lib/utils";
 
-type Tab = "generate" | "favorites" | "lists";
+type Tab = "generate" | "import" | "favorites" | "lists";
+type ImportMode = "text" | "document" | "image";
 
 const SUGGESTIONS = [
   "Un déjeuner rapide et protéiné",
@@ -36,7 +41,15 @@ const SUGGESTIONS = [
 ];
 
 export default function FoodPage() {
-  const { recipes, favorites, add, toggleFavorite, hydrated } = useRecipes();
+  const {
+    recipes,
+    favorites,
+    add,
+    toggleFavorite,
+    rename,
+    remove,
+    hydrated,
+  } = useRecipes();
   const { create: createList } = useShoppingLists();
   const { settings } = useSettings();
 
@@ -127,8 +140,9 @@ export default function FoodPage() {
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         {/* Tabs */}
-        <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
           <TabBtn active={tab === "generate"} onClick={() => setTab("generate")} icon={<Sparkles size={13} />} label="Générer" />
+          <TabBtn active={tab === "import"} onClick={() => setTab("import")} icon={<Upload size={13} />} label="Importer" />
           <TabBtn active={tab === "favorites"} onClick={() => setTab("favorites")} icon={<Heart size={13} />} label={`Favoris (${favorites.length})`} />
           <TabBtn active={tab === "lists"} onClick={() => setTab("lists")} icon={<ShoppingCart size={13} />} label="Courses" />
         </div>
@@ -254,6 +268,16 @@ export default function FoodPage() {
           </>
         )}
 
+        {/* ── Import tab ── */}
+        {tab === "import" && (
+          <ImportTab
+            onImported={(r) => {
+              const saved = add(r);
+              setSelectedRecipe(saved);
+            }}
+          />
+        )}
+
         {/* ── Favorites tab ── */}
         {tab === "favorites" && (
           <>
@@ -292,6 +316,15 @@ export default function FoodPage() {
         }}
         onAddToList={() => {
           if (syncedSelected) handleAddToList(syncedSelected);
+        }}
+        onRename={(title) => {
+          if (syncedSelected) rename(syncedSelected.id, title);
+        }}
+        onDelete={() => {
+          if (syncedSelected) {
+            remove(syncedSelected.id);
+            setSelectedRecipe(null);
+          }
         }}
       />
     </>
@@ -452,6 +485,176 @@ function ShoppingListsTab() {
         );
       })}
     </div>
+  );
+}
+
+function ImportTab({
+  onImported,
+}: {
+  onImported: (recipe: NewRecipeInput) => void;
+}) {
+  const [mode, setMode] = useState<ImportMode>("text");
+  const [text, setText] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  async function submit() {
+    setError("");
+    setSuccess("");
+
+    if (mode === "text" && !text.trim()) {
+      setError("Colle le texte de la recette.");
+      return;
+    }
+    if ((mode === "document" || mode === "image") && !file) {
+      setError("Sélectionne un fichier.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      let res: Response;
+
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        if (text.trim()) fd.append("text", text);
+        res = await fetch("/api/import-recipe", { method: "POST", body: fd });
+      } else {
+        res = await fetch("/api/import-recipe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+      }
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Erreur lors de l'import.");
+        return;
+      }
+
+      onImported(data.recipe as NewRecipeInput);
+      setSuccess(`Recette "${data.recipe.title}" importée ✓`);
+      setText("");
+      setFile(null);
+    } catch (err) {
+      console.error("[food] import error:", err);
+      setError(
+        err instanceof Error ? `Erreur : ${err.message}` : "Erreur réseau."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const acceptByMode: Record<ImportMode, string> = {
+    text: "",
+    document: ".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
+    image: "image/*",
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Mode selector */}
+      <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+        <ModeBtn active={mode === "text"} onClick={() => { setMode("text"); setFile(null); setError(""); }} icon={<Type size={13} />} label="Texte" />
+        <ModeBtn active={mode === "document"} onClick={() => { setMode("document"); setError(""); }} icon={<FileText size={13} />} label="Document" />
+        <ModeBtn active={mode === "image"} onClick={() => { setMode("image"); setError(""); }} icon={<ImageIcon size={13} />} label="Photo" />
+      </div>
+
+      {/* Input */}
+      {mode === "text" ? (
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Colle ta recette ici (titre, ingrédients, étapes)..."
+          disabled={loading}
+          rows={10}
+          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] outline-none focus:ring-[var(--color-accent)] disabled:opacity-50 resize-none"
+        />
+      ) : (
+        <label className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-8 text-sm ring-1 ring-dashed ring-[var(--color-border)] cursor-pointer active:scale-[0.99] transition">
+          {mode === "document" ? <FileText size={24} /> : <ImageIcon size={24} />}
+          <span className="text-[var(--color-text-muted)]">
+            {file ? file.name : mode === "document" ? "PDF, DOCX, TXT ou MD" : "Photo d'une recette imprimée"}
+          </span>
+          {mode === "image" && !file && (
+            <span className="text-[10px] text-[var(--color-text-subtle)]">
+              (recette de livre, screenshot — évite les plats finis)
+            </span>
+          )}
+          <input
+            type="file"
+            accept={acceptByMode[mode]}
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            disabled={loading}
+            className="hidden"
+          />
+        </label>
+      )}
+
+      <button
+        type="button"
+        onClick={submit}
+        disabled={loading}
+        className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] py-3 text-sm font-semibold text-white disabled:opacity-50 active:scale-[0.99]"
+      >
+        {loading ? (
+          <>
+            <Loader2 size={16} className="animate-spin" />
+            Structuration en cours...
+          </>
+        ) : (
+          <>
+            <Upload size={14} />
+            Importer
+          </>
+        )}
+      </button>
+
+      {error && (
+        <p className="rounded-xl bg-[var(--color-danger)]/10 px-4 py-2 text-xs text-[var(--color-danger)]">
+          {error}
+        </p>
+      )}
+
+      {success && (
+        <p className="rounded-xl bg-[var(--color-success)]/10 px-4 py-2 text-xs text-[var(--color-success)]">
+          {success}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function ModeBtn({
+  active,
+  onClick,
+  icon,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex items-center justify-center gap-1 rounded-xl py-2 text-[11px] font-semibold transition",
+        active
+          ? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
+          : "text-[var(--color-text-subtle)]"
+      )}
+    >
+      {icon}
+      {label}
+    </button>
   );
 }
 

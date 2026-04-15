@@ -8,12 +8,16 @@ import { FEELING_EMOJIS, INTENSITY_LABELS } from "@/lib/sport/constants";
 import { useSportMetas } from "@/lib/sport/meta";
 import { useWorkouts } from "@/lib/sport/store";
 import { computeXp } from "@/lib/sport/xp";
+import { useQuests } from "@/lib/quests/store";
+import { questsImpactedBy } from "@/lib/quests/tracker-info";
+import { writeLastImpact } from "@/lib/quests/last-impact";
 import type { Feeling, Intensity, SportType } from "@/lib/sport/types";
 import { cn, formatDuration } from "@/lib/utils";
 
 export default function WorkoutForm() {
   const router = useRouter();
   const { add } = useWorkouts();
+  const { quests } = useQuests();
   const { resolve } = useSportMetas();
 
   const [type, setType] = useState<SportType>("running");
@@ -36,6 +40,11 @@ export default function WorkoutForm() {
       intensity,
       feeling,
       notes: notes.trim() || undefined,
+    });
+    const impacted = questsImpactedBy(quests, { pillar: "sport", type });
+    writeLastImpact({
+      pillar: "sport",
+      questTitles: impacted.map((q) => q.title),
     });
     router.push("/sport");
   }

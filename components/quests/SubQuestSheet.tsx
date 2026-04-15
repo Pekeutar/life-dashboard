@@ -58,7 +58,7 @@ export default function SubQuestSheet({ open, onClose, parent }: Props) {
                 presetFromParent={{
                   emoji: parent.emoji,
                   color: parent.color,
-                  pillar: parent.pillar,
+                  link: parent.link,
                 }}
                 onDone={onClose}
               />

@@ -19,7 +19,10 @@ import { useStudySessions } from "@/lib/study/store";
 import { useQuests } from "@/lib/quests/store";
 import { totalStats } from "@/lib/sport/stats";
 import { totalStudyStats } from "@/lib/study/stats";
-import { totalQuestXp, totalQuestXpForPillar } from "@/lib/quests/stats";
+import {
+  totalQuestXpForPillar,
+  totalQuestXpFree,
+} from "@/lib/quests/stats";
 
 export default function SkillTreePage() {
   const { skills, add, update, remove, loadSeed, replaceAll, hydrated } =
@@ -34,7 +37,7 @@ export default function SkillTreePage() {
     const studyBase = totalStudyStats(sessions).totalXp;
     const sportQuest = totalQuestXpForPillar(quests, "sport");
     const studyQuest = totalQuestXpForPillar(quests, "study");
-    const anyQuest = totalQuestXpForPillar(quests, "any");
+    const anyQuest = totalQuestXpFree(quests);
     const sport = sportBase + sportQuest;
     const study = studyBase + studyQuest;
     return { sport, study, any: sport + study + anyQuest };

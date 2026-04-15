@@ -9,6 +9,7 @@ import StudyStatsGrid from "@/components/study/StudyStatsGrid";
 import WeeklyStudyChart from "@/components/study/WeeklyStudyChart";
 import StudyDistribution from "@/components/study/StudyDistribution";
 import StudyCard from "@/components/study/StudyCard";
+import QuestImpactBanner from "@/components/quests/QuestImpactBanner";
 import { useStudySessions } from "@/lib/study/store";
 import { useFlashcards } from "@/lib/flashcards/store";
 import { dueCount } from "@/lib/flashcards/stats";
@@ -50,6 +51,8 @@ export default function StudyPage() {
   return (
     <>
       <PageHeader title="Étude" subtitle="Ton pilier mental" backHref="/" />
+
+      <QuestImpactBanner pillar="study" />
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         <Link

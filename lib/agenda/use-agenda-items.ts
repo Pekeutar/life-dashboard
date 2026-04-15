@@ -7,9 +7,10 @@ import { useSportMetas } from "@/lib/sport/meta";
 import { useStudyMetas } from "@/lib/study/meta";
 import { useAgendaEvents } from "./store";
 import { useCategoryMetas } from "./meta";
+import { useQuests } from "@/lib/quests/store";
 import { dayKey } from "@/lib/utils";
 
-export type AgendaItemKind = "workout" | "study" | "event";
+export type AgendaItemKind = "workout" | "study" | "event" | "quest";
 
 export interface AgendaItem {
   id: string; // kind-prefixed unique id
@@ -24,6 +25,7 @@ export interface AgendaItem {
   notes?: string;
   xp?: number;
   categoryLabel?: string; // for events
+  parentQuestId?: string; // for sub-quest items
 }
 
 /**
@@ -34,11 +36,12 @@ export function useAgendaItems() {
   const { workouts, hydrated: wh } = useWorkouts();
   const { sessions, hydrated: sh } = useStudySessions();
   const { events, remove: removeEvent, hydrated: eh } = useAgendaEvents();
+  const { quests, hydrated: qh } = useQuests();
   const { resolve: resolveSport } = useSportMetas();
   const { resolve: resolveStudy } = useStudyMetas();
   const { resolve: resolveCategory } = useCategoryMetas();
 
-  const hydrated = wh && sh && eh;
+  const hydrated = wh && sh && eh && qh;
 
   const items = useMemo<AgendaItem[]>(() => {
     const out: AgendaItem[] = [];
@@ -94,9 +97,45 @@ export function useAgendaItems() {
       });
     }
 
+    const questTitles = new Map(quests.map((q) => [q.id, q.title]));
+    for (const q of quests) {
+      if (q.status !== "active") continue;
+      if (q.scope.kind !== "deadline") continue;
+      const parentTitle = q.parentId
+        ? questTitles.get(q.parentId)
+        : undefined;
+      const subtitle = q.parentId
+        ? parentTitle
+          ? `Sous-quête · ${parentTitle}`
+          : "Sous-quête"
+        : `Échéance · +${q.xpReward} XP`;
+      out.push({
+        id: `quest:${q.id}`,
+        sourceId: q.id,
+        kind: "quest",
+        date: q.scope.until,
+        dayKey: dayKey(q.scope.until),
+        title: q.title,
+        emoji: q.emoji,
+        color: q.color,
+        subtitle,
+        notes: q.description,
+        xp: q.xpReward,
+        parentQuestId: q.parentId,
+      });
+    }
+
     // Sort chronologically ascending (past → future).
     return out.sort((a, b) => (a.date < b.date ? -1 : 1));
-  }, [workouts, sessions, events, resolveSport, resolveStudy, resolveCategory]);
+  }, [
+    workouts,
+    sessions,
+    events,
+    quests,
+    resolveSport,
+    resolveStudy,
+    resolveCategory,
+  ]);
 
   const byDay = useMemo(() => {
     const map = new Map<string, AgendaItem[]>();

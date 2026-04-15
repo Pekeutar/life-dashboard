@@ -8,14 +8,10 @@ export interface QuestProgress {
   /** Clamped 0..1 */
   ratio: number;
   done: boolean;
-  unit: string; // "séances" | "min" | "km" | ""
-  label: string; // short "2/3 séances" / "45/60 min" / "Fait ?"
+  unit: string;
+  label: string;
 }
 
-/**
- * Does `isoDate` fall within the quest's scope?
- * createdAt acts as the lower bound for ongoing / deadline scopes.
- */
 function isInScope(
   isoDate: string,
   scope: QuestScope,
@@ -24,9 +20,7 @@ function isInScope(
   const d = new Date(isoDate).getTime();
   const created = new Date(createdAt).getTime();
 
-  if (scope.kind === "ongoing") {
-    return d >= created;
-  }
+  if (scope.kind === "ongoing") return d >= created;
   if (scope.kind === "week") {
     const start = new Date(scope.weekStart).getTime();
     const end = start + 7 * 24 * 60 * 60 * 1000;
@@ -39,12 +33,29 @@ function isInScope(
   return false;
 }
 
+/**
+ * Un workout nourrit la quête seulement si le link pointe vers le sport
+ * ET que la matière (sportType) est spécifiée et correspond.
+ */
+function workoutMatches(link: Quest["link"], w: Workout): boolean {
+  if (link.kind !== "sport") return false;
+  if (!link.sportType) return false;
+  return w.type === link.sportType;
+}
+
+function sessionMatches(link: Quest["link"], s: StudySession): boolean {
+  if (link.kind !== "study") return false;
+  if (!link.studyTopic) return false;
+  return s.topic === link.studyTopic;
+}
+
 export function computeQuestProgress(
   quest: Quest,
   workouts: Workout[],
   sessions: StudySession[]
 ): QuestProgress {
   const { tracker } = quest;
+  const link: Quest["link"] = quest.link ?? { kind: "free" };
 
   if (tracker.kind === "manual") {
     return {
@@ -59,28 +70,20 @@ export function computeQuestProgress(
 
   if (tracker.kind === "count") {
     let count = 0;
-    if (tracker.pillar === "sport" || tracker.pillar === "any") {
+    if (link.kind === "sport") {
       for (const w of workouts) {
         if (!isInScope(w.date, quest.scope, quest.createdAt)) continue;
-        if (tracker.filter?.sportType && w.type !== tracker.filter.sportType)
-          continue;
+        if (!workoutMatches(link, w)) continue;
         count++;
       }
-    }
-    if (tracker.pillar === "study" || tracker.pillar === "any") {
+    } else if (link.kind === "study") {
       for (const s of sessions) {
         if (!isInScope(s.date, quest.scope, quest.createdAt)) continue;
-        if (tracker.filter?.studyTopic && s.topic !== tracker.filter.studyTopic)
-          continue;
+        if (!sessionMatches(link, s)) continue;
         count++;
       }
     }
-    const unit =
-      tracker.pillar === "study"
-        ? "sessions"
-        : tracker.pillar === "sport"
-          ? "séances"
-          : "actions";
+    const unit = link.kind === "study" ? "sessions" : "séances";
     return {
       current: count,
       target: tracker.target,
@@ -93,19 +96,16 @@ export function computeQuestProgress(
 
   if (tracker.kind === "duration") {
     let minutes = 0;
-    if (tracker.pillar === "sport" || tracker.pillar === "any") {
+    if (link.kind === "sport") {
       for (const w of workouts) {
         if (!isInScope(w.date, quest.scope, quest.createdAt)) continue;
-        if (tracker.filter?.sportType && w.type !== tracker.filter.sportType)
-          continue;
+        if (!workoutMatches(link, w)) continue;
         minutes += w.durationMin;
       }
-    }
-    if (tracker.pillar === "study" || tracker.pillar === "any") {
+    } else if (link.kind === "study") {
       for (const s of sessions) {
         if (!isInScope(s.date, quest.scope, quest.createdAt)) continue;
-        if (tracker.filter?.studyTopic && s.topic !== tracker.filter.studyTopic)
-          continue;
+        if (!sessionMatches(link, s)) continue;
         minutes += s.durationMin;
       }
     }
@@ -121,11 +121,12 @@ export function computeQuestProgress(
 
   if (tracker.kind === "distance") {
     let km = 0;
-    for (const w of workouts) {
-      if (!isInScope(w.date, quest.scope, quest.createdAt)) continue;
-      if (tracker.filter?.sportType && w.type !== tracker.filter.sportType)
-        continue;
-      if (w.distanceKm) km += w.distanceKm;
+    if (link.kind === "sport") {
+      for (const w of workouts) {
+        if (!isInScope(w.date, quest.scope, quest.createdAt)) continue;
+        if (!workoutMatches(link, w)) continue;
+        if (w.distanceKm) km += w.distanceKm;
+      }
     }
     const rounded = Math.round(km * 10) / 10;
     return {
@@ -148,10 +149,6 @@ export function computeQuestProgress(
   };
 }
 
-/**
- * Compute sub-quest completion ratio (fraction of sub-quests in "completed"
- * status or with a manual tracker marked done). Used as a secondary visual.
- */
 export function computeSubQuestsSummary(
   parentId: string,
   allQuests: Quest[]
