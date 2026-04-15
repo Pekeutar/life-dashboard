@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus, Search, X } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
@@ -9,6 +9,14 @@ import NoteEditorSheet from "@/components/notes/NoteEditorSheet";
 import { useNotes } from "@/lib/notes/store";
 
 export default function NotesPage() {
+  return (
+    <Suspense fallback={null}>
+      <NotesPageInner />
+    </Suspense>
+  );
+}
+
+function NotesPageInner() {
   const { notes, hydrated } = useNotes();
   const router = useRouter();
   const searchParams = useSearchParams();
