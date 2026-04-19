@@ -15,7 +15,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 0,
     pillar: "any",
     parents: [],
-    color: "#06b6d4",
+    color: "#6d6055",
   },
   {
     label: "Coureur débutant",
@@ -26,7 +26,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 300,
     pillar: "sport",
     parents: ["Premier pas"],
-    color: "#f97316",
+    color: "#8b1a3a",
   },
   {
     label: "Étudiant appliqué",
@@ -37,7 +37,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 300,
     pillar: "study",
     parents: ["Premier pas"],
-    color: "#a855f7",
+    color: "#3a0a14",
   },
   {
     label: "Sportif confirmé",
@@ -48,7 +48,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 1500,
     pillar: "sport",
     parents: ["Coureur débutant"],
-    color: "#ef4444",
+    color: "#5a0f1f",
   },
   {
     label: "Cerveau affûté",
@@ -59,7 +59,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 1500,
     pillar: "study",
     parents: ["Étudiant appliqué"],
-    color: "#8b5cf6",
+    color: "#6b552a",
   },
   {
     label: "Équilibre",
@@ -70,7 +70,7 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 3000,
     pillar: "any",
     parents: ["Coureur débutant", "Étudiant appliqué"],
-    color: "#22c55e",
+    color: "#8a6f3c",
   },
   {
     label: "Élite",
@@ -81,6 +81,6 @@ export const STARTER_SKILLS: SeedTemplate[] = [
     requiredXp: 10000,
     pillar: "any",
     parents: ["Sportif confirmé", "Cerveau affûté", "Équilibre"],
-    color: "#eab308",
+    color: "#c5a364",
   },
 ];

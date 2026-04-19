@@ -78,7 +78,7 @@ export default function QuestCard({
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       className={
-        "rounded-2xl p-4 ring-1 " +
+        "rounded-none p-4 ring-1 " +
         (completed
           ? "bg-[var(--color-surface)]/60 ring-[var(--color-border)]/60"
           : "bg-[var(--color-surface)] ring-[var(--color-border)]")
@@ -89,7 +89,7 @@ export default function QuestCard({
     >
       <div className="flex items-start gap-3">
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none text-2xl ember-emoji ghost-border"
           style={{ background: `${quest.color}22` }}
         >
           {quest.emoji}
@@ -125,7 +125,7 @@ export default function QuestCard({
                   }
                   title={badge.description}
                 >
-                  <span>{badge.emoji}</span>
+                  <span className="ember-emoji">{badge.emoji}</span>
                   {badge.label}
                 </span>
               </div>
@@ -154,13 +154,13 @@ export default function QuestCard({
                 type="button"
                 onClick={() => onToggleManual(quest.id)}
                 disabled={completed}
-                className="flex w-full items-center justify-between rounded-xl bg-[var(--color-surface-2)]/50 px-3 py-2 ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)] disabled:opacity-60"
+                className="flex w-full items-center justify-between rounded-none bg-[var(--color-surface-2)]/50 px-3 py-2 ghost-border active:bg-[var(--color-surface-2)] disabled:opacity-60"
               >
                 <span className="text-xs font-medium text-[var(--color-text-muted)]">
                   {quest.tracker.done ? "Fait ✓" : "Marquer comme fait"}
                 </span>
                 <div
-                  className="flex h-6 w-6 items-center justify-center rounded-md"
+                  className="flex h-6 w-6 items-center justify-center rounded-none"
                   style={{
                     background: quest.tracker.done
                       ? quest.color
@@ -205,7 +205,7 @@ export default function QuestCard({
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
-              className="mt-2.5 flex w-full items-center justify-between rounded-xl bg-[var(--color-surface-2)]/40 px-3 py-1.5 text-[11px] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]/60 active:bg-[var(--color-surface-2)]"
+              className="mt-2.5 flex w-full items-center justify-between rounded-none bg-[var(--color-surface-2)]/40 px-3 py-1.5 text-[11px] text-[var(--color-text-muted)] ghost-border/60 active:bg-[var(--color-surface-2)]"
             >
               <span className="flex items-center gap-1.5">
                 <Sparkles size={11} />
@@ -221,7 +221,7 @@ export default function QuestCard({
               type="button"
               whileTap={{ scale: 0.97 }}
               onClick={() => onClaim(quest.id)}
-              className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold text-white shadow-lg"
+              className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-none py-2.5 text-sm font-semibold text-white shadow-lg"
               style={{
                 background: quest.color,
                 boxShadow: `0 10px 30px -12px ${quest.color}`,
@@ -272,7 +272,7 @@ export default function QuestCard({
             <button
               type="button"
               onClick={() => onAddSubQuest(quest.id)}
-              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-[var(--color-border)] px-3 py-2 text-[11px] text-[var(--color-text-subtle)] active:bg-[var(--color-surface-2)]/40"
+              className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-none border border-dashed border-[var(--color-border)] px-3 py-2 text-[11px] text-[var(--color-text-subtle)] active:bg-[var(--color-surface-2)]/40"
             >
               <Plus size={12} /> Ajouter une étape
             </button>

@@ -77,10 +77,10 @@ export default function EventForm() {
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setCategory(c.id)}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 rounded-2xl p-3 transition-colors",
+                  "flex flex-col items-center justify-center gap-1 rounded-none p-3 transition-colors",
                   active
                     ? "bg-[var(--color-surface-2)]"
-                    : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+                    : "bg-[var(--color-surface)] ghost-border"
                 )}
                 style={
                   active
@@ -88,7 +88,7 @@ export default function EventForm() {
                     : undefined
                 }
               >
-                <span className="text-2xl leading-none">{c.emoji}</span>
+                <span className="text-2xl leading-none ember-emoji">{c.emoji}</span>
                 <span className="truncate text-[11px] font-medium text-[var(--color-text-muted)]">
                   {c.label}
                 </span>
@@ -100,7 +100,7 @@ export default function EventForm() {
             type="button"
             onClick={() => setSheetOpen(true)}
             whileTap={{ scale: 0.92 }}
-            className="flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
+            className="flex flex-col items-center justify-center gap-1 rounded-none border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
             aria-label="Ajouter une catégorie personnalisée"
           >
             <Plus size={22} />
@@ -118,7 +118,7 @@ export default function EventForm() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Ex: Examen de maths, deadline projet…"
           maxLength={80}
-          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+          className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
           required
         />
       </section>
@@ -131,7 +131,7 @@ export default function EventForm() {
           type="datetime-local"
           value={datetime}
           onChange={(e) => setDatetime(e.target.value)}
-          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)]"
+          className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border"
           required
         />
       </section>
@@ -145,7 +145,7 @@ export default function EventForm() {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Un petit résumé en une ligne"
           maxLength={120}
-          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+          className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
         />
       </section>
 
@@ -158,7 +158,7 @@ export default function EventForm() {
           onChange={(e) => setNotes(e.target.value)}
           rows={4}
           placeholder="Ce qu'il faut préparer, points à réviser, contexte…"
-          className="w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+          className="w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
         />
       </section>
 
@@ -166,7 +166,7 @@ export default function EventForm() {
         type="submit"
         whileTap={{ scale: 0.97 }}
         disabled={!title.trim()}
-        className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/20 disabled:opacity-40 disabled:shadow-none"
+        className="mt-2 flex items-center justify-center gap-2 rounded-none bg-[var(--color-accent)] py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/20 disabled:opacity-40 disabled:shadow-none"
       >
         Enregistrer
       </motion.button>
@@ -176,7 +176,7 @@ export default function EventForm() {
         onClose={() => setSheetOpen(false)}
         title="Nouvelle catégorie"
         subtitle="Crée une catégorie qui te ressemble"
-        accent="#f97316"
+        accent="#5a0f1f"
         emojiSuggestions={CATEGORY_EMOJI_SUGGESTIONS}
         customs={customs}
         onCreate={(draft) => {

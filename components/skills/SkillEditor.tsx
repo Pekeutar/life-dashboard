@@ -12,9 +12,8 @@ const EMOJIS = [
 ];
 
 const COLORS = [
-  "#06b6d4", "#3b82f6", "#8b5cf6", "#a855f7",
-  "#ec4899", "#f97316", "#f59e0b", "#eab308",
-  "#22c55e", "#14b8a6", "#ef4444", "#84cc16",
+  "#c5a364", "#8a6f3c", "#6b552a", "#3a0a14",
+  "#8b1a3a", "#5a0f1f", "#6a0a0a", "#2d0810",
 ];
 
 const PILLARS: { value: SkillPillar; label: string; hint: string }[] = [
@@ -43,7 +42,7 @@ const EMPTY: NewSkillInput = {
   requiredXp: 100,
   pillar: "any",
   parents: [],
-  color: "#a855f7",
+  color: "#3a0a14",
 };
 
 export default function SkillEditor({
@@ -108,7 +107,7 @@ export default function SkillEditor({
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)" }}
           >
             <div className="px-6 pt-4">
@@ -126,7 +125,7 @@ export default function SkillEditor({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -134,9 +133,9 @@ export default function SkillEditor({
               </div>
 
               {/* Preview */}
-              <div className="mb-5 flex items-center gap-3 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+              <div className="mb-5 flex items-center gap-3 rounded-none bg-[var(--color-surface)] p-4 ghost-border">
                 <div
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl text-2xl"
+                  className="flex h-14 w-14 items-center justify-center rounded-none text-2xl ember-emoji"
                   style={{
                     background: `linear-gradient(135deg, ${state.color}55 0%, ${state.color}22 100%)`,
                     boxShadow: `inset 0 0 0 2px ${state.color}`,
@@ -161,7 +160,7 @@ export default function SkillEditor({
                 onChange={(e) => patch("label", e.target.value)}
                 placeholder="Ex: Premier semi-marathon"
                 maxLength={48}
-                className="mb-5 w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                className="mb-5 w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                 style={{ caretColor: state.color }}
               />
 
@@ -172,7 +171,7 @@ export default function SkillEditor({
                 placeholder="Ce que ça symbolise"
                 rows={2}
                 maxLength={140}
-                className="mb-5 w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                className="mb-5 w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                 style={{ caretColor: state.color }}
               />
 
@@ -185,7 +184,7 @@ export default function SkillEditor({
                       type="button"
                       key={p.value}
                       onClick={() => patch("pillar", p.value)}
-                      className="flex flex-col items-start gap-0.5 rounded-2xl bg-[var(--color-surface)] px-3 py-2.5 text-left ring-1 ring-[var(--color-border)] transition active:scale-95"
+                      className="flex flex-col items-start gap-0.5 rounded-none bg-[var(--color-surface)] px-3 py-2.5 text-left ghost-border transition active:scale-95"
                       style={
                         active
                           ? {
@@ -205,13 +204,13 @@ export default function SkillEditor({
               </div>
 
               <Label>XP requis</Label>
-              <div className="mb-5 flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-3 py-2 ring-1 ring-[var(--color-border)]">
+              <div className="mb-5 flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-3 py-2 ghost-border">
                 <button
                   type="button"
                   onClick={() =>
                     patch("requiredXp", Math.max(0, state.requiredXp - 100))
                   }
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
                 >
                   −
                 </button>
@@ -227,7 +226,7 @@ export default function SkillEditor({
                 <button
                   type="button"
                   onClick={() => patch("requiredXp", state.requiredXp + 100)}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
                 >
                   +
                 </button>
@@ -256,7 +255,7 @@ export default function SkillEditor({
                       type="button"
                       key={e}
                       onClick={() => patch("emoji", e)}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-surface)] text-xl ring-1 ring-[var(--color-border)] transition active:scale-95"
+                      className="flex h-10 w-10 items-center justify-center rounded-none bg-[var(--color-surface)] text-xl ghost-border transition active:scale-95"
                       style={
                         active
                           ? {
@@ -305,7 +304,7 @@ export default function SkillEditor({
                           type="button"
                           key={p.id}
                           onClick={() => toggleParent(p.id)}
-                          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium ring-1 ring-[var(--color-border)] transition active:scale-95"
+                          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium ghost-border transition active:scale-95"
                           style={
                             active
                               ? {
@@ -316,7 +315,7 @@ export default function SkillEditor({
                               : undefined
                           }
                         >
-                          <span>{p.emoji}</span>
+                          <span className="ember-emoji">{p.emoji}</span>
                           <span className="truncate max-w-[120px]">{p.label}</span>
                         </button>
                       );
@@ -330,7 +329,7 @@ export default function SkillEditor({
                 whileTap={{ scale: 0.97 }}
                 disabled={!canSave}
                 onClick={handleSave}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+                className="flex w-full items-center justify-center gap-2 rounded-none py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
                 style={{
                   background: state.color,
                   boxShadow: `0 14px 40px -14px ${state.color}`,
@@ -343,7 +342,7 @@ export default function SkillEditor({
               {editing && onDelete && (
                 <div className="mt-3">
                   {confirmDel ? (
-                    <div className="rounded-2xl bg-[var(--color-surface)] p-3 ring-1 ring-red-500/30">
+                    <div className="rounded-none bg-[var(--color-surface)] p-3 ring-1 ring-red-500/30">
                       <p className="text-xs font-semibold">Supprimer ce nœud ?</p>
                       <p className="mt-0.5 text-[11px] text-[var(--color-text-muted)]">
                         Les enfants perdront ce prérequis mais resteront intacts.
@@ -352,7 +351,7 @@ export default function SkillEditor({
                         <button
                           type="button"
                           onClick={() => setConfirmDel(false)}
-                          className="flex-1 rounded-xl bg-[var(--color-surface-2)] py-2 text-xs font-semibold"
+                          className="flex-1 rounded-none bg-[var(--color-surface-2)] py-2 text-xs font-semibold"
                         >
                           Annuler
                         </button>
@@ -362,7 +361,7 @@ export default function SkillEditor({
                             onDelete();
                             onClose();
                           }}
-                          className="flex-1 rounded-xl bg-red-500 py-2 text-xs font-semibold text-white"
+                          className="flex-1 rounded-none bg-red-500 py-2 text-xs font-semibold text-white"
                         >
                           Supprimer
                         </button>
@@ -372,7 +371,7 @@ export default function SkillEditor({
                     <button
                       type="button"
                       onClick={() => setConfirmDel(true)}
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-[var(--color-text-subtle)]"
+                      className="flex w-full items-center justify-center gap-2 rounded-none py-3 text-xs font-medium text-[var(--color-text-subtle)]"
                     >
                       <Trash2 size={13} /> Supprimer
                     </button>
@@ -405,14 +404,14 @@ function NumberBox({
   onChange: (v: number) => void;
 }) {
   return (
-    <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-3 py-2 ring-1 ring-[var(--color-border)]">
+    <div className="flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-3 py-2 ghost-border">
       <span className="text-[10px] font-semibold uppercase text-[var(--color-text-subtle)]">
         {label}
       </span>
       <button
         type="button"
         onClick={() => onChange(Math.max(0, value - 1))}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
+        className="flex h-8 w-8 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
       >
         −
       </button>
@@ -420,7 +419,7 @@ function NumberBox({
       <button
         type="button"
         onClick={() => onChange(value + 1)}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
+        className="flex h-8 w-8 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold active:scale-95"
       >
         +
       </button>

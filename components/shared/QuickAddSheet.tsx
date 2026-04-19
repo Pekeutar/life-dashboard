@@ -4,8 +4,11 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BookOpen,
+  Briefcase,
   CalendarPlus,
   Dumbbell,
+  Feather,
+  Flame,
   Lock,
   StickyNote,
   Target,
@@ -17,9 +20,7 @@ interface PillarOption {
   label: string;
   description: string;
   href: string | null; // null = coming soon
-  emoji: string;
-  icon?: React.ReactNode;
-  accent: string;
+  icon: React.ReactNode;
   available: boolean;
 }
 
@@ -29,9 +30,7 @@ const PILLARS: PillarOption[] = [
     label: "Note rapide",
     description: "Texte ou dictée — tout capturer",
     href: "/notes?new=1",
-    emoji: "📝",
     icon: <StickyNote size={20} />,
-    accent: "#eab308",
     available: true,
   },
   {
@@ -39,9 +38,7 @@ const PILLARS: PillarOption[] = [
     label: "Nouvelle quête",
     description: "Objectif, défi, étape",
     href: "/quetes/new",
-    emoji: "🎯",
     icon: <Target size={20} />,
-    accent: "#ec4899",
     available: true,
   },
   {
@@ -49,9 +46,7 @@ const PILLARS: PillarOption[] = [
     label: "Événement",
     description: "Examen, deadline, rappel…",
     href: "/agenda/new",
-    emoji: "🗓️",
     icon: <CalendarPlus size={20} />,
-    accent: "#f97316",
     available: true,
   },
   {
@@ -59,9 +54,7 @@ const PILLARS: PillarOption[] = [
     label: "Séance de sport",
     description: "Course, muscu, yoga, vélo…",
     href: "/sport/new",
-    emoji: "🏋️",
     icon: <Dumbbell size={20} />,
-    accent: "#f97316",
     available: true,
   },
   {
@@ -69,9 +62,7 @@ const PILLARS: PillarOption[] = [
     label: "Session d'étude",
     description: "Cours, lectures, synthèses",
     href: "/etude/new",
-    emoji: "📚",
     icon: <BookOpen size={20} />,
-    accent: "#a855f7",
     available: true,
   },
   {
@@ -79,8 +70,7 @@ const PILLARS: PillarOption[] = [
     label: "Recette healthy",
     description: "Génère une recette par IA",
     href: "/sante/food",
-    emoji: "🍽️",
-    accent: "#ef4444",
+    icon: <Flame size={20} />,
     available: true,
   },
   {
@@ -88,8 +78,7 @@ const PILLARS: PillarOption[] = [
     label: "Business",
     description: "Revenus, deals, projets",
     href: null,
-    emoji: "💼",
-    accent: "#22c55e",
+    icon: <Briefcase size={20} />,
     available: false,
   },
   {
@@ -97,8 +86,7 @@ const PILLARS: PillarOption[] = [
     label: "Journal",
     description: "Pensées libres, décisions",
     href: null,
-    emoji: "📝",
-    accent: "#06b6d4",
+    icon: <Feather size={20} />,
     available: false,
   },
 ];
@@ -125,7 +113,7 @@ export default function QuickAddSheet({ open, onClose }: Props) {
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] pb-10 ring-1 ring-[var(--color-border)]"
+            className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] pb-10 ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 2rem)" }}
           >
             <div className="px-6 pt-4">
@@ -142,7 +130,7 @@ export default function QuickAddSheet({ open, onClose }: Props) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -155,21 +143,26 @@ export default function QuickAddSheet({ open, onClose }: Props) {
                     <motion.div
                       whileTap={p.available ? { scale: 0.98 } : {}}
                       className={
-                        "flex items-center gap-3 rounded-2xl px-4 py-3 ring-1 transition " +
+                        "flex items-center gap-3 rounded-none px-4 py-3 ring-1 transition " +
                         (p.available
                           ? "bg-[var(--color-surface)] ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
                           : "bg-[var(--color-surface)]/40 ring-[var(--color-border)]/50")
                       }
                     >
                       <div
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl"
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none"
                         style={{
-                          background: p.available
-                            ? `${p.accent}22`
-                            : "var(--color-surface-2)",
+                          background: "var(--color-surface-2)",
+                          border: "1px solid var(--color-gold-faint)",
+                          color: p.available
+                            ? "var(--color-gold)"
+                            : "var(--color-text-subtle)",
+                          boxShadow: p.available
+                            ? "inset 0 0 10px rgba(0,0,0,0.6)"
+                            : "none",
                         }}
                       >
-                        {p.emoji}
+                        {p.icon}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p

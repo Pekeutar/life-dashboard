@@ -52,7 +52,7 @@ export default function SkillDetailSheet({
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)" }}
           >
             <div className="px-6 pt-4">
@@ -61,7 +61,7 @@ export default function SkillDetailSheet({
               <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-3xl"
+                    className="flex h-14 w-14 items-center justify-center rounded-none text-3xl"
                     style={{
                       background:
                         status === "unlocked"
@@ -91,7 +91,7 @@ export default function SkillDetailSheet({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -140,9 +140,9 @@ export default function SkillDetailSheet({
                     {parentSkills.map((p) => (
                       <span
                         key={p.id}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1 text-xs font-medium ring-1 ring-[var(--color-border)]"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1 text-xs font-medium ghost-border"
                       >
-                        {p.emoji} {p.label}
+                        <span className="ember-emoji">{p.emoji}</span> {p.label}
                       </span>
                     ))}
                   </div>
@@ -153,7 +153,7 @@ export default function SkillDetailSheet({
                 type="button"
                 whileTap={{ scale: 0.97 }}
                 onClick={onEdit}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] py-3.5 text-sm font-semibold ring-1 ring-[var(--color-border)]"
+                className="flex w-full items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] py-3.5 text-sm font-semibold ghost-border"
               >
                 <Pencil size={15} /> Modifier
               </motion.button>

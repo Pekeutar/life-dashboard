@@ -13,7 +13,7 @@ export default function AccentProvider() {
 
   useEffect(() => {
     if (!hydrated) return;
-    const hex = ACCENT_COLORS[settings.accent]?.hex ?? ACCENT_COLORS.orange.hex;
+    const hex = ACCENT_COLORS[settings.accent]?.hex ?? ACCENT_COLORS.gold.hex;
     document.documentElement.style.setProperty("--color-accent", hex);
 
     // Derived glow (lighter version)

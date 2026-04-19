@@ -19,7 +19,7 @@ export default function NoteCard({ note, onClick }: Props) {
       type="button"
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="flex h-full flex-col gap-2 rounded-2xl bg-[var(--color-surface)] p-3 text-left ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+      className="flex h-full flex-col gap-2 rounded-none bg-[var(--color-surface)] p-3 text-left ghost-border active:bg-[var(--color-surface-2)]"
     >
       <p className="line-clamp-1 text-[13px] font-semibold text-[var(--color-text)]">
         {firstLine || "Note vide"}

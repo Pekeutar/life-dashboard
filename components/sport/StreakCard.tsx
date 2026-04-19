@@ -14,7 +14,7 @@ export default function StreakCard({ current, best }: Props) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 via-[var(--color-surface)] to-[var(--color-surface)] p-5 ring-1 ring-[var(--color-border)]"
+      className="relative overflow-hidden rounded-none bg-gradient-to-br from-orange-500/20 via-[var(--color-surface)] to-[var(--color-surface)] p-5 ghost-border"
     >
       <div className="flex items-center justify-between">
         <div>

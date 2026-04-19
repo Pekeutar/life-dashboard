@@ -34,9 +34,8 @@ const QUEST_EMOJI_SUGGESTIONS = [
 ];
 
 const QUEST_COLORS = [
-  "#f97316", "#f59e0b", "#eab308", "#84cc16",
-  "#22c55e", "#14b8a6", "#06b6d4", "#3b82f6",
-  "#8b5cf6", "#a855f7", "#ec4899", "#ef4444",
+  "#c5a364", "#8a6f3c", "#6b552a", "#3a0a14",
+  "#8b1a3a", "#5a0f1f", "#6a0a0a", "#2d0810",
 ];
 
 type ScopeKind = "ongoing" | "week" | "deadline";
@@ -67,7 +66,7 @@ export default function QuestForm({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [emoji, setEmoji] = useState(presetFromParent?.emoji ?? "🎯");
-  const [color, setColor] = useState(presetFromParent?.color ?? "#a855f7");
+  const [color, setColor] = useState(presetFromParent?.color ?? "#3a0a14");
 
   const [scopeKind, setScopeKind] = useState<ScopeKind>(
     parentId ? "week" : "ongoing"
@@ -179,9 +178,9 @@ export default function QuestForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-5 pb-8">
       {/* Preview */}
-      <div className="flex items-center gap-3 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+      <div className="flex items-center gap-3 rounded-none bg-[var(--color-surface)] p-4 ghost-border">
         <div
-          className="flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
+          className="flex h-12 w-12 items-center justify-center rounded-none text-2xl"
           style={{ background: `${color}22` }}
         >
           {emoji}
@@ -204,7 +203,7 @@ export default function QuestForm({
           onChange={(e) => setTitle(e.target.value)}
           placeholder={parentId ? "Ex: Courir 10 km lundi" : "Ex: Courir 3× cette semaine"}
           maxLength={64}
-          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+          className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
           style={{ caretColor: accent }}
         />
       </section>
@@ -217,7 +216,7 @@ export default function QuestForm({
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Pourquoi cette quête te tient à cœur ?"
           rows={2}
-          className="w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+          className="w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
           style={{ caretColor: accent }}
         />
       </section>
@@ -314,7 +313,7 @@ export default function QuestForm({
         )}
 
         {effectiveLinkKind === "free" && (
-          <p className="mt-2 rounded-xl bg-[var(--color-surface)]/60 px-3 py-2 text-[11px] text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]">
+          <p className="mt-2 rounded-none bg-[var(--color-surface)]/60 px-3 py-2 text-[11px] text-[var(--color-text-subtle)] ghost-border">
             Quête transverse : validation uniquement manuelle.
           </p>
         )}
@@ -365,7 +364,7 @@ export default function QuestForm({
         </div>
 
         {matiereMissing && (
-          <p className="mt-2 rounded-xl bg-amber-500/10 px-3 py-2 text-[11px] font-medium text-amber-400 ring-1 ring-amber-500/30">
+          <p className="mt-2 rounded-none bg-amber-500/10 px-3 py-2 text-[11px] font-medium text-amber-400 ring-1 ring-amber-500/30">
             Choisis une matière pour activer l&apos;auto-tracking.
           </p>
         )}
@@ -402,7 +401,7 @@ export default function QuestForm({
             type="date"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
-            className="mt-2 w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)]"
+            className="mt-2 w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border"
             style={{ colorScheme: "dark", caretColor: accent }}
           />
         )}
@@ -459,7 +458,7 @@ export default function QuestForm({
                 type="button"
                 key={e}
                 onClick={() => setEmoji(e)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-surface)] text-xl ring-1 ring-[var(--color-border)] transition active:scale-95"
+                className="flex h-10 w-10 items-center justify-center rounded-none bg-[var(--color-surface)] text-xl ghost-border transition active:scale-95"
                 style={
                   active
                     ? {
@@ -519,7 +518,7 @@ export default function QuestForm({
         type="submit"
         whileTap={{ scale: 0.97 }}
         disabled={!canSubmit}
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-none py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
         style={{
           background: accent,
           boxShadow: `0 14px 40px -14px ${accent}`,
@@ -574,10 +573,10 @@ function ScopePill({ active, onClick, icon, label, accent }: PillProps) {
       whileTap={{ scale: 0.94 }}
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center gap-1 rounded-2xl px-2 py-3 transition",
+        "flex flex-col items-center gap-1 rounded-none px-2 py-3 transition",
         active
           ? "bg-[var(--color-surface-2)]"
-          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+          : "bg-[var(--color-surface)] ghost-border"
       )}
       style={active ? { boxShadow: `inset 0 0 0 2px ${accent}` } : undefined}
     >
@@ -607,16 +606,16 @@ function TrackerPill({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex items-center gap-3 rounded-2xl px-3 py-3 text-left transition",
+        "flex items-center gap-3 rounded-none px-3 py-3 text-left transition",
         active
           ? "bg-[var(--color-surface-2)]"
-          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]",
+          : "bg-[var(--color-surface)] ghost-border",
         disabled && "opacity-40"
       )}
       style={active ? { boxShadow: `inset 0 0 0 2px ${accent}` } : undefined}
     >
       <span
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-none"
         style={{
           background: active ? `${accent}22` : "var(--color-surface-2)",
           color: active ? accent : "var(--color-text-muted)",
@@ -653,10 +652,10 @@ function LinkPill({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex items-center justify-center gap-1.5 rounded-2xl px-3 py-2.5 text-xs font-semibold transition",
+        "flex items-center justify-center gap-1.5 rounded-none px-3 py-2.5 text-xs font-semibold transition",
         active
           ? "bg-[var(--color-surface-2)]"
-          : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]",
+          : "bg-[var(--color-surface)] ghost-border",
         disabled && "opacity-40"
       )}
       style={active ? { boxShadow: `inset 0 0 0 2px ${accent}` } : undefined}
@@ -719,7 +718,7 @@ function NumberRow({
   accent: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-[var(--color-surface)] px-4 py-3 ring-1 ring-[var(--color-border)]">
+    <div className="flex items-center gap-3 rounded-none bg-[var(--color-surface)] px-4 py-3 ghost-border">
       <button
         type="button"
         onClick={() => onChange(Math.max(min, value - step))}

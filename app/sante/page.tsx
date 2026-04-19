@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, UtensilsCrossed } from "lucide-react";
+import { Brain, ChevronRight, Droplet, Moon, UtensilsCrossed } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import { useRecipes } from "@/lib/food/store";
 
@@ -15,16 +15,19 @@ export default function SantePage() {
       <div className="flex flex-col gap-4 px-5 pb-6">
         <Link
           href="/sante/food"
-          className="flex items-center justify-between gap-3 rounded-2xl p-4 ring-1 ring-[var(--color-border)] active:scale-[0.99]"
+          className="flex items-center justify-between gap-3 rounded-none p-4 ghost-border active:scale-[0.99]"
           style={{
             background:
-              "linear-gradient(135deg, rgba(239,68,68,0.22) 0%, rgba(239,68,68,0.08) 100%)",
+              "linear-gradient(135deg, rgba(106, 10, 10,0.22) 0%, rgba(106, 10, 10,0.08) 100%)",
           }}
         >
           <div className="flex items-center gap-3">
             <div
-              className="flex h-12 w-12 items-center justify-center rounded-xl text-[#ef4444]"
-              style={{ background: "rgba(239,68,68,0.18)" }}
+              className="flex h-12 w-12 items-center justify-center rounded-none text-[var(--color-gold)]"
+              style={{
+                background: "rgba(106, 10, 10,0.18)",
+                border: "1px solid var(--color-gold-faint)",
+              }}
             >
               <UtensilsCrossed size={22} />
             </div>
@@ -41,22 +44,22 @@ export default function SantePage() {
         </Link>
 
         {/* Future health modules */}
-        <div className="rounded-2xl bg-[var(--color-surface)]/60 p-5 ring-1 ring-[var(--color-border)]">
+        <div className="rounded-none bg-[var(--color-surface)]/60 p-5 ghost-border">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
             Prochainement
           </p>
           <div className="grid grid-cols-3 gap-2">
             {[
-              { emoji: "😴", label: "Sommeil" },
-              { emoji: "💧", label: "Hydratation" },
-              { emoji: "🧘", label: "Mental" },
+              { icon: <Moon size={18} />, label: "Sommeil" },
+              { icon: <Droplet size={18} />, label: "Hydratation" },
+              { icon: <Brain size={18} />, label: "Mental" },
             ].map((p) => (
               <div
                 key={p.label}
-                className="flex flex-col items-center gap-1 rounded-xl bg-[var(--color-surface-2)]/50 py-3 opacity-50"
+                className="ghost-border flex flex-col items-center gap-1 rounded-none bg-[var(--color-surface-2)]/50 py-3 opacity-60"
               >
-                <span className="text-xl">{p.emoji}</span>
-                <span className="text-[10px] text-[var(--color-text-muted)]">
+                <span className="text-[var(--color-gold-deep)]">{p.icon}</span>
+                <span className="font-headline text-[10px] uppercase tracking-widest text-[var(--color-text-subtle)]">
                   {p.label}
                 </span>
               </div>

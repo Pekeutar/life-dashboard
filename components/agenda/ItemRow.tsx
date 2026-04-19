@@ -18,10 +18,10 @@ export default function ItemRow({ item, onClick, showDate }: Props) {
       type="button"
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
-      className="flex w-full items-center gap-3 rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-left ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+      className="flex w-full items-center gap-3 rounded-none bg-[var(--color-surface)] px-4 py-3 text-left ghost-border active:bg-[var(--color-surface-2)]"
     >
       <div
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-2xl"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none text-2xl ember-emoji ghost-border"
         style={{ background: `${item.color}22` }}
       >
         {item.emoji}

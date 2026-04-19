@@ -25,16 +25,16 @@ const LEFT_TABS: NavItem[] = [
   {
     href: "/",
     icon: <Home size={18} />,
-    label: "Accueil",
+    label: "Bonfire",
     match: (p) => p === "/",
-    activeColor: "var(--color-text)",
+    activeColor: "var(--color-gold)",
   },
   {
     href: "/quetes",
     icon: <Target size={18} />,
-    label: "Quêtes",
+    label: "Pacts",
     match: (p) => p.startsWith("/quetes") && p !== "/quetes/new",
-    activeColor: "#ec4899",
+    activeColor: "var(--color-gold)",
   },
 ];
 
@@ -42,16 +42,16 @@ const RIGHT_TABS: NavItem[] = [
   {
     href: "/agenda",
     icon: <CalendarDays size={18} />,
-    label: "Agenda",
+    label: "Fate",
     match: (p) => p.startsWith("/agenda") && p !== "/agenda/new",
-    activeColor: "var(--color-accent)",
+    activeColor: "var(--color-gold)",
   },
   {
     href: "/notes",
     icon: <StickyNote size={18} />,
-    label: "Notes",
+    label: "Grimoire",
     match: (p) => p.startsWith("/notes"),
-    activeColor: "#eab308",
+    activeColor: "var(--color-gold)",
   },
 ];
 
@@ -62,23 +62,31 @@ export default function BottomNav() {
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--color-border)] bg-[var(--color-bg)]/90 backdrop-blur-md"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--color-border-strong)] bg-[#050403]/95 backdrop-blur-xl"
+        style={{
+          paddingBottom: "env(safe-area-inset-bottom)",
+          boxShadow: "0 -10px 40px rgba(0,0,0,0.85), inset 0 1px 0 var(--color-gold-faint)",
+        }}
       >
         <div className="mx-auto grid max-w-md grid-cols-5 items-center px-2 pt-2 pb-2">
           {LEFT_TABS.map((item) => (
             <NavTab key={item.href} item={item} active={item.match(pathname)} />
           ))}
 
-          {/* Center FAB */}
+          {/* Center FAB — sceau de braise */}
           <div className="flex justify-center">
             <button
               type="button"
               onClick={() => setQuickAddOpen(true)}
-              className="relative -mt-6 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-accent)] text-white shadow-lg shadow-orange-500/30 transition active:scale-95"
+              className="relative -mt-6 flex h-14 w-14 items-center justify-center border-2 bg-[var(--color-surface)] text-[var(--color-gold)] blood-glow transition-all duration-400 active:scale-95"
+              style={{ borderColor: "var(--color-blood)" }}
               aria-label="Ajouter"
             >
-              <Plus size={26} />
+              <span
+                className="pointer-events-none absolute inset-1 border"
+                style={{ borderColor: "var(--color-gold-faint)" }}
+              />
+              <Plus size={24} className="relative" />
             </button>
           </div>
 
@@ -98,14 +106,20 @@ function NavTab({ item, active }: { item: NavItem; active: boolean }) {
     <Link
       href={item.href}
       className={cn(
-        "flex flex-col items-center justify-center gap-1 rounded-xl py-2 transition active:scale-95",
-        !active && "text-[var(--color-text-subtle)]"
+        "flex flex-col items-center justify-center gap-1 py-2 transition-all duration-400 active:scale-90",
+        active
+          ? "text-[var(--color-gold)]"
+          : "text-[var(--color-text-subtle)] hover:text-[var(--color-blood-glow)]"
       )}
-      style={active ? { color: item.activeColor } : undefined}
+      style={
+        active
+          ? { textShadow: "0 0 8px rgba(139,26,58,0.4)" }
+          : undefined
+      }
       aria-label={item.label}
     >
       {item.icon}
-      <span className="text-[9px] font-medium uppercase tracking-wide">
+      <span className="font-headline text-[9px] font-medium uppercase tracking-widest mt-0.5">
         {item.label}
       </span>
     </Link>

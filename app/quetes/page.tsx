@@ -40,7 +40,7 @@ export default function QuestsPage() {
           backHref="/"
         />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -59,10 +59,10 @@ export default function QuestsPage() {
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="overflow-hidden rounded-3xl p-5 ring-1 ring-[var(--color-border)]"
+          className="overflow-hidden rounded-none p-5 ghost-border"
           style={{
             background:
-              "linear-gradient(135deg, rgba(168,85,247,0.22) 0%, rgba(236,72,153,0.16) 60%, rgba(28,28,33,0.9) 100%)",
+              "linear-gradient(135deg, rgba(58, 10, 20,0.22) 0%, rgba(139, 26, 58,0.16) 60%, rgba(28,28,33,0.9) 100%)",
           }}
         >
           <div className="flex items-start justify-between gap-3">
@@ -79,10 +79,13 @@ export default function QuestsPage() {
               </p>
             </div>
             <div
-              className="flex h-16 w-16 items-center justify-center rounded-2xl text-4xl"
-              style={{ background: "rgba(236,72,153,0.22)" }}
+              className="flex h-16 w-16 items-center justify-center rounded-none text-[var(--color-gold)]"
+              style={{
+                background: "rgba(139, 26, 58,0.22)",
+                border: "1px solid var(--color-gold-faint)",
+              }}
             >
-              🎯
+              <Target size={32} />
             </div>
           </div>
         </motion.div>
@@ -90,17 +93,17 @@ export default function QuestsPage() {
         {/* New quest CTA */}
         <Link
           href="/quetes/new"
-          className="flex items-center justify-center gap-2 rounded-2xl px-4 py-3.5 text-sm font-semibold text-white shadow-lg active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 rounded-none px-4 py-3.5 text-sm font-semibold text-white shadow-lg active:scale-[0.98]"
           style={{
-            background: "#ec4899",
-            boxShadow: "0 14px 40px -14px #ec4899",
+            background: "#8b1a3a",
+            boxShadow: "0 14px 40px -14px #8b1a3a",
           }}
         >
           <Plus size={16} /> Nouvelle quête
         </Link>
 
         {/* Tabs */}
-        <div className="grid grid-cols-2 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+        <div className="grid grid-cols-2 gap-1 rounded-none bg-[var(--color-surface)] p-1 ghost-border">
           <TabButton
             active={tab === "active"}
             onClick={() => setTab("active")}
@@ -136,10 +139,10 @@ export default function QuestsPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
+          <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
             <div
               className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full text-3xl"
-              style={{ background: "rgba(236,72,153,0.15)", color: "#ec4899" }}
+              style={{ background: "rgba(139, 26, 58,0.15)", color: "#8b1a3a" }}
             >
               <Target size={28} />
             </div>
@@ -157,7 +160,7 @@ export default function QuestsPage() {
               <Link
                 href="/quetes/new"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-white active:scale-95"
-                style={{ background: "#ec4899" }}
+                style={{ background: "#8b1a3a" }}
               >
                 <Plus size={14} /> Créer ma première quête
               </Link>
@@ -191,7 +194,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-xl py-2 text-xs font-semibold transition",
+        "rounded-none py-2 text-xs font-semibold transition",
         active
           ? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
           : "text-[var(--color-text-subtle)]"
@@ -205,7 +208,7 @@ function TabButton({
         )}
         style={
           active
-            ? { background: "rgba(236,72,153,0.2)", color: "#ec4899" }
+            ? { background: "rgba(139, 26, 58,0.2)", color: "#8b1a3a" }
             : undefined
         }
       >

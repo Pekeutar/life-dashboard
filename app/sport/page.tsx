@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Dumbbell } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import StreakCard from "@/components/sport/StreakCard";
 import LevelBadge from "@/components/sport/LevelBadge";
@@ -25,7 +25,7 @@ export default function SportPage() {
       <>
         <PageHeader title="Sport" subtitle="Ton pilier physique" backHref="/" />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -76,11 +76,11 @@ export default function SportPage() {
         )}
 
         {workouts.length === 0 && (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
-            <p className="text-3xl">💪</p>
+          <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
+            <Dumbbell size={32} className="mx-auto text-[var(--color-gold-deep)]" />
             <h3 className="mt-2 font-semibold">Première séance ?</h3>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-              Tape sur le bouton orange en bas pour l&apos;enregistrer.
+              Ouvre le sceau de braise en bas pour l&apos;enregistrer.
             </p>
           </div>
         )}

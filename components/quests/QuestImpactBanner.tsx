@@ -32,7 +32,7 @@ export default function QuestImpactBanner({ pillar }: Props) {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="mx-5 mb-4 flex items-start gap-3 rounded-2xl bg-[var(--color-accent)]/10 px-4 py-3 ring-1 ring-[var(--color-accent)]/40"
+          className="mx-5 mb-4 flex items-start gap-3 rounded-none bg-[var(--color-accent)]/10 px-4 py-3 ring-1 ring-[var(--color-accent)]/40"
         >
           <Sparkles
             size={16}

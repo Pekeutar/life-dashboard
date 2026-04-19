@@ -1,12 +1,12 @@
 export type ThemeMode = "dark" | "light" | "auto";
 
 export type AccentColor =
-  | "orange"
-  | "blue"
-  | "purple"
-  | "green"
-  | "pink"
-  | "cyan";
+  | "gold"
+  | "blood"
+  | "bordeaux"
+  | "ember"
+  | "stone"
+  | "oxide";
 
 export interface WeeklyGoals {
   sportSessions: number;
@@ -48,7 +48,7 @@ export interface UserSettings {
 export const DEFAULT_SETTINGS: UserSettings = {
   name: "",
   theme: "dark",
-  accent: "orange",
+  accent: "gold",
   weeklyGoals: {
     sportSessions: 4,
     studySessions: 5,
@@ -63,10 +63,10 @@ export const DEFAULT_SETTINGS: UserSettings = {
 };
 
 export const ACCENT_COLORS: Record<AccentColor, { label: string; hex: string }> = {
-  orange: { label: "Orange", hex: "#f97316" },
-  blue:   { label: "Bleu",   hex: "#3b82f6" },
-  purple: { label: "Violet", hex: "#a855f7" },
-  green:  { label: "Vert",   hex: "#22c55e" },
-  pink:   { label: "Rose",   hex: "#ec4899" },
-  cyan:   { label: "Cyan",   hex: "#06b6d4" },
+  gold:     { label: "Or",       hex: "#c5a364" },
+  blood:    { label: "Sang",     hex: "#8b1a3a" },
+  bordeaux: { label: "Bordeaux", hex: "#5a0f1f" },
+  ember:    { label: "Braise",   hex: "#6a0a0a" },
+  stone:    { label: "Pierre",   hex: "#8a6f3c" },
+  oxide:    { label: "Oxyde",    hex: "#3a0a14" },
 };

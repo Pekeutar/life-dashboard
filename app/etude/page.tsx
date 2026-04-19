@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, Layers, Timer } from "lucide-react";
+import { Brain, ChevronRight, Layers, Timer } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import StreakCard from "@/components/sport/StreakCard";
 import LevelBadge from "@/components/sport/LevelBadge";
@@ -32,7 +32,7 @@ export default function StudyPage() {
       <>
         <PageHeader title="Étude" subtitle="Ton pilier mental" backHref="/" />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -57,14 +57,14 @@ export default function StudyPage() {
       <div className="flex flex-col gap-4 px-5 pb-6">
         <Link
           href="/etude/pomodoro"
-          className="flex items-center justify-between gap-3 rounded-2xl p-4 ring-1 ring-[var(--color-border)] active:scale-[0.99]"
+          className="flex items-center justify-between gap-3 rounded-none p-4 ghost-border active:scale-[0.99]"
           style={{
             background:
-              "linear-gradient(135deg, rgba(168,85,247,0.22) 0%, rgba(168,85,247,0.08) 100%)",
+              "linear-gradient(135deg, rgba(58, 10, 20,0.22) 0%, rgba(58, 10, 20,0.08) 100%)",
           }}
         >
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-level)]/20 text-[var(--color-level)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-none bg-[var(--color-level)]/20 text-[var(--color-level)]">
               <Timer size={22} />
             </div>
             <div>
@@ -79,16 +79,19 @@ export default function StudyPage() {
 
         <Link
           href="/etude/flashcards"
-          className="flex items-center justify-between gap-3 rounded-2xl p-4 ring-1 ring-[var(--color-border)] active:scale-[0.99]"
+          className="flex items-center justify-between gap-3 rounded-none p-4 ghost-border active:scale-[0.99]"
           style={{
             background:
-              "linear-gradient(135deg, rgba(6,182,212,0.22) 0%, rgba(6,182,212,0.08) 100%)",
+              "linear-gradient(135deg, rgba(197,163,100,0.18) 0%, rgba(58,10,20,0.1) 100%)",
           }}
         >
           <div className="flex items-center gap-3">
             <div
-              className="flex h-12 w-12 items-center justify-center rounded-xl text-[#06b6d4]"
-              style={{ background: "rgba(6,182,212,0.18)" }}
+              className="flex h-12 w-12 items-center justify-center rounded-none text-[var(--color-gold)]"
+              style={{
+                background: "var(--color-surface-2)",
+                border: "1px solid var(--color-gold-faint)",
+              }}
             >
               <Layers size={22} />
             </div>
@@ -102,7 +105,7 @@ export default function StudyPage() {
             </div>
           </div>
           {flashcardsDue > 0 ? (
-            <span className="rounded-full bg-[#06b6d4] px-2 py-0.5 text-[10px] font-bold text-white">
+            <span className="rounded-none bg-[var(--color-blood-glow)] px-2 py-0.5 font-headline text-[10px] font-bold uppercase tracking-widest text-[var(--color-gold)] ghost-border">
               {flashcardsDue}
             </span>
           ) : (
@@ -139,11 +142,11 @@ export default function StudyPage() {
         )}
 
         {sessions.length === 0 && (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
-            <p className="text-3xl">🧠</p>
+          <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
+            <Brain size={32} className="mx-auto text-[var(--color-gold-deep)]" />
             <h3 className="mt-2 font-semibold">Première session ?</h3>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-              Tape sur le bouton violet en bas pour l&apos;enregistrer.
+              Ouvre le sceau de braise en bas pour l&apos;enregistrer.
             </p>
           </div>
         )}

@@ -228,7 +228,7 @@ export default function GenerateSheet({
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[94vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="max-h-[94vh] w-full max-w-md overflow-y-auto rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)" }}
           >
             <div className="px-6 pt-4">
@@ -247,7 +247,7 @@ export default function GenerateSheet({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -266,7 +266,7 @@ export default function GenerateSheet({
                           type="button"
                           key={m.value}
                           onClick={() => setMode(m.value)}
-                          className="flex flex-col items-center gap-1 rounded-2xl bg-[var(--color-surface)] py-3 text-xs font-semibold ring-1 ring-[var(--color-border)] transition active:scale-95"
+                          className="flex flex-col items-center gap-1 rounded-none bg-[var(--color-surface)] py-3 text-xs font-semibold ghost-border transition active:scale-95"
                           style={
                             active
                               ? {
@@ -285,7 +285,7 @@ export default function GenerateSheet({
                   </div>
 
                   {/* Options */}
-                  <div className="mb-4 rounded-2xl bg-[var(--color-surface)] p-3 ring-1 ring-[var(--color-border)]">
+                  <div className="mb-4 rounded-none bg-[var(--color-surface)] p-3 ghost-border">
                     <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
                       Niveau
                     </p>
@@ -345,7 +345,7 @@ export default function GenerateSheet({
                         onChange={(e) => setText(e.target.value)}
                         placeholder="Colle ici le contenu de ton cours, tes notes, un article…"
                         rows={6}
-                        className="mb-4 w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                        className="mb-4 w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                         style={{ caretColor: deckColor }}
                       />
                     </>
@@ -364,7 +364,7 @@ export default function GenerateSheet({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="flex w-full flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-8 text-sm text-[var(--color-text-subtle)] transition active:scale-[0.99]"
+                        className="flex w-full flex-col items-center gap-2 rounded-none border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-8 text-sm text-[var(--color-text-subtle)] transition active:scale-[0.99]"
                       >
                         <Upload size={24} />
                         {fileName ? (
@@ -388,7 +388,7 @@ export default function GenerateSheet({
                   {mode === "vocal" && (
                     <div className="mb-4 flex flex-col items-center gap-3">
                       {!speech.supported ? (
-                        <p className="rounded-2xl bg-[var(--color-surface)] p-4 text-center text-sm text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]">
+                        <p className="rounded-none bg-[var(--color-surface)] p-4 text-center text-sm text-[var(--color-text-muted)] ghost-border">
                           La dictée vocale n&apos;est pas supportée par ce
                           navigateur. Utilise Safari ou Chrome.
                         </p>
@@ -403,10 +403,10 @@ export default function GenerateSheet({
                             className="flex h-20 w-20 items-center justify-center rounded-full text-white shadow-lg"
                             style={{
                               background: speech.listening
-                                ? "#ef4444"
+                                ? "#6a0a0a"
                                 : deckColor,
                               boxShadow: speech.listening
-                                ? "0 0 0 6px rgba(239,68,68,0.25)"
+                                ? "0 0 0 6px rgba(106, 10, 10,0.25)"
                                 : `0 0 0 6px ${deckColor}33`,
                             }}
                           >
@@ -422,7 +422,7 @@ export default function GenerateSheet({
                               : "Tape pour dicter ton cours"}
                           </p>
                           {speech.transcript && (
-                            <div className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm ring-1 ring-[var(--color-border)]">
+                            <div className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm ghost-border">
                               <p className="mb-1 text-[10px] font-semibold uppercase text-[var(--color-text-subtle)]">
                                 Transcription
                               </p>
@@ -451,19 +451,19 @@ export default function GenerateSheet({
                       onChange={(e) => setContext(e.target.value)}
                       placeholder="Ex: Concentre-toi sur le chapitre 3, fais des questions en anglais…"
                       maxLength={200}
-                      className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                      className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                       style={{ caretColor: deckColor }}
                     />
                   </div>
 
                   {error && (
-                    <p className="mb-3 rounded-xl bg-red-500/10 px-4 py-2 text-xs font-medium text-red-400">
+                    <p className="mb-3 rounded-none bg-red-500/10 px-4 py-2 text-xs font-medium text-red-400">
                       {error}
                     </p>
                   )}
 
                   {loading && (
-                    <div className="mb-3 rounded-xl bg-[var(--color-surface)] px-4 py-3 ring-1 ring-[var(--color-border)]">
+                    <div className="mb-3 rounded-none bg-[var(--color-surface)] px-4 py-3 ghost-border">
                       <p className="text-xs text-[var(--color-text-muted)]">
                         {mode === "file" && file
                           ? "Les gros documents sont découpés automatiquement. Cela peut prendre 1-2 min par section."
@@ -477,7 +477,7 @@ export default function GenerateSheet({
                     whileTap={{ scale: 0.97 }}
                     disabled={loading}
                     onClick={handleGenerate}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex w-full items-center justify-center gap-2 rounded-none py-4 text-base font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60"
                     style={{
                       background: deckColor,
                       boxShadow: `0 14px 40px -14px ${deckColor}`,
@@ -517,7 +517,7 @@ export default function GenerateSheet({
                         type="button"
                         key={i}
                         onClick={() => toggleCard(i)}
-                        className="flex items-start gap-3 rounded-2xl bg-[var(--color-surface)] p-3 text-left ring-1 ring-[var(--color-border)] transition active:scale-[0.99]"
+                        className="flex items-start gap-3 rounded-none bg-[var(--color-surface)] p-3 text-left ghost-border transition active:scale-[0.99]"
                         style={
                           card.selected
                             ? {
@@ -527,7 +527,7 @@ export default function GenerateSheet({
                         }
                       >
                         <div
-                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md"
+                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-none"
                           style={{
                             background: card.selected
                               ? deckColor
@@ -557,7 +557,7 @@ export default function GenerateSheet({
                     <button
                       type="button"
                       onClick={() => setGenerated(null)}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] py-3.5 text-sm font-semibold ring-1 ring-[var(--color-border)]"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] py-3.5 text-sm font-semibold ghost-border"
                     >
                       Recommencer
                     </button>
@@ -566,7 +566,7 @@ export default function GenerateSheet({
                       whileTap={{ scale: 0.97 }}
                       disabled={selectedCount === 0}
                       onClick={handleImport}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-none py-3.5 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40"
                       style={{
                         background: deckColor,
                         boxShadow: `0 12px 32px -14px ${deckColor}`,
@@ -603,7 +603,7 @@ function OptionChip({
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col items-center gap-0.5 rounded-xl px-2 py-2 text-center transition active:scale-95"
+      className="flex flex-col items-center gap-0.5 rounded-none px-2 py-2 text-center transition active:scale-95"
       style={
         active
           ? {

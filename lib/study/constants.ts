@@ -8,15 +8,15 @@ export interface StudyTopicMeta {
 }
 
 export const STUDY_TOPICS: StudyTopicMeta[] = [
-  { id: "programming", label: "Code", emoji: "💻", color: "#06b6d4" },
-  { id: "language", label: "Langue", emoji: "🗣️", color: "#f59e0b" },
-  { id: "reading", label: "Lecture", emoji: "📖", color: "#a855f7" },
-  { id: "course", label: "Cours", emoji: "🎓", color: "#3b82f6" },
-  { id: "formation", label: "Formation", emoji: "📚", color: "#22c55e" },
-  { id: "writing", label: "Écriture", emoji: "✍️", color: "#ec4899" },
-  { id: "research", label: "Recherche", emoji: "🔬", color: "#14b8a6" },
-  { id: "math", label: "Maths", emoji: "🧮", color: "#ef4444" },
-  { id: "other", label: "Autre", emoji: "⭐", color: "#a1a1aa" },
+  { id: "programming", label: "Code", emoji: "💻", color: "#6b552a" },
+  { id: "language", label: "Langue", emoji: "🗣️", color: "#c5a364" },
+  { id: "reading", label: "Lecture", emoji: "📖", color: "#3a0a14" },
+  { id: "course", label: "Cours", emoji: "🎓", color: "#8a6f3c" },
+  { id: "formation", label: "Formation", emoji: "📚", color: "#5a0f1f" },
+  { id: "writing", label: "Écriture", emoji: "✍️", color: "#8b1a3a" },
+  { id: "research", label: "Recherche", emoji: "🔬", color: "#6b552a" },
+  { id: "math", label: "Maths", emoji: "🧮", color: "#6a0a0a" },
+  { id: "other", label: "Autre", emoji: "⭐", color: "#6d6055" },
 ];
 
 export const STUDY_TOPICS_BY_ID: Record<StudyTopic, StudyTopicMeta> = STUDY_TOPICS.reduce(

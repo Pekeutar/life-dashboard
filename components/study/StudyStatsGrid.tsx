@@ -10,7 +10,7 @@ interface Props {
 
 export default function StudyStatsGrid({ label, stats }: Props) {
   return (
-    <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+    <div className="rounded-none bg-[var(--color-surface)] p-4 ghost-border">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
         {label}
       </p>
@@ -28,7 +28,7 @@ export default function StudyStatsGrid({ label, stats }: Props) {
 
 function StatCell({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex flex-col items-center rounded-xl bg-[var(--color-surface-2)] py-3">
+    <div className="flex flex-col items-center rounded-none bg-[var(--color-surface-2)] py-3">
       <span className="text-xl font-bold text-[var(--color-text)]">{value}</span>
       <span className="mt-0.5 text-[10px] uppercase tracking-wide text-[var(--color-text-subtle)]">
         {label}

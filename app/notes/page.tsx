@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plus, Search, X } from "lucide-react";
+import { Plus, Search, StickyNote, X } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import NoteCard from "@/components/notes/NoteCard";
 import NoteEditorSheet from "@/components/notes/NoteEditorSheet";
@@ -78,7 +78,7 @@ function NotesPageInner() {
       />
 
       <div className="px-5 pb-24">
-        <div className="mb-3 flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-3 py-2 ring-1 ring-[var(--color-border)]">
+        <div className="mb-3 flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-3 py-2 ghost-border">
           <Search size={14} className="text-[var(--color-text-subtle)]" />
           <input
             type="text"
@@ -123,17 +123,17 @@ function NotesPageInner() {
         )}
 
         {!hydrated ? (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]">
+          <div className="rounded-none bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-subtle)] ghost-border">
             Chargement…
           </div>
         ) : filtered.length === 0 ? (
           <button
             type="button"
             onClick={() => setTarget("new")}
-            className="flex w-full flex-col items-center gap-2 rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 px-4 py-10 text-center text-sm text-[var(--color-text-subtle)] active:bg-[var(--color-surface)]"
+            className="flex w-full flex-col items-center gap-2 rounded-none border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 px-4 py-10 text-center text-sm text-[var(--color-text-subtle)] active:bg-[var(--color-surface)]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-surface-2)] text-2xl">
-              📝
+            <div className="flex h-12 w-12 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-[var(--color-gold-deep)] ghost-border">
+              <StickyNote size={20} />
             </div>
             {notes.length === 0
               ? "Aucune note. Ajoute ta première."

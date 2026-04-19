@@ -80,7 +80,7 @@ export default function SkillTreeCanvas({
 
   return (
     <div
-      className="relative overflow-auto rounded-3xl bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+      className="relative overflow-auto rounded-none bg-[var(--color-surface)] ghost-border"
       style={{
         maxHeight: "62vh",
         backgroundImage:
@@ -175,7 +175,7 @@ export default function SkillTreeCanvas({
               )}
 
               <div
-                className="relative flex items-center justify-center rounded-2xl text-2xl transition"
+                className="relative flex items-center justify-center rounded-none text-2xl transition"
                 style={{
                   width: NODE_SIZE,
                   height: NODE_SIZE,

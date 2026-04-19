@@ -28,7 +28,7 @@ export default function SubQuestSheet({ open, onClose, parent }: Props) {
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 2rem)" }}
           >
             <div className="pt-4">
@@ -40,13 +40,13 @@ export default function SubQuestSheet({ open, onClose, parent }: Props) {
                     Nouvelle étape
                   </h2>
                   <p className="truncate text-xs text-[var(--color-text-subtle)]">
-                    Pour : {parent.emoji} {parent.title}
+                    Pour : <span className="ember-emoji">{parent.emoji}</span> {parent.title}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />

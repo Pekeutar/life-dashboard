@@ -66,7 +66,7 @@ export default function FlashcardForm({
             exit={{ y: 100 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)" }}
           >
             <div className="px-6 pt-4">
@@ -84,7 +84,7 @@ export default function FlashcardForm({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -101,7 +101,7 @@ export default function FlashcardForm({
                 placeholder="Ex: What does 'ubiquitous' mean?"
                 rows={3}
                 maxLength={500}
-                className="mb-5 w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                className="mb-5 w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                 style={{ caretColor: color }}
               />
 
@@ -114,7 +114,7 @@ export default function FlashcardForm({
                 placeholder="Présent partout, omniprésent"
                 rows={3}
                 maxLength={500}
-                className="mb-5 w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-base outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)]"
+                className="mb-5 w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-base outline-none ghost-border placeholder:text-[var(--color-text-subtle)]"
                 style={{ caretColor: color }}
               />
 
@@ -124,7 +124,7 @@ export default function FlashcardForm({
                   whileTap={{ scale: 0.97 }}
                   disabled={!canSave}
                   onClick={() => handleSave(true)}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] py-4 text-sm font-semibold text-[var(--color-text)] ring-1 ring-[var(--color-border)] transition disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] py-4 text-sm font-semibold text-[var(--color-text)] ghost-border transition disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Plus size={16} /> Ajouter & continuer
                 </motion.button>
@@ -133,7 +133,7 @@ export default function FlashcardForm({
                   whileTap={{ scale: 0.97 }}
                   disabled={!canSave}
                   onClick={() => handleSave(false)}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-4 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
                   style={{
                     background: color,
                     boxShadow: `0 12px 32px -14px ${color}`,

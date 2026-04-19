@@ -36,7 +36,7 @@ export default function MonthGrid({
   const today = new Date();
 
   return (
-    <div className="rounded-2xl bg-[var(--color-surface)] p-3 ring-1 ring-[var(--color-border)]">
+    <div className="rounded-none bg-[var(--color-surface)] p-3 ghost-border">
       {/* Header */}
       <div className="mb-3 flex items-center justify-between px-1">
         <button
@@ -89,7 +89,7 @@ export default function MonthGrid({
               type="button"
               onClick={() => onSelectDay(cell)}
               className={cn(
-                "relative flex aspect-square flex-col items-center justify-center rounded-xl text-sm transition-colors",
+                "relative flex aspect-square flex-col items-center justify-center rounded-none text-sm transition-colors",
                 isSelected
                   ? "bg-[var(--color-accent)] text-white ring-2 ring-[var(--color-accent)]"
                   : isToday

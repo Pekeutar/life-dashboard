@@ -26,7 +26,7 @@ export default function WeeklyStudyChart({ sessions }: Props) {
   const hasData = data.some((d) => d.minutes > 0);
 
   return (
-    <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+    <div className="rounded-none bg-[var(--color-surface)] p-4 ghost-border">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
         Temps d&apos;étude 4 dernières semaines
       </p>
@@ -36,29 +36,30 @@ export default function WeeklyStudyChart({ sessions }: Props) {
             <BarChart data={data} margin={{ top: 10, right: 0, left: -28, bottom: 0 }}>
               <XAxis
                 dataKey="label"
-                stroke="#71717a"
+                stroke="#6d6055"
                 fontSize={10}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
-                stroke="#71717a"
+                stroke="#6d6055"
                 fontSize={10}
                 tickLine={false}
                 axisLine={false}
               />
               <Tooltip
-                cursor={{ fill: "#26262d" }}
+                cursor={{ fill: "rgba(93,60,40,0.25)" }}
                 contentStyle={{
-                  background: "#1c1c21",
-                  border: "1px solid #2e2e37",
-                  borderRadius: 12,
+                  background: "#181513",
+                  border: "1px solid rgba(197,163,100,0.35)",
+                  borderRadius: 0,
                   fontSize: 12,
+                  color: "#d9cfc4",
                 }}
-                labelStyle={{ color: "#a1a1aa" }}
+                labelStyle={{ color: "#c5a364" }}
                 formatter={(value) => [`${value} min`, "Étude"]}
               />
-              <Bar dataKey="minutes" fill="#a855f7" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="minutes" fill="#3a0a14" radius={[0, 0, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         ) : (

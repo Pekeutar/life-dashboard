@@ -34,14 +34,14 @@ export default function SportTypePicker({ value, onChange }: Props) {
               onClick={() => onChange(sport.id)}
               whileTap={{ scale: 0.92 }}
               className={cn(
-                "relative flex flex-col items-center justify-center gap-1 rounded-2xl p-3 transition-colors",
+                "relative flex flex-col items-center justify-center gap-1 rounded-none p-3 transition-colors",
                 active
                   ? "bg-[var(--color-surface-2)] ring-2 ring-[var(--color-accent)]"
-                  : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+                  : "bg-[var(--color-surface)] ghost-border active:bg-[var(--color-surface-2)]"
               )}
               aria-pressed={active}
             >
-              <span className="text-2xl leading-none">{sport.emoji}</span>
+              <span className="text-2xl leading-none ember-emoji">{sport.emoji}</span>
               <span className="truncate text-[11px] font-medium text-[var(--color-text-muted)]">
                 {sport.label}
               </span>
@@ -53,7 +53,7 @@ export default function SportTypePicker({ value, onChange }: Props) {
           type="button"
           onClick={() => setSheetOpen(true)}
           whileTap={{ scale: 0.92 }}
-          className="flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
+          className="flex flex-col items-center justify-center gap-1 rounded-none border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
           aria-label="Ajouter un sport personnalisé"
         >
           <Plus size={22} />
@@ -66,7 +66,7 @@ export default function SportTypePicker({ value, onChange }: Props) {
         onClose={() => setSheetOpen(false)}
         title="Nouveau sport"
         subtitle="Ton sport n'est pas dans la liste ? Ajoute-le."
-        accent="#f97316"
+        accent="#5a0f1f"
         withDistance
         emojiSuggestions={SPORT_EMOJI_SUGGESTIONS}
         customs={customs}

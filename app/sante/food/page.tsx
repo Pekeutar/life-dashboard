@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import {
   Heart,
   Loader2,
+  ShoppingBasket,
   ShoppingCart,
   Sparkles,
   Send,
@@ -128,7 +129,7 @@ export default function FoodPage() {
       <>
         <PageHeader title="Food" subtitle="Recettes healthy" backHref="/sante" />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -140,7 +141,7 @@ export default function FoodPage() {
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         {/* Tabs */}
-        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+        <div className="grid grid-cols-4 gap-1 rounded-none bg-[var(--color-surface)] p-1 ghost-border">
           <TabBtn active={tab === "generate"} onClick={() => setTab("generate")} icon={<Sparkles size={13} />} label="Générer" />
           <TabBtn active={tab === "import"} onClick={() => setTab("import")} icon={<Upload size={13} />} label="Importer" />
           <TabBtn active={tab === "favorites"} onClick={() => setTab("favorites")} icon={<Heart size={13} />} label={`Favoris (${favorites.length})`} />
@@ -197,13 +198,13 @@ export default function FoodPage() {
                 }}
                 placeholder="Décris le repas que tu veux..."
                 disabled={loading}
-                className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3.5 pr-12 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] outline-none focus:ring-[var(--color-accent)] disabled:opacity-50"
+                className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3.5 pr-12 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ghost-border outline-none focus:ring-[var(--color-accent)] disabled:opacity-50"
               />
               <button
                 type="button"
                 onClick={generate}
                 disabled={loading || !prompt.trim()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)] text-white disabled:opacity-40 active:scale-95"
+                className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-none bg-[var(--color-accent)] text-white disabled:opacity-40 active:scale-95"
               >
                 {loading ? (
                   <Loader2 size={16} className="animate-spin" />
@@ -214,13 +215,13 @@ export default function FoodPage() {
             </div>
 
             {error && (
-              <p className="rounded-xl bg-[var(--color-danger)]/10 px-4 py-2 text-xs text-[var(--color-danger)]">
+              <p className="rounded-none bg-[var(--color-danger)]/10 px-4 py-2 text-xs text-[var(--color-danger)]">
                 {error}
               </p>
             )}
 
             {loading && (
-              <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]">
+              <div className="flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-4 py-3 text-xs text-[var(--color-text-muted)] ghost-border">
                 <Loader2 size={14} className="animate-spin" />
                 Le chef prépare ta recette...
               </div>
@@ -238,7 +239,7 @@ export default function FoodPage() {
                       key={s}
                       type="button"
                       onClick={() => setPrompt(s)}
-                      className="rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-[11px] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                      className="rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-[11px] text-[var(--color-text-muted)] ghost-border active:scale-95"
                     >
                       {s}
                     </button>
@@ -293,8 +294,8 @@ export default function FoodPage() {
                 ))}
               </div>
             ) : (
-              <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
-                <p className="text-3xl">❤️</p>
+              <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
+                <Heart size={28} className="mx-auto text-[var(--color-gold-deep)]" />
                 <h3 className="mt-2 font-semibold">Pas encore de favoris</h3>
                 <p className="mt-1 text-sm text-[var(--color-text-muted)]">
                   Génère des recettes et ajoute-les en favoris.
@@ -337,8 +338,8 @@ function ShoppingListsTab() {
 
   if (lists.length === 0) {
     return (
-      <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
-        <p className="text-3xl">🛒</p>
+      <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
+        <ShoppingBasket size={28} className="mx-auto text-[var(--color-gold-deep)]" />
         <h3 className="mt-2 font-semibold">Pas de liste de courses</h3>
         <p className="mt-1 text-sm text-[var(--color-text-muted)]">
           Ouvre une recette et tape &quot;Liste de courses&quot;.
@@ -388,7 +389,7 @@ function ShoppingListsTab() {
             key={list.id}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]"
+            className="rounded-none bg-[var(--color-surface)] p-4 ghost-border"
           >
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold">{list.title}</h3>
@@ -421,7 +422,7 @@ function ShoppingListsTab() {
                         : "bg-[var(--color-surface-2)] text-[var(--color-text-muted)] ring-[var(--color-border)]"
                     )}
                   >
-                    <span>{chip.emoji}</span>
+                    <span className="ember-emoji">{chip.emoji}</span>
                     <span className="max-w-[120px] truncate">{chip.title}</span>
                     <span className="text-[9px] opacity-60">
                       {chip.checked}/{chip.total}
@@ -438,7 +439,9 @@ function ShoppingListsTab() {
               {sortedAisles.map(([aisle, items]) => (
                 <div key={aisle}>
                   <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
-                    {GROCERY_AISLES[aisle as GroceryAisle]?.emoji ?? "📦"}{" "}
+                    <span className="ember-emoji">
+                      {GROCERY_AISLES[aisle as GroceryAisle]?.emoji ?? "📦"}
+                    </span>{" "}
                     {GROCERY_AISLES[aisle as GroceryAisle]?.label ?? aisle}
                   </p>
                   <div className="flex flex-col gap-0.5">
@@ -449,11 +452,11 @@ function ShoppingListsTab() {
                           key={idx}
                           type="button"
                           onClick={() => toggleItem(list.id, globalIdx)}
-                          className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-left active:bg-[var(--color-surface-2)]"
+                          className="flex items-center gap-2 rounded-none px-2 py-1.5 text-left active:bg-[var(--color-surface-2)]"
                         >
                           <div
                             className={cn(
-                              "flex h-5 w-5 shrink-0 items-center justify-center rounded-md ring-1 text-[10px]",
+                              "flex h-5 w-5 shrink-0 items-center justify-center rounded-none ring-1 text-[10px]",
                               item.checked
                                 ? "bg-[var(--color-success)] ring-[var(--color-success)] text-white"
                                 : "ring-[var(--color-border)]"
@@ -559,7 +562,7 @@ function ImportTab({
   return (
     <div className="flex flex-col gap-4">
       {/* Mode selector */}
-      <div className="grid grid-cols-3 gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+      <div className="grid grid-cols-3 gap-1 rounded-none bg-[var(--color-surface)] p-1 ghost-border">
         <ModeBtn active={mode === "text"} onClick={() => { setMode("text"); setFile(null); setError(""); }} icon={<Type size={13} />} label="Texte" />
         <ModeBtn active={mode === "document"} onClick={() => { setMode("document"); setError(""); }} icon={<FileText size={13} />} label="Document" />
         <ModeBtn active={mode === "image"} onClick={() => { setMode("image"); setError(""); }} icon={<ImageIcon size={13} />} label="Photo" />
@@ -573,10 +576,10 @@ function ImportTab({
           placeholder="Colle ta recette ici (titre, ingrédients, étapes)..."
           disabled={loading}
           rows={10}
-          className="w-full rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] outline-none focus:ring-[var(--color-accent)] disabled:opacity-50 resize-none"
+          className="w-full rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ghost-border outline-none focus:ring-[var(--color-accent)] disabled:opacity-50 resize-none"
         />
       ) : (
-        <label className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-8 text-sm ring-1 ring-dashed ring-[var(--color-border)] cursor-pointer active:scale-[0.99] transition">
+        <label className="flex flex-col items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] px-4 py-8 text-sm ring-1 ring-dashed ring-[var(--color-border)] cursor-pointer active:scale-[0.99] transition">
           {mode === "document" ? <FileText size={24} /> : <ImageIcon size={24} />}
           <span className="text-[var(--color-text-muted)]">
             {file ? file.name : mode === "document" ? "PDF, DOCX, TXT ou MD" : "Photo d'une recette imprimée"}
@@ -600,7 +603,7 @@ function ImportTab({
         type="button"
         onClick={submit}
         disabled={loading}
-        className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] py-3 text-sm font-semibold text-white disabled:opacity-50 active:scale-[0.99]"
+        className="flex items-center justify-center gap-2 rounded-none bg-[var(--color-accent)] py-3 text-sm font-semibold text-white disabled:opacity-50 active:scale-[0.99]"
       >
         {loading ? (
           <>
@@ -616,13 +619,13 @@ function ImportTab({
       </button>
 
       {error && (
-        <p className="rounded-xl bg-[var(--color-danger)]/10 px-4 py-2 text-xs text-[var(--color-danger)]">
+        <p className="rounded-none bg-[var(--color-danger)]/10 px-4 py-2 text-xs text-[var(--color-danger)]">
           {error}
         </p>
       )}
 
       {success && (
-        <p className="rounded-xl bg-[var(--color-success)]/10 px-4 py-2 text-xs text-[var(--color-success)]">
+        <p className="rounded-none bg-[var(--color-success)]/10 px-4 py-2 text-xs text-[var(--color-success)]">
           {success}
         </p>
       )}
@@ -646,7 +649,7 @@ function ModeBtn({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center justify-center gap-1 rounded-xl py-2 text-[11px] font-semibold transition",
+        "flex items-center justify-center gap-1 rounded-none py-2 text-[11px] font-semibold transition",
         active
           ? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
           : "text-[var(--color-text-subtle)]"
@@ -674,7 +677,7 @@ function TabBtn({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center justify-center gap-1 rounded-xl py-2 text-[11px] font-semibold transition",
+        "flex items-center justify-center gap-1 rounded-none py-2 text-[11px] font-semibold transition",
         active
           ? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
           : "text-[var(--color-text-subtle)]"

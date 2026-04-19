@@ -18,19 +18,19 @@ export interface Level {
 }
 
 export const LEVELS: Level[] = [
-  { tier: 1,  id: "eveil",        label: "Éveil",        emoji: "🌱", min: 0,       max: 100,     color: "#a3a3a3" },
-  { tier: 2,  id: "apprenti",     label: "Apprenti",     emoji: "📖", min: 100,     max: 350,     color: "#a3a3a3" },
-  { tier: 3,  id: "initie",       label: "Initié",       emoji: "🔰", min: 350,     max: 850,     color: "#22c55e" },
-  { tier: 4,  id: "explorateur",  label: "Explorateur",  emoji: "🧭", min: 850,     max: 1_850,   color: "#22c55e" },
-  { tier: 5,  id: "regulier",     label: "Régulier",     emoji: "⚡", min: 1_850,   max: 3_650,   color: "#3b82f6" },
-  { tier: 6,  id: "engage",       label: "Engagé",       emoji: "🔥", min: 3_650,   max: 6_850,   color: "#3b82f6" },
-  { tier: 7,  id: "confirme",     label: "Confirmé",     emoji: "🛡️", min: 6_850,   max: 12_350,  color: "#a855f7" },
-  { tier: 8,  id: "expert",       label: "Expert",       emoji: "⚔️", min: 12_350,  max: 22_350,  color: "#a855f7" },
-  { tier: 9,  id: "maitre",       label: "Maître",       emoji: "👑", min: 22_350,  max: 40_350,  color: "#f59e0b" },
-  { tier: 10, id: "champion",     label: "Champion",     emoji: "🏆", min: 40_350,  max: 72_350,  color: "#f59e0b" },
-  { tier: 11, id: "legende",      label: "Légende",      emoji: "🌟", min: 72_350,  max: 127_350, color: "#ef4444" },
-  { tier: 12, id: "transcendant", label: "Transcendant", emoji: "💎", min: 127_350, max: 227_350, color: "#ec4899" },
-  { tier: 13, id: "eternel",      label: "Éternel",      emoji: "🌌", min: 227_350, max: Infinity, color: "#38bdf8" },
+  { tier: 1,  id: "eveil",        label: "Éveil",        emoji: "🌱", min: 0,       max: 100,     color: "#6d6055" },
+  { tier: 2,  id: "apprenti",     label: "Apprenti",     emoji: "📖", min: 100,     max: 350,     color: "#6d6055" },
+  { tier: 3,  id: "initie",       label: "Initié",       emoji: "🔰", min: 350,     max: 850,     color: "#6b552a" },
+  { tier: 4,  id: "explorateur",  label: "Explorateur",  emoji: "🧭", min: 850,     max: 1_850,   color: "#6b552a" },
+  { tier: 5,  id: "regulier",     label: "Régulier",     emoji: "⚡", min: 1_850,   max: 3_650,   color: "#8a6f3c" },
+  { tier: 6,  id: "engage",       label: "Engagé",       emoji: "🔥", min: 3_650,   max: 6_850,   color: "#8a6f3c" },
+  { tier: 7,  id: "confirme",     label: "Confirmé",     emoji: "🛡️", min: 6_850,   max: 12_350,  color: "#8b1a3a" },
+  { tier: 8,  id: "expert",       label: "Expert",       emoji: "⚔️", min: 12_350,  max: 22_350,  color: "#8b1a3a" },
+  { tier: 9,  id: "maitre",       label: "Maître",       emoji: "👑", min: 22_350,  max: 40_350,  color: "#5a0f1f" },
+  { tier: 10, id: "champion",     label: "Champion",     emoji: "🏆", min: 40_350,  max: 72_350,  color: "#5a0f1f" },
+  { tier: 11, id: "legende",      label: "Légende",      emoji: "🌟", min: 72_350,  max: 127_350, color: "#c5a364" },
+  { tier: 12, id: "transcendant", label: "Transcendant", emoji: "💎", min: 127_350, max: 227_350, color: "#c5a364" },
+  { tier: 13, id: "eternel",      label: "Éternel",      emoji: "🌌", min: 227_350, max: Infinity, color: "#c5a364" },
 ];
 
 export function getLevel(totalXp: number): Level {
@@ -120,11 +120,11 @@ export interface PillarRank {
 }
 
 export const PILLAR_RANKS: PillarRank[] = [
-  { id: "debutant",   label: "Débutant",   emoji: "🌱", min: 0,      max: 500,    color: "#a3a3a3" },
-  { id: "pratiquant", label: "Pratiquant",  emoji: "🎯", min: 500,    max: 3_000,  color: "#22c55e" },
-  { id: "avance",     label: "Avancé",     emoji: "⚡", min: 3_000,  max: 12_000, color: "#3b82f6" },
-  { id: "expert",     label: "Expert",     emoji: "🔥", min: 12_000, max: 40_000, color: "#a855f7" },
-  { id: "elite",      label: "Élite",      emoji: "👑", min: 40_000, max: Infinity, color: "#f59e0b" },
+  { id: "debutant",   label: "Débutant",   emoji: "🌱", min: 0,      max: 500,    color: "#6d6055" },
+  { id: "pratiquant", label: "Pratiquant",  emoji: "🎯", min: 500,    max: 3_000,  color: "#6b552a" },
+  { id: "avance",     label: "Avancé",     emoji: "⚡", min: 3_000,  max: 12_000, color: "#8a6f3c" },
+  { id: "expert",     label: "Expert",     emoji: "🔥", min: 12_000, max: 40_000, color: "#8b1a3a" },
+  { id: "elite",      label: "Élite",      emoji: "👑", min: 40_000, max: Infinity, color: "#c5a364" },
 ];
 
 export function getPillarRank(pillarXp: number): PillarRank {

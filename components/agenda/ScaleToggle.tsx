@@ -18,7 +18,7 @@ const OPTIONS: { id: AgendaScale; label: string }[] = [
 
 export default function ScaleToggle({ value, onChange }: Props) {
   return (
-    <div className="flex items-center gap-1 rounded-2xl bg-[var(--color-surface)] p-1 ring-1 ring-[var(--color-border)]">
+    <div className="flex items-center gap-1 rounded-none bg-[var(--color-surface)] p-1 ghost-border">
       {OPTIONS.map((opt) => {
         const active = value === opt.id;
         return (
@@ -27,7 +27,7 @@ export default function ScaleToggle({ value, onChange }: Props) {
             type="button"
             onClick={() => onChange(opt.id)}
             className={cn(
-              "relative flex-1 rounded-xl px-3 py-2 text-xs font-semibold transition-colors",
+              "relative flex-1 rounded-none px-3 py-2 text-xs font-semibold transition-colors",
               active
                 ? "text-white"
                 : "text-[var(--color-text-subtle)] active:text-[var(--color-text)]"
@@ -36,7 +36,7 @@ export default function ScaleToggle({ value, onChange }: Props) {
             {active && (
               <motion.div
                 layoutId="scale-toggle-bg"
-                className="absolute inset-0 rounded-xl bg-[var(--color-accent)]"
+                className="absolute inset-0 rounded-none bg-[var(--color-accent)]"
                 transition={{ type: "spring", stiffness: 500, damping: 35 }}
               />
             )}

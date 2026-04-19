@@ -22,19 +22,13 @@ import type { PomodoroPhase } from "@/lib/pomodoro/types";
 import { playAlarm, unlockAudio } from "@/lib/pomodoro/alarm";
 import { cn } from "@/lib/utils";
 
-const ACCENT = "#a855f7";
-const BREAK_COLOR = "#22c55e";
+const ACCENT = "#3a0a14";
+const BREAK_COLOR = "#c5a364";
 
 const PHASE_LABELS: Record<PomodoroPhase, string> = {
   work: "Concentration",
   break: "Pause courte",
   longBreak: "Grande pause",
-};
-
-const PHASE_EMOJIS: Record<PomodoroPhase, string> = {
-  work: "🧠",
-  break: "☕",
-  longBreak: "🌿",
 };
 
 function formatMMSS(ms: number): string {
@@ -133,7 +127,7 @@ export default function PomodoroTimer() {
                   "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
                   active
                     ? "bg-[var(--color-surface-2)]"
-                    : "bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]"
+                    : "bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border"
                 )}
                 style={
                   active
@@ -152,10 +146,13 @@ export default function PomodoroTimer() {
       {/* Phase label */}
       <div className="flex flex-col items-center gap-1">
         <div
-          className="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wide"
-          style={{ background: `${color}22`, color }}
+          className="flex items-center gap-2 rounded-none px-4 py-1.5 font-headline text-[10px] font-semibold uppercase tracking-gravure"
+          style={{
+            background: `${color}22`,
+            color,
+            border: "1px solid var(--color-gold-faint)",
+          }}
         >
-          <span>{PHASE_EMOJIS[state.phase]}</span>
           {PHASE_LABELS[state.phase]}
         </div>
       </div>
@@ -165,7 +162,7 @@ export default function PomodoroTimer() {
         <svg
           width={size}
           height={size}
-          className="-rotate-90 drop-shadow-[0_0_40px_rgba(168,85,247,0.15)]"
+          className="-rotate-90 drop-shadow-[0_0_40px_rgba(58, 10, 20,0.15)]"
         >
           <circle
             cx={size / 2}
@@ -229,7 +226,7 @@ export default function PomodoroTimer() {
         <button
           type="button"
           onClick={reset}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
           aria-label="Réinitialiser"
         >
           <RotateCcw size={18} />
@@ -256,7 +253,7 @@ export default function PomodoroTimer() {
         <button
           type="button"
           onClick={skipPhase}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
           aria-label="Passer la phase"
         >
           <SkipForward size={18} />
@@ -264,7 +261,7 @@ export default function PomodoroTimer() {
       </div>
 
       {/* Accumulated work time + save */}
-      <div className="flex w-full flex-col gap-2 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+      <div className="flex w-full flex-col gap-2 rounded-none bg-[var(--color-surface)] p-4 ghost-border">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
@@ -296,7 +293,7 @@ export default function PomodoroTimer() {
         <button
           type="button"
           onClick={() => setSettingsOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 ghost-border active:scale-95"
         >
           <Settings2 size={12} /> Réglages
         </button>
@@ -309,7 +306,7 @@ export default function PomodoroTimer() {
               vibrate: config.vibrateEnabled,
             });
           }}
-          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3 py-1.5 ghost-border active:scale-95"
         >
           {config.soundEnabled ? <Volume2 size={12} /> : <VolumeX size={12} />}
           Tester l&apos;alarme
@@ -332,7 +329,7 @@ export default function PomodoroTimer() {
               exit={{ y: 100 }}
               transition={{ type: "spring", damping: 30, stiffness: 260 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+              className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-none bg-[var(--color-bg-elevated)] ghost-border"
               style={{ paddingBottom: "max(env(safe-area-inset-bottom), 2rem)" }}
             >
               <div className="px-6 pt-4">
@@ -347,7 +344,7 @@ export default function PomodoroTimer() {
                   <button
                     type="button"
                     onClick={() => setSettingsOpen(false)}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                     aria-label="Fermer"
                   >
                     <X size={18} />
@@ -415,7 +412,7 @@ export default function PomodoroTimer() {
                     fullReset();
                     setSettingsOpen(false);
                   }}
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-red-500/10 py-3 text-sm font-semibold text-red-400 ring-1 ring-red-500/30 active:scale-95"
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-none bg-red-500/10 py-3 text-sm font-semibold text-red-400 ring-1 ring-red-500/30 active:scale-95"
                 >
                   <RotateCcw size={14} />
                   Tout réinitialiser
@@ -442,7 +439,7 @@ export default function PomodoroTimer() {
               exit={{ y: 100 }}
               transition={{ type: "spring", damping: 30, stiffness: 260 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+              className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] ghost-border"
               style={{ paddingBottom: "max(env(safe-area-inset-bottom), 2rem)" }}
             >
               <div className="px-6 pt-4">
@@ -451,20 +448,20 @@ export default function PomodoroTimer() {
                 <p className="mt-1 text-sm text-[var(--color-text-muted)]">
                   {state.accumulatedWorkMin} min de concentration seront
                   ajoutées à ton historique d&apos;études avec un focus « En
-                  flow » 🎯.
+                  flow ».
                 </p>
                 <div className="mt-4 flex gap-2">
                   <button
                     type="button"
                     onClick={() => setSaveOpen(false)}
-                    className="flex-1 rounded-2xl bg-[var(--color-surface)] py-3 text-sm font-semibold ring-1 ring-[var(--color-border)] active:scale-95"
+                    className="flex-1 rounded-none bg-[var(--color-surface)] py-3 text-sm font-semibold ghost-border active:scale-95"
                   >
                     Annuler
                   </button>
                   <button
                     type="button"
                     onClick={handleSaveAccumulated}
-                    className="flex-1 rounded-2xl py-3 text-sm font-semibold text-white active:scale-95"
+                    className="flex-1 rounded-none py-3 text-sm font-semibold text-white active:scale-95"
                     style={{ background: ACCENT }}
                   >
                     Enregistrer
@@ -515,7 +512,7 @@ function MinutesRow({
         <button
           type="button"
           onClick={() => onChange(Math.max(min, value - step))}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] ghost-border active:scale-95"
         >
           −
         </button>
@@ -532,7 +529,7 @@ function MinutesRow({
         <button
           type="button"
           onClick={() => onChange(Math.min(max, value + step))}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] ghost-border active:scale-95"
         >
           +
         </button>
@@ -556,7 +553,7 @@ function ToggleRow({
     <button
       type="button"
       onClick={() => onChange(!value)}
-      className="flex w-full items-center justify-between rounded-2xl bg-[var(--color-surface)] px-4 py-3 ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+      className="flex w-full items-center justify-between rounded-none bg-[var(--color-surface)] px-4 py-3 ghost-border active:bg-[var(--color-surface-2)]"
     >
       <div className="flex items-center gap-3">
         <span className="text-[var(--color-text-muted)]">{icon}</span>

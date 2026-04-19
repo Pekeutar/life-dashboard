@@ -20,8 +20,168 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-headline: var(--font-newsreader);
+  --font-body: var(--font-noto-serif);
 
   --radius-card: 1.25rem;
+}
+
+/* ───────── Ember theme (scoped) — Dark-Souls skin ───────── */
+.theme-ember {
+  --color-bg: #0b0a09;
+  --color-bg-elevated: #151312;
+  --color-surface: #181513;
+  --color-surface-2: #1f1a17;
+  --color-surface-3: #2a2320;
+  --color-border: rgba(93, 60, 40, 0.35);
+  --color-border-strong: rgba(127, 43, 0, 0.55);
+
+  --color-text: #d9cfc4;
+  --color-text-muted: #a8998a;
+  --color-text-subtle: #6d6055;
+
+  /* Or : réservé aux titres, ornements, éléments sacrés */
+  --color-gold: #c5a364;
+  --color-gold-deep: #8a6f3c;
+  --color-gold-faint: rgba(197, 163, 100, 0.35);
+
+  /* Sang pourpre bordeaux : état, énergie, progression */
+  --color-blood: #5a0f1f;
+  --color-blood-deep: #2d0810;
+  --color-blood-glow: #8b1a3a;
+  --color-blood-oxide: #3a0a14;
+  --color-blood-faint: rgba(90, 15, 31, 0.28);
+
+  --color-accent: var(--color-gold);
+  --color-accent-glow: var(--color-blood-glow);
+  --color-level: var(--color-gold);
+  --color-streak: var(--color-blood-glow);
+  --color-danger: var(--color-blood-oxide);
+
+  color: var(--color-text);
+  background:
+    radial-gradient(ellipse at top, rgba(127, 43, 0, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(10, 5, 2, 0.9) 0%, transparent 50%),
+    #0b0a09;
+  font-family: var(--font-body), "Noto Serif", Georgia, serif;
+}
+
+.theme-ember .font-headline,
+.theme-ember h1,
+.theme-ember h2,
+.theme-ember h3,
+.theme-ember h4,
+.theme-ember h5 {
+  font-family: var(--font-headline), "Newsreader", Georgia, serif;
+}
+
+/* Grain pierre ultra-dense + craquelures */
+.stone-texture {
+  position: relative;
+  background-image:
+    url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.03 0 0 0 0 0.02 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-blend-mode: multiply;
+  background-size: 180px 180px;
+}
+.stone-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Craquelures */
+    url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.018' numOctaves='3'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='14'/%3E%3C/filter%3E%3Cg filter='url(%23c)' stroke='%23000' fill='none' opacity='0.55'%3E%3Cpath d='M0 60 Q 80 62 180 58 T 500 60' stroke-width='0.5'/%3E%3Cpath d='M40 180 L 120 200 L 220 192 L 340 210 L 480 200' stroke-width='0.4'/%3E%3Cpath d='M0 310 Q 140 298 260 316 T 500 310' stroke-width='0.5'/%3E%3Cpath d='M60 420 L 180 430 L 290 418 L 440 440' stroke-width='0.4'/%3E%3Cpath d='M200 0 L 206 80 L 200 160' stroke-width='0.3'/%3E%3Cpath d='M380 40 L 384 180 L 380 260' stroke-width='0.3'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Second layer de grain coarse */
+    url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.05 0 0 0 0 0.04 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 100% 100%, 90px 90px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+}
+.stone-texture > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Variante craquelée pour piliers dominants */
+.cracked-stone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.025' numOctaves='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='20'/%3E%3C/filter%3E%3Cg filter='url(%23d)' stroke='%23000' fill='none'%3E%3Cpath d='M80 0 L 90 140 L 82 240 L 95 400' stroke-width='0.6' opacity='0.5'/%3E%3Cpath d='M0 200 L 140 210 L 280 200 L 400 215' stroke-width='0.5' opacity='0.4'/%3E%3Cpath d='M280 0 L 286 120 L 280 300 L 290 400' stroke-width='0.4' opacity='0.4'/%3E%3C/g%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  z-index: 2;
+}
+
+/* Cadre creusé façon pierre gravée */
+.inscribed {
+  box-shadow:
+    inset 0 1px 0 rgba(197, 163, 100, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
+    inset 1px 0 0 rgba(0, 0, 0, 0.5),
+    inset -1px 0 0 rgba(0, 0, 0, 0.5),
+    0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.blood-glow {
+  box-shadow:
+    0 0 24px rgba(165, 58, 8, 0.22),
+    inset 0 0 12px rgba(74, 20, 0, 0.35);
+}
+
+.gold-glow {
+  box-shadow:
+    0 0 18px rgba(197, 163, 100, 0.18),
+    inset 0 0 8px rgba(138, 111, 60, 0.25);
+}
+
+.ember-glow {
+  box-shadow:
+    0 0 20px rgba(165, 58, 8, 0.18),
+    inset 0 0 10px rgba(74, 20, 0, 0.3);
+}
+
+.ghost-border {
+  border: 1px solid rgba(93, 60, 40, 0.45);
+}
+
+/* Filet d'enluminure : trait d'or discontinu */
+.etched-top {
+  background-image: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--color-gold-faint) 20%,
+    var(--color-gold-faint) 80%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100% 1px;
+}
+
+.tracking-gravure {
+  letter-spacing: 0.35em;
+}
+
+/* Désature les emojis pour rester cohérent avec la DA sombre */
+.ember-emoji {
+  filter: grayscale(1) sepia(0.35) brightness(0.9) contrast(0.95);
+  opacity: 0.85;
+}
+
+/* Vignettage radial pour creuser le fond */
+.vignette::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 0;
 }
 
 html,

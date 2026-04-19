@@ -82,7 +82,7 @@ export default function StudyForm() {
         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
           Titre de la session
         </label>
-        <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-3 ring-1 ring-[var(--color-border)]">
+        <div className="flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-4 py-3 ghost-border">
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -130,10 +130,10 @@ export default function StudyForm() {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setFocus(n)}
                 className={cn(
-                  "rounded-2xl py-3 text-2xl transition-colors",
+                  "rounded-none py-3 text-2xl transition-colors",
                   focus === n
                     ? "bg-[var(--color-surface-2)] ring-2 ring-[var(--color-level)]"
-                    : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] opacity-60"
+                    : "bg-[var(--color-surface)] ghost-border opacity-60"
                 )}
               >
                 {emoji}
@@ -157,7 +157,7 @@ export default function StudyForm() {
                 "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors",
                 speech.listening
                   ? "bg-[var(--color-level)] text-white"
-                  : "bg-[var(--color-surface-2)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]"
+                  : "bg-[var(--color-surface-2)] text-[var(--color-text-muted)] ghost-border"
               )}
             >
               {speech.listening ? (
@@ -183,7 +183,7 @@ export default function StudyForm() {
               ? "Tape ou appuie sur Dicter pour la voix…"
               : "Ce que tu retiens, tes idées clés…"
           }
-          className="w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)] focus:ring-[var(--color-level)]"
+          className="w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)] focus:ring-[var(--color-level)]"
         />
         {speech.error && (
           <p className="mt-1 flex items-center gap-1 text-[11px] text-red-400">
@@ -200,7 +200,7 @@ export default function StudyForm() {
       <motion.button
         type="submit"
         whileTap={{ scale: 0.97 }}
-        className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-level)] py-4 text-base font-semibold text-white shadow-lg shadow-purple-500/20"
+        className="mt-2 flex items-center justify-center gap-2 rounded-none bg-[var(--color-level)] py-4 text-base font-semibold text-white shadow-lg shadow-purple-500/20"
       >
         Enregistrer · +{xpPreview} XP
       </motion.button>

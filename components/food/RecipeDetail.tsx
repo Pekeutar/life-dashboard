@@ -67,7 +67,7 @@ export default function RecipeDetail({
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="flex w-full max-w-md flex-col rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="flex w-full max-w-md flex-col rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{
               maxHeight: "92vh",
               paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)",
@@ -78,7 +78,7 @@ export default function RecipeDetail({
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--color-surface-2)]" />
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <span className="text-3xl">{recipe.emoji}</span>
+                  <span className="text-3xl ember-emoji">{recipe.emoji}</span>
                   <div className="min-w-0 flex-1">
                     {editing ? (
                       <div className="flex items-center gap-1">
@@ -94,12 +94,12 @@ export default function RecipeDetail({
                               setEditing(false);
                             }
                           }}
-                          className="w-full rounded-lg bg-[var(--color-surface)] px-2 py-1 text-lg font-bold ring-1 ring-[var(--color-accent)] outline-none"
+                          className="w-full rounded-none bg-[var(--color-surface)] px-2 py-1 text-lg font-bold ring-1 ring-[var(--color-accent)] outline-none"
                         />
                         <button
                           type="button"
                           onClick={saveTitle}
-                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] text-white active:scale-95"
+                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-none bg-[var(--color-accent)] text-white active:scale-95"
                           aria-label="Valider"
                         >
                           <Check size={14} />
@@ -115,7 +115,7 @@ export default function RecipeDetail({
                               setDraft(recipe.title);
                               setEditing(true);
                             }}
-                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[var(--color-text-subtle)] hover:text-[var(--color-text)] active:scale-95"
+                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-none text-[var(--color-text-subtle)] hover:text-[var(--color-text)] active:scale-95"
                             aria-label="Renommer"
                           >
                             <Pencil size={12} />
@@ -131,7 +131,7 @@ export default function RecipeDetail({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -163,7 +163,7 @@ export default function RecipeDetail({
                   ].map((m) => (
                     <div
                       key={m.label}
-                      className="rounded-xl bg-[var(--color-surface)] px-2 py-2 text-center ring-1 ring-[var(--color-border)]"
+                      className="rounded-none bg-[var(--color-surface)] px-2 py-2 text-center ghost-border"
                     >
                       <p className="text-sm font-bold">{m.value}</p>
                       <p className="text-[9px] text-[var(--color-text-subtle)]">
@@ -179,7 +179,7 @@ export default function RecipeDetail({
                 <button
                   type="button"
                   onClick={onToggleFavorite}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--color-surface)] px-3 py-2.5 text-xs font-semibold ring-1 ring-[var(--color-border)] active:scale-[0.98]"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] px-3 py-2.5 text-xs font-semibold ghost-border active:scale-[0.98]"
                 >
                   <Heart
                     size={14}
@@ -194,7 +194,7 @@ export default function RecipeDetail({
                 <button
                   type="button"
                   onClick={onAddToList}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--color-accent)]/15 px-3 py-2.5 text-xs font-semibold text-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/30 active:scale-[0.98]"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-none bg-[var(--color-accent)]/15 px-3 py-2.5 text-xs font-semibold text-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/30 active:scale-[0.98]"
                 >
                   <ShoppingCart size={14} />
                   Liste de courses
@@ -210,7 +210,7 @@ export default function RecipeDetail({
                       }
                     }}
                     className={
-                      "flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-semibold ring-1 active:scale-[0.98] " +
+                      "flex items-center justify-center gap-1.5 rounded-none px-3 py-2.5 text-xs font-semibold ring-1 active:scale-[0.98] " +
                       (confirmingDelete
                         ? "bg-red-500 text-white ring-red-500"
                         : "bg-red-500/10 text-red-400 ring-red-500/30")
@@ -236,10 +236,10 @@ export default function RecipeDetail({
                 {recipe.ingredients.map((ing, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-xl bg-[var(--color-surface)] px-3 py-2 ring-1 ring-[var(--color-border)]"
+                    className="flex items-center justify-between rounded-none bg-[var(--color-surface)] px-3 py-2 ghost-border"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-xs">
+                      <span className="text-xs ember-emoji">
                         {GROCERY_AISLES[ing.aisle]?.emoji ?? "📦"}
                       </span>
                       <span className="text-sm">{ing.name}</span>
@@ -262,8 +262,8 @@ export default function RecipeDetail({
                     <div
                       className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold"
                       style={{
-                        background: "rgba(239,68,68,0.12)",
-                        color: "#ef4444",
+                        background: "rgba(106, 10, 10,0.12)",
+                        color: "#6a0a0a",
                       }}
                     >
                       {i + 1}
@@ -281,7 +281,7 @@ export default function RecipeDetail({
                   {recipe.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-[var(--color-surface)] px-2.5 py-1 text-[10px] text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]"
+                      className="rounded-full bg-[var(--color-surface)] px-2.5 py-1 text-[10px] text-[var(--color-text-subtle)] ghost-border"
                     >
                       #{tag}
                     </span>

@@ -18,12 +18,12 @@ export default function RecipeCard({ recipe, onTap, onToggleFavorite }: Props) {
     <motion.div
       whileTap={{ scale: 0.98 }}
       onClick={onTap}
-      className="cursor-pointer rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]"
+      className="cursor-pointer rounded-none bg-[var(--color-surface)] p-4 ghost-border"
     >
       <div className="flex items-start gap-3">
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl"
-          style={{ background: "rgba(239,68,68,0.12)" }}
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none text-2xl ember-emoji ghost-border"
+          style={{ background: "rgba(106, 10, 10,0.12)" }}
         >
           {recipe.emoji}
         </div>
@@ -40,7 +40,7 @@ export default function RecipeCard({ recipe, onTap, onToggleFavorite }: Props) {
               <Users size={10} /> {recipe.servings}
             </span>
             <span>
-              {cat.emoji} {cat.label}
+              <span className="ember-emoji">{cat.emoji}</span> {cat.label}
             </span>
           </div>
         </div>

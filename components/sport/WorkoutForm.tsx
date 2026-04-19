@@ -87,7 +87,7 @@ export default function WorkoutForm() {
           <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
             Distance (optionnel)
           </label>
-          <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-3 ring-1 ring-[var(--color-border)]">
+          <div className="flex items-center gap-2 rounded-none bg-[var(--color-surface)] px-4 py-3 ghost-border">
             <input
               inputMode="decimal"
               value={distanceKm}
@@ -112,10 +112,10 @@ export default function WorkoutForm() {
               whileTap={{ scale: 0.9 }}
               onClick={() => setIntensity(n)}
               className={cn(
-                "rounded-2xl py-3 text-lg font-semibold transition-colors",
+                "rounded-none py-3 text-lg font-semibold transition-colors",
                 intensity === n
                   ? "bg-[var(--color-accent)] text-white"
-                  : "bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)]"
+                  : "bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border"
               )}
             >
               {n}
@@ -138,10 +138,10 @@ export default function WorkoutForm() {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setFeeling(n)}
                 className={cn(
-                  "rounded-2xl py-3 text-2xl transition-colors",
+                  "rounded-none py-3 text-2xl transition-colors",
                   feeling === n
                     ? "bg-[var(--color-surface-2)] ring-2 ring-[var(--color-accent)]"
-                    : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] opacity-60"
+                    : "bg-[var(--color-surface)] ghost-border opacity-60"
                 )}
               >
                 {emoji}
@@ -160,14 +160,14 @@ export default function WorkoutForm() {
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
           placeholder="Comment tu t'es senti, ce qui a marché…"
-          className="w-full resize-none rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)] focus:ring-[var(--color-accent)]"
+          className="w-full resize-none rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm outline-none ghost-border placeholder:text-[var(--color-text-subtle)] focus:ring-[var(--color-accent)]"
         />
       </section>
 
       <motion.button
         type="submit"
         whileTap={{ scale: 0.97 }}
-        className="mt-2 flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/20"
+        className="mt-2 flex items-center justify-center gap-2 rounded-none bg-[var(--color-accent)] py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/20"
       >
         Enregistrer · +{xpPreview} XP
       </motion.button>

@@ -43,7 +43,7 @@ export default function LevelRoadmap({
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="flex w-full max-w-md flex-col rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="flex w-full max-w-md flex-col rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{
               maxHeight: "85vh",
               paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)",
@@ -67,7 +67,7 @@ export default function LevelRoadmap({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -184,12 +184,12 @@ function TierRow({
   return (
     <div
       className={
-        "relative rounded-2xl px-4 py-3 transition-all " +
+        "relative rounded-none px-4 py-3 transition-all " +
         (isCurrent
           ? "bg-[var(--color-surface)]"
           : completed
-            ? "bg-[var(--color-surface)]/80 ring-1 ring-[var(--color-border)]"
-            : "bg-[var(--color-surface)]/40 ring-1 ring-[var(--color-border)]/50")
+            ? "bg-[var(--color-surface)]/80 ghost-border"
+            : "bg-[var(--color-surface)]/40 ghost-border/50")
       }
       style={
         isCurrent
@@ -201,8 +201,8 @@ function TierRow({
         {/* Icon */}
         <div
           className={
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl " +
-            (locked ? "opacity-40 grayscale" : "")
+            "flex h-11 w-11 shrink-0 items-center justify-center rounded-none text-xl ember-emoji ghost-border " +
+            (locked ? "opacity-40" : "")
           }
           style={{
             background: locked ? "var(--color-surface-2)" : `${color}22`,

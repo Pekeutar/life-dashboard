@@ -63,7 +63,7 @@ export default function ReviewMode({
         <button
           type="button"
           onClick={onExit}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
           aria-label="Quitter la session"
         >
           <X size={18} />
@@ -121,19 +121,19 @@ export default function ReviewMode({
                 className="grid grid-cols-3 gap-2"
               >
                 <GradeButton
-                  color="#ef4444"
+                  color="#6a0a0a"
                   label="Raté"
                   sublabel={previewNextInterval(current, "again")}
                   onClick={() => handleGrade("again")}
                 />
                 <GradeButton
-                  color="#f59e0b"
+                  color="var(--color-gold)"
                   label="Hésité"
                   sublabel={previewNextInterval(current, "hard")}
                   onClick={() => handleGrade("hard")}
                 />
                 <GradeButton
-                  color="#22c55e"
+                  color="#c5a364"
                   label="Savais"
                   sublabel={previewNextInterval(current, "good")}
                   onClick={() => handleGrade("good")}
@@ -149,7 +149,7 @@ export default function ReviewMode({
                 transition={{ duration: 0.2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setFlipped(true)}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-semibold text-white shadow-lg"
+                className="flex w-full items-center justify-center gap-2 rounded-none py-4 text-base font-semibold text-white shadow-lg"
                 style={{
                   background: deckColor,
                   boxShadow: `0 14px 40px -14px ${deckColor}`,
@@ -180,7 +180,7 @@ function CardFace({
     <motion.button
       type="button"
       onClick={onFlip}
-      className="relative flex aspect-[3/4] w-full max-w-sm items-center justify-center overflow-hidden rounded-3xl ring-1 ring-[var(--color-border)]"
+      className="relative flex aspect-[3/4] w-full max-w-sm items-center justify-center overflow-hidden rounded-none ghost-border"
       style={{
         background: `linear-gradient(160deg, ${color}22 0%, var(--color-surface) 60%)`,
       }}
@@ -232,7 +232,7 @@ function GradeButton({
       type="button"
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="flex flex-col items-center gap-0.5 rounded-2xl py-3.5 text-sm font-semibold text-white shadow-lg"
+      className="flex flex-col items-center gap-0.5 rounded-none py-3.5 text-sm font-semibold text-white shadow-lg"
       style={{
         background: color,
         boxShadow: `0 10px 30px -12px ${color}`,
@@ -259,7 +259,7 @@ function SessionSummary({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="flex w-full max-w-sm flex-col items-center gap-4 rounded-3xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]"
+      className="flex w-full max-w-sm flex-col items-center gap-4 rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border"
     >
       <div
         className="flex h-16 w-16 items-center justify-center rounded-full"
@@ -275,16 +275,16 @@ function SessionSummary({
       </div>
 
       <div className="flex w-full flex-col gap-2">
-        <StatRow label="Savais" value={stats.good} color="#22c55e" />
-        <StatRow label="Hésité" value={stats.hard} color="#f59e0b" />
-        <StatRow label="Raté" value={stats.again} color="#ef4444" />
+        <StatRow label="Savais" value={stats.good} color="#c5a364" />
+        <StatRow label="Hésité" value={stats.hard} color="#8a6f3c" />
+        <StatRow label="Raté" value={stats.again} color="#6a0a0a" />
       </div>
 
       <motion.button
         type="button"
         whileTap={{ scale: 0.97 }}
         onClick={onExit}
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-semibold text-white"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-none py-3 text-sm font-semibold text-white"
         style={{
           background: color,
           boxShadow: `0 12px 32px -12px ${color}`,
@@ -306,7 +306,7 @@ function StatRow({
   color: string;
 }) {
   return (
-    <div className="flex items-center justify-between rounded-xl bg-[var(--color-surface-2)]/50 px-4 py-2">
+    <div className="flex items-center justify-between rounded-none bg-[var(--color-surface-2)]/50 px-4 py-2">
       <span className="text-xs font-medium text-[var(--color-text-muted)]">
         {label}
       </span>

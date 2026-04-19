@@ -51,7 +51,7 @@ export default function DeckDetailPage() {
       <>
         <PageHeader title="Deck" backHref="/etude/flashcards" />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -88,13 +88,13 @@ export default function DeckDetailPage() {
       <div className="flex flex-col gap-4 px-5 pb-6">
         {/* Hero */}
         <div
-          className="flex items-center gap-4 rounded-2xl p-5 ring-1 ring-[var(--color-border)]"
+          className="flex items-center gap-4 rounded-none p-5 ghost-border"
           style={{
             background: `linear-gradient(135deg, ${deck.color}33 0%, ${deck.color}0a 100%)`,
           }}
         >
           <div
-            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-4xl"
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-none text-4xl ember-emoji ghost-border"
             style={{ background: `${deck.color}33` }}
           >
             {deck.emoji}
@@ -122,7 +122,7 @@ export default function DeckDetailPage() {
             whileTap={{ scale: 0.97 }}
             disabled={due.length === 0}
             onClick={() => setReviewing(true)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-4 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+            className="flex flex-1 items-center justify-center gap-2 rounded-none py-4 text-sm font-semibold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
             style={{
               background: deck.color,
               boxShadow: `0 12px 32px -14px ${deck.color}`,
@@ -137,7 +137,7 @@ export default function DeckDetailPage() {
             type="button"
             whileTap={{ scale: 0.97 }}
             onClick={() => setFormOpen(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-4 text-sm font-semibold text-[var(--color-text)] ring-1 ring-[var(--color-border)]"
+            className="flex items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] px-4 py-4 text-sm font-semibold text-[var(--color-text)] ghost-border"
           >
             <Plus size={16} /> Carte
           </motion.button>
@@ -145,7 +145,7 @@ export default function DeckDetailPage() {
             type="button"
             whileTap={{ scale: 0.97 }}
             onClick={() => setGenerateOpen(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl px-4 py-4 text-sm font-semibold ring-1 ring-[var(--color-border)]"
+            className="flex items-center justify-center gap-2 rounded-none px-4 py-4 text-sm font-semibold ghost-border"
             style={{
               background: `${deck.color}15`,
               color: deck.color,
@@ -157,8 +157,8 @@ export default function DeckDetailPage() {
 
         {/* Cards list */}
         {deckCards.length === 0 ? (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-8 text-center ring-1 ring-[var(--color-border)]">
-            <p className="text-4xl">{deck.emoji}</p>
+          <div className="rounded-none bg-[var(--color-surface)] p-8 text-center ghost-border">
+            <p className="text-4xl ember-emoji">{deck.emoji}</p>
             <h3 className="mt-3 font-semibold">Deck vide</h3>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
               Ajoute ta première carte pour démarrer.
@@ -173,7 +173,7 @@ export default function DeckDetailPage() {
               {deckCards.map((card) => (
                 <div
                   key={card.id}
-                  className="flex items-start gap-3 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]"
+                  className="flex items-start gap-3 rounded-none bg-[var(--color-surface)] p-4 ghost-border"
                 >
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">
@@ -208,7 +208,7 @@ export default function DeckDetailPage() {
         {/* Danger zone */}
         <div className="mt-2">
           {confirmDelete ? (
-            <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-red-500/30">
+            <div className="rounded-none bg-[var(--color-surface)] p-4 ring-1 ring-red-500/30">
               <p className="text-sm font-semibold text-[var(--color-text)]">
                 Supprimer ce deck ?
               </p>
@@ -220,14 +220,14 @@ export default function DeckDetailPage() {
                 <button
                   type="button"
                   onClick={() => setConfirmDelete(false)}
-                  className="flex-1 rounded-xl bg-[var(--color-surface-2)] py-2.5 text-xs font-semibold"
+                  className="flex-1 rounded-none bg-[var(--color-surface-2)] py-2.5 text-xs font-semibold"
                 >
                   Annuler
                 </button>
                 <button
                   type="button"
                   onClick={handleDeleteDeck}
-                  className="flex-1 rounded-xl bg-red-500 py-2.5 text-xs font-semibold text-white"
+                  className="flex-1 rounded-none bg-red-500 py-2.5 text-xs font-semibold text-white"
                 >
                   Supprimer
                 </button>
@@ -237,7 +237,7 @@ export default function DeckDetailPage() {
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-[var(--color-text-subtle)]"
+              className="flex w-full items-center justify-center gap-2 rounded-none py-3 text-xs font-medium text-[var(--color-text-subtle)]"
             >
               <Trash2 size={13} /> Supprimer le deck
             </button>

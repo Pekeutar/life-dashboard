@@ -22,6 +22,7 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
 
   const [content, setContent] = useState("");
   const [dictating, setDictating] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const dictationStartRef = useRef("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,6 +35,21 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
     stop,
     reset,
   } = useSpeechRecognition({ lang: "fr-FR", continuous: true });
+
+  // Remonter le sheet quand le clavier mobile s'ouvre
+  useEffect(() => {
+    if (target === null) { setKeyboardOffset(0); return; }
+    const vv = window.visualViewport;
+    if (!vv) return;
+    function onResize() {
+      const offset = window.innerHeight - vv!.height;
+      setKeyboardOffset(offset > 50 ? offset : 0);
+    }
+    vv.addEventListener("resize", onResize);
+    // Vérifier immédiatement si le clavier est déjà ouvert (race condition au mount)
+    onResize();
+    return () => vv.removeEventListener("resize", onResize);
+  }, [target]);
 
   // Load content when target changes
   useEffect(() => {
@@ -108,8 +124,11 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
             exit={{ y: 80 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
-            style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1rem)" }}
+            className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] ghost-border transition-transform duration-200"
+            style={{
+              paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
+              transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
+            }}
           >
             <div className="px-5 pt-4">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--color-surface-2)]" />
@@ -135,7 +154,7 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
                       if (listening) stop();
                       onClose();
                     }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                     aria-label="Fermer sans enregistrer"
                   >
                     <X size={16} />
@@ -150,7 +169,7 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
                 placeholder="Écris ou dicte ta note… #tag pour taguer"
                 rows={7}
                 autoFocus={!existing}
-                className="w-full resize-none rounded-2xl bg-[var(--color-surface)] p-4 text-[15px] leading-relaxed text-[var(--color-text)] ring-1 ring-[var(--color-border)] placeholder:text-[var(--color-text-subtle)] focus:outline-none focus:ring-[var(--color-accent)]"
+                className="w-full resize-none rounded-none bg-[var(--color-surface)] p-4 text-[15px] leading-relaxed text-[var(--color-text)] ghost-border placeholder:text-[var(--color-text-subtle)] focus:outline-none focus:ring-[var(--color-accent)]"
               />
 
               {inlineTags.length > 0 && (
@@ -178,7 +197,7 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
                   onClick={handleDictate}
                   disabled={!supported}
                   className={cn(
-                    "flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-semibold ring-1 transition active:scale-98",
+                    "flex flex-1 items-center justify-center gap-2 rounded-none py-3 text-sm font-semibold ring-1 transition active:scale-98",
                     !supported && "opacity-40",
                     listening
                       ? "bg-red-500/15 text-red-400 ring-red-500/40"
@@ -195,7 +214,7 @@ export default function NoteEditorSheet({ target, onClose }: Props) {
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 active:scale-95"
+                  className="flex items-center justify-center gap-2 rounded-none bg-[var(--color-accent)] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 active:scale-95"
                 >
                   <Check size={16} />
                   Enregistrer

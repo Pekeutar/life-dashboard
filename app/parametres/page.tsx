@@ -52,7 +52,7 @@ export default function SettingsPage() {
       <>
         <PageHeader title="Paramètres" subtitle="Personnalise ton app" backHref="/" />
         <div className="px-5">
-          <div className="h-32 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-32 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -97,7 +97,7 @@ export default function SettingsPage() {
                 flash();
               }}
               placeholder="Comment tu t'appelles ?"
-              className="w-full rounded-xl bg-[var(--color-surface-2)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] outline-none focus:ring-[var(--color-accent)]"
+              className="w-full rounded-none bg-[var(--color-surface-2)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ghost-border outline-none focus:ring-[var(--color-accent)]"
             />
           </label>
         </Section>
@@ -108,7 +108,7 @@ export default function SettingsPage() {
             <span className="text-xs font-medium text-[var(--color-text-subtle)]">
               Thème
             </span>
-            <div className="grid grid-cols-3 gap-1.5 rounded-2xl bg-[var(--color-surface-2)] p-1.5 ring-1 ring-[var(--color-border)]">
+            <div className="grid grid-cols-3 gap-1.5 rounded-none bg-[var(--color-surface-2)] p-1.5 ghost-border">
               {THEMES.map((t) => (
                 <button
                   key={t.value}
@@ -118,7 +118,7 @@ export default function SettingsPage() {
                     flash();
                   }}
                   className={cn(
-                    "flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-semibold transition",
+                    "flex items-center justify-center gap-1.5 rounded-none py-2.5 text-xs font-semibold transition",
                     settings.theme === t.value
                       ? "bg-[var(--color-surface)] text-[var(--color-text)] shadow-sm"
                       : "text-[var(--color-text-subtle)]"
@@ -234,7 +234,7 @@ export default function SettingsPage() {
                       flash();
                     }}
                     className={cn(
-                      "flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-medium transition ring-1",
+                      "flex items-center gap-2 rounded-none px-3 py-2.5 text-xs font-medium transition ring-1",
                       settings.food.diet === key
                         ? "bg-[var(--color-accent)]/15 text-[var(--color-text)] ring-[var(--color-accent)]"
                         : "bg-[var(--color-surface-2)] text-[var(--color-text-subtle)] ring-[var(--color-border)]"
@@ -280,7 +280,7 @@ export default function SettingsPage() {
                   key={a}
                   type="button"
                   onClick={() => addAllergy(a)}
-                  className="rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="rounded-full bg-[var(--color-surface-2)] px-2.5 py-1 text-[11px] text-[var(--color-text-subtle)] ghost-border active:scale-95"
                 >
                   + {a}
                 </button>
@@ -298,12 +298,12 @@ export default function SettingsPage() {
                   }
                 }}
                 placeholder="Autre allergie..."
-                className="flex-1 rounded-xl bg-[var(--color-surface-2)] px-3 py-2 text-xs text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] outline-none focus:ring-[var(--color-accent)]"
+                className="flex-1 rounded-none bg-[var(--color-surface-2)] px-3 py-2 text-xs text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] ghost-border outline-none focus:ring-[var(--color-accent)]"
               />
               <button
                 type="button"
                 onClick={() => addAllergy(allergyInput)}
-                className="rounded-xl bg-[var(--color-surface-2)] px-3 py-2 text-xs font-semibold text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)] active:scale-95"
+                className="rounded-none bg-[var(--color-surface-2)] px-3 py-2 text-xs font-semibold text-[var(--color-text-subtle)] ghost-border active:scale-95"
               >
                 Ajouter
               </button>
@@ -342,7 +342,7 @@ export default function SettingsPage() {
                       flash();
                     }}
                     className={cn(
-                      "flex flex-col items-center gap-1 rounded-xl px-2 py-2.5 text-center text-[10px] font-medium transition ring-1",
+                      "flex flex-col items-center gap-1 rounded-none px-2 py-2.5 text-center text-[10px] font-medium transition ring-1",
                       settings.food.goal === key
                         ? "bg-[var(--color-accent)]/15 text-[var(--color-text)] ring-[var(--color-accent)]"
                         : "bg-[var(--color-surface-2)] text-[var(--color-text-subtle)] ring-[var(--color-border)]"
@@ -384,7 +384,7 @@ function Section({
     <motion.section
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl bg-[var(--color-surface)] p-5 ring-1 ring-[var(--color-border)]"
+      className="rounded-none bg-[var(--color-surface)] p-5 ghost-border"
     >
       <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
         {title}
@@ -415,7 +415,7 @@ function GoalRow({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--color-surface-2)] text-[var(--color-text-subtle)]">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-[var(--color-text-subtle)]">
         {icon}
       </div>
       <div className="flex-1">
@@ -424,7 +424,7 @@ function GoalRow({
           <button
             type="button"
             onClick={() => onChange(Math.max(min, value - step))}
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-surface-2)] text-sm font-bold text-[var(--color-text-subtle)] active:scale-95"
+            className="flex h-7 w-7 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold text-[var(--color-text-subtle)] active:scale-95"
           >
             −
           </button>
@@ -434,7 +434,7 @@ function GoalRow({
           <button
             type="button"
             onClick={() => onChange(Math.min(max, value + step))}
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-surface-2)] text-sm font-bold text-[var(--color-text-subtle)] active:scale-95"
+            className="flex h-7 w-7 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-sm font-bold text-[var(--color-text-subtle)] active:scale-95"
           >
             +
           </button>

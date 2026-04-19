@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/shared/BottomNav";
-import AccentProvider from "@/components/shared/AccentProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +11,19 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  style: ["normal", "italic"],
+});
+
+const notoSerif = Noto_Serif({
+  variable: "--font-noto-serif",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -45,10 +57,9 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} ${notoSerif.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
-        <AccentProvider />
+      <body className="theme-ember min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
         <main className="flex-1 w-full max-w-md mx-auto pb-nav-safe">
           {children}
         </main>

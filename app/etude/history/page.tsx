@@ -29,7 +29,7 @@ export default function StudyHistoryPage() {
       <>
         <PageHeader title="Historique" backHref="/etude" />
         <div className="px-5">
-          <div className="h-20 animate-pulse rounded-2xl bg-[var(--color-surface)]" />
+          <div className="h-20 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -56,7 +56,7 @@ export default function StudyHistoryPage() {
 
       <div className="flex flex-col gap-5 px-5 pb-6">
         {weeks.length === 0 && (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-6 text-center ring-1 ring-[var(--color-border)]">
+          <div className="rounded-none bg-[var(--color-surface)] p-6 text-center ghost-border">
             <p className="text-sm text-[var(--color-text-muted)]">
               Aucune session pour l&apos;instant.
             </p>
@@ -95,7 +95,7 @@ export default function StudyHistoryPage() {
               animate={{ y: 0 }}
               exit={{ y: 80 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] p-6 pb-10 ring-1 ring-[var(--color-border)]"
+              className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] p-6 pb-10 ghost-border"
             >
               <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-[var(--color-surface-2)]" />
               <DetailView session={selected} />
@@ -104,7 +104,7 @@ export default function StudyHistoryPage() {
                   remove(selected.id);
                   setSelected(null);
                 }}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-red-500/10 py-3 text-sm font-medium text-red-400 ring-1 ring-red-500/30 active:scale-95"
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-none bg-red-500/10 py-3 text-sm font-medium text-red-400 ring-1 ring-red-500/30 active:scale-95"
               >
                 <Trash2 size={16} /> Supprimer cette session
               </button>
@@ -129,7 +129,7 @@ function DetailView({ session }: { session: StudySession }) {
     <div>
       <div className="flex items-center gap-3">
         <div
-          className="flex h-14 w-14 items-center justify-center rounded-2xl text-3xl"
+          className="flex h-14 w-14 items-center justify-center rounded-none text-3xl ember-emoji ghost-border"
           style={{ background: `${topic.color}22` }}
         >
           {topic.emoji}
@@ -149,7 +149,7 @@ function DetailView({ session }: { session: StudySession }) {
         <InfoCell label="XP gagné" value={`+${session.xp}`} />
       </div>
       {session.notes && (
-        <div className="mt-4 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+        <div className="mt-4 rounded-none bg-[var(--color-surface)] p-4 ghost-border">
           <p className="text-xs uppercase text-[var(--color-text-subtle)]">
             Notes
           </p>
@@ -164,7 +164,7 @@ function DetailView({ session }: { session: StudySession }) {
 
 function InfoCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl bg-[var(--color-surface)] px-3 py-2 ring-1 ring-[var(--color-border)]">
+    <div className="rounded-none bg-[var(--color-surface)] px-3 py-2 ghost-border">
       <p className="text-[10px] uppercase text-[var(--color-text-subtle)]">
         {label}
       </p>

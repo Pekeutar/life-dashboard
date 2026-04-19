@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarDays, CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import ScaleToggle, { type AgendaScale } from "@/components/agenda/ScaleToggle";
 import MonthGrid from "@/components/agenda/MonthGrid";
@@ -66,7 +66,7 @@ export default function AgendaPage() {
         </div>
 
         {!hydrated && (
-          <div className="rounded-2xl bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]">
+          <div className="rounded-none bg-[var(--color-surface)] p-8 text-center text-sm text-[var(--color-text-subtle)] ghost-border">
             Chargement…
           </div>
         )}
@@ -149,7 +149,7 @@ function DayList({
       {items.length === 0 ? (
         <Link
           href={emptyHref}
-          className="flex items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 px-4 py-6 text-sm text-[var(--color-text-subtle)] active:bg-[var(--color-surface)]"
+          className="flex items-center justify-center gap-2 rounded-none border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 px-4 py-6 text-sm text-[var(--color-text-subtle)] active:bg-[var(--color-surface)]"
         >
           <CalendarPlus size={16} />
           Ajouter un événement
@@ -187,7 +187,7 @@ function WeekView({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between rounded-2xl bg-[var(--color-surface)] p-2 ring-1 ring-[var(--color-border)]">
+      <div className="flex items-center justify-between rounded-none bg-[var(--color-surface)] p-2 ghost-border">
         <button
           type="button"
           onClick={() => onShiftWeek(-1)}
@@ -219,12 +219,12 @@ function WeekView({
               type="button"
               onClick={() => onSelectDay(d)}
               className={cn(
-                "flex aspect-[2/3] flex-col items-center justify-start gap-1 rounded-xl p-2 text-xs transition-colors",
+                "flex aspect-[2/3] flex-col items-center justify-start gap-1 rounded-none p-2 text-xs transition-colors",
                 isSel
                   ? "bg-[var(--color-accent)] text-white"
                   : isToday
                     ? "bg-[var(--color-surface-2)] ring-1 ring-[var(--color-accent)]"
-                    : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]"
+                    : "bg-[var(--color-surface)] ghost-border"
               )}
             >
               <span className="text-[9px] font-semibold uppercase opacity-80">
@@ -288,7 +288,7 @@ function DayView({
   const isToday = isSameDay(day, new Date());
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between rounded-2xl bg-[var(--color-surface)] p-2 ring-1 ring-[var(--color-border)]">
+      <div className="flex items-center justify-between rounded-none bg-[var(--color-surface)] p-2 ghost-border">
         <button
           type="button"
           onClick={() => onShift(-1)}
@@ -321,10 +321,10 @@ function DayView({
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 p-8 text-center"
+          className="flex flex-col items-center gap-3 rounded-none border border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/40 p-8 text-center"
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-surface-2)] text-3xl">
-            🗓️
+          <div className="flex h-14 w-14 items-center justify-center rounded-none bg-[var(--color-surface-2)] text-[var(--color-gold-deep)] ghost-border">
+            <CalendarDays size={26} />
           </div>
           <p className="text-sm text-[var(--color-text-muted)]">
             Rien de prévu ce jour-là.

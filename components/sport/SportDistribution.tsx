@@ -17,7 +17,7 @@ export default function SportDistribution({ workouts }: Props) {
 
   if (raw.length === 0) {
     return (
-      <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+      <div className="rounded-none bg-[var(--color-surface)] p-4 ghost-border">
         <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
           Répartition
         </p>
@@ -40,7 +40,7 @@ export default function SportDistribution({ workouts }: Props) {
   });
 
   return (
-    <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+    <div className="rounded-none bg-[var(--color-surface)] p-4 ghost-border">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
         Répartition par sport
       </p>
@@ -72,7 +72,7 @@ export default function SportDistribution({ workouts }: Props) {
                   style={{ background: d.color }}
                 />
                 <span>
-                  {d.emoji} {d.name}
+                  <span className="ember-emoji">{d.emoji}</span> {d.name}
                 </span>
               </span>
               <span className="text-[var(--color-text-subtle)]">

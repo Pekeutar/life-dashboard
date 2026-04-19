@@ -12,10 +12,10 @@ import type { StudySession } from "@/lib/study/types";
 
 const LEVEL_COLORS = [
   "rgba(255,255,255,0.05)",
-  "rgba(249,115,22,0.28)",
-  "rgba(249,115,22,0.52)",
-  "rgba(249,115,22,0.78)",
-  "#f97316",
+  "rgba(90, 15, 31,0.28)",
+  "rgba(90, 15, 31,0.52)",
+  "rgba(90, 15, 31,0.78)",
+  "#5a0f1f",
 ];
 
 const DAY_LABELS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
@@ -112,7 +112,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
     <motion.section
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]"
+      className="rounded-none bg-[var(--color-surface)] p-4 ghost-border"
     >
       {/* Header */}
       <div className="mb-3 flex items-center justify-between gap-2">
@@ -131,7 +131,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
         </div>
 
         {/* View toggle */}
-        <div className="flex shrink-0 items-center gap-0.5 rounded-xl bg-[var(--color-surface-2)] p-0.5">
+        <div className="flex shrink-0 items-center gap-0.5 rounded-none bg-[var(--color-surface-2)] p-0.5">
           {VIEW_BUTTONS.map((btn) => (
             <button
               key={btn.value}
@@ -140,10 +140,10 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
                 setView(btn.value);
                 setSelected(null);
               }}
-              className="rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-all"
+              className="rounded-none px-2.5 py-1 text-[10px] font-semibold transition-all"
               style={
                 view === btn.value
-                  ? { background: "rgba(249,115,22,0.15)", color: "#f97316" }
+                  ? { background: "rgba(90, 15, 31,0.15)", color: "#5a0f1f" }
                   : { color: "var(--color-text-subtle)" }
               }
             >
@@ -172,7 +172,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
                   className="text-[10px] font-medium"
                   style={{
                     color: isToday
-                      ? "#f97316"
+                      ? "#5a0f1f"
                       : "var(--color-text-subtle)",
                   }}
                 >
@@ -187,14 +187,14 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
                     boxShadow: active
                       ? "0 0 0 2px var(--color-text)"
                       : isToday
-                        ? "inset 0 0 0 1.5px rgba(249,115,22,0.4)"
+                        ? "inset 0 0 0 1.5px rgba(90, 15, 31,0.4)"
                         : undefined,
                   }}
                 >
                   {day.xp > 0 && (
                     <span
                       className="text-xs font-bold"
-                      style={{ color: "#f97316" }}
+                      style={{ color: "#5a0f1f" }}
                     >
                       {day.xp}
                     </span>
@@ -238,7 +238,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
                     boxShadow: active
                       ? "0 0 0 1.5px var(--color-text)"
                       : isToday
-                        ? "inset 0 0 0 1px rgba(249,115,22,0.5)"
+                        ? "inset 0 0 0 1px rgba(90, 15, 31,0.5)"
                         : undefined,
                   }}
                 />
@@ -247,7 +247,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
                   className="text-[7px]"
                   style={{
                     color: isToday
-                      ? "#f97316"
+                      ? "#5a0f1f"
                       : "var(--color-text-subtle)",
                     fontWeight: isToday ? 700 : 400,
                   }}
@@ -370,7 +370,7 @@ export default function YearHeatmap({ workouts, sessions }: Props) {
               <>
                 <span
                   className="font-semibold"
-                  style={{ color: "#f97316" }}
+                  style={{ color: "#5a0f1f" }}
                 >
                   {selected.xp} XP
                 </span>

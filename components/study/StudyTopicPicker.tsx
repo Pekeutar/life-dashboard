@@ -34,14 +34,14 @@ export default function StudyTopicPicker({ value, onChange }: Props) {
               onClick={() => onChange(topic.id)}
               whileTap={{ scale: 0.92 }}
               className={cn(
-                "relative flex flex-col items-center justify-center gap-1 rounded-2xl p-3 transition-colors",
+                "relative flex flex-col items-center justify-center gap-1 rounded-none p-3 transition-colors",
                 active
                   ? "bg-[var(--color-surface-2)] ring-2 ring-[var(--color-level)]"
-                  : "bg-[var(--color-surface)] ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+                  : "bg-[var(--color-surface)] ghost-border active:bg-[var(--color-surface-2)]"
               )}
               aria-pressed={active}
             >
-              <span className="text-2xl leading-none">{topic.emoji}</span>
+              <span className="text-2xl leading-none ember-emoji">{topic.emoji}</span>
               <span className="truncate text-[11px] font-medium text-[var(--color-text-muted)]">
                 {topic.label}
               </span>
@@ -53,7 +53,7 @@ export default function StudyTopicPicker({ value, onChange }: Props) {
           type="button"
           onClick={() => setSheetOpen(true)}
           whileTap={{ scale: 0.92 }}
-          className="flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
+          className="flex flex-col items-center justify-center gap-1 rounded-none border-2 border-dashed border-[var(--color-border-strong)] p-3 text-[var(--color-text-subtle)] transition-colors active:bg-[var(--color-surface)]"
           aria-label="Ajouter un sujet personnalisé"
         >
           <Plus size={22} />
@@ -66,7 +66,7 @@ export default function StudyTopicPicker({ value, onChange }: Props) {
         onClose={() => setSheetOpen(false)}
         title="Nouveau sujet d'étude"
         subtitle="Crée ton sujet personnalisé."
-        accent="#a855f7"
+        accent="#3a0a14"
         emojiSuggestions={STUDY_EMOJI_SUGGESTIONS}
         customs={customs}
         onCreate={(draft) => {

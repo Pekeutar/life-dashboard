@@ -33,7 +33,7 @@ export default function ItemDetailSheet({
             exit={{ y: 80 }}
             transition={{ type: "spring", damping: 30, stiffness: 260 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-md rounded-t-3xl bg-[var(--color-bg-elevated)] ring-1 ring-[var(--color-border)]"
+            className="w-full max-w-md rounded-none bg-[var(--color-bg-elevated)] ghost-border"
             style={{ paddingBottom: "max(env(safe-area-inset-bottom), 2rem)" }}
           >
             <div className="px-6 pt-4">
@@ -41,7 +41,7 @@ export default function ItemDetailSheet({
               <div className="mb-5 flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
                   <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-3xl"
+                    className="flex h-14 w-14 items-center justify-center rounded-none text-3xl ember-emoji ghost-border"
                     style={{ background: `${item.color}22` }}
                   >
                     {item.emoji}
@@ -69,7 +69,7 @@ export default function ItemDetailSheet({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ring-1 ring-[var(--color-border)] active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] ghost-border active:scale-95"
                   aria-label="Fermer"
                 >
                   <X size={18} />
@@ -83,7 +83,7 @@ export default function ItemDetailSheet({
               )}
 
               {item.notes && (
-                <div className="mb-4 rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+                <div className="mb-4 rounded-none bg-[var(--color-surface)] p-4 ghost-border">
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
                     Notes
                   </p>
@@ -103,7 +103,7 @@ export default function ItemDetailSheet({
                         : "/quetes"
                   }
                   onClick={onClose}
-                  className="flex items-center justify-between gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-3 text-sm font-medium ring-1 ring-[var(--color-border)] active:bg-[var(--color-surface-2)]"
+                  className="flex items-center justify-between gap-2 rounded-none bg-[var(--color-surface)] px-4 py-3 text-sm font-medium ghost-border active:bg-[var(--color-surface-2)]"
                 >
                   {item.kind === "quest"
                     ? "Voir la quête"
@@ -119,7 +119,7 @@ export default function ItemDetailSheet({
                     onDeleteEvent(item.sourceId);
                     onClose();
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-500/10 py-3 text-sm font-medium text-red-400 ring-1 ring-red-500/30 active:scale-95"
+                  className="flex w-full items-center justify-center gap-2 rounded-none bg-red-500/10 py-3 text-sm font-medium text-red-400 ring-1 ring-red-500/30 active:scale-95"
                 >
                   <Trash2 size={16} /> Supprimer cet événement
                 </button>

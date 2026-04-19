@@ -33,7 +33,7 @@ export default function LevelBadge({
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setRoadmapOpen(true)}
-          className="cursor-pointer rounded-2xl bg-[var(--color-surface)] p-5 ring-1 ring-[var(--color-border)]"
+          className="cursor-pointer rounded-none bg-[var(--color-surface)] p-5 ghost-border"
         >
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -41,7 +41,7 @@ export default function LevelBadge({
                 {pillarLabel ? `Rang ${pillarLabel}` : "Rang"}
               </p>
               <h3 className="mt-1 text-xl font-bold">
-                <span className="mr-2">{rank.emoji}</span>
+                <span className="mr-2 ember-emoji">{rank.emoji}</span>
                 {rank.label}
               </h3>
               <p className="mt-1 text-xs text-[var(--color-text-muted)]">
@@ -49,10 +49,14 @@ export default function LevelBadge({
               </p>
             </div>
             <div
-              className="flex h-14 w-14 items-center justify-center rounded-full ring-2"
-              style={{ color: rank.color, borderColor: rank.color }}
+              className="flex h-14 w-14 items-center justify-center rounded-none ghost-border"
+              style={{
+                color: rank.color,
+                borderColor: "var(--color-gold-faint)",
+                background: "var(--color-surface-2)",
+              }}
             >
-              <span className="text-2xl">{rank.emoji}</span>
+              <span className="text-2xl ember-emoji">{rank.emoji}</span>
             </div>
           </div>
           <div className="mt-4">
@@ -67,8 +71,13 @@ export default function LevelBadge({
             </div>
             <p className="mt-2 text-[11px] text-[var(--color-text-subtle)]">
               {next
-                ? `${xpToNext.toLocaleString("fr-FR")} XP avant ${next.label} ${next.emoji}`
-                : "Rang max atteint 🎉"}
+                ? (
+                  <>
+                    {xpToNext.toLocaleString("fr-FR")} XP avant {next.label}{" "}
+                    <span className="ember-emoji">{next.emoji}</span>
+                  </>
+                )
+                : "Rang max atteint"}
             </p>
           </div>
         </motion.div>
@@ -94,7 +103,7 @@ export default function LevelBadge({
         animate={{ opacity: 1, y: 0 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => setRoadmapOpen(true)}
-        className="cursor-pointer rounded-2xl bg-[var(--color-surface)] p-5 ring-1 ring-[var(--color-border)]"
+        className="cursor-pointer rounded-none bg-[var(--color-surface)] p-5 ghost-border"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -102,7 +111,7 @@ export default function LevelBadge({
               Niveau global
             </p>
             <h3 className="mt-1 text-xl font-bold">
-              <span className="mr-2">{level.emoji}</span>
+              <span className="mr-2 ember-emoji">{level.emoji}</span>
               {display}
             </h3>
             <p className="mt-1 text-xs text-[var(--color-text-muted)]">
@@ -110,10 +119,14 @@ export default function LevelBadge({
             </p>
           </div>
           <div
-            className="flex h-14 w-14 items-center justify-center rounded-full ring-2"
-            style={{ color: level.color, borderColor: level.color }}
+            className="flex h-14 w-14 items-center justify-center rounded-none ghost-border"
+            style={{
+              color: level.color,
+              borderColor: "var(--color-gold-faint)",
+              background: "var(--color-surface-2)",
+            }}
           >
-            <span className="text-2xl">{level.emoji}</span>
+            <span className="text-2xl ember-emoji">{level.emoji}</span>
           </div>
         </div>
         <div className="mt-4">
@@ -129,7 +142,7 @@ export default function LevelBadge({
           <p className="mt-2 text-[11px] text-[var(--color-text-subtle)]">
             {next
               ? `${xpToNext.toLocaleString("fr-FR")} XP avant ${next.label} ${next.emoji}`
-              : "Niveau max atteint 🎉"}
+              : "Niveau max atteint"}
           </p>
         </div>
       </motion.div>

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Plus, Trash2 } from "lucide-react";
+import { Download, Plus, Trash2, TreePine } from "lucide-react";
 import PageHeader from "@/components/shared/PageHeader";
 import SkillTreeCanvas from "@/components/skills/SkillTreeCanvas";
 import SkillDetailSheet from "@/components/skills/SkillDetailSheet";
@@ -100,7 +100,7 @@ export default function SkillTreePage() {
       <>
         <PageHeader title="Compétences" subtitle="Arbre de progression" backHref="/" />
         <div className="px-5">
-          <div className="h-64 animate-pulse rounded-3xl bg-[var(--color-surface)]" />
+          <div className="h-64 animate-pulse rounded-none bg-[var(--color-surface)]" />
         </div>
       </>
     );
@@ -113,21 +113,21 @@ export default function SkillTreePage() {
       <div className="flex flex-col gap-4 px-5 pb-6">
         {/* Stats banner */}
         <div
-          className="flex items-center gap-5 rounded-2xl p-5 ring-1 ring-[var(--color-border)]"
+          className="flex items-center gap-5 rounded-none p-5 ghost-border"
           style={{
             background:
-              "linear-gradient(135deg, rgba(234,179,8,0.18) 0%, rgba(234,179,8,0.04) 100%)",
+              "linear-gradient(135deg, rgba(197, 163, 100,0.18) 0%, rgba(197, 163, 100,0.04) 100%)",
           }}
         >
-          <Stat label="Débloquées" value={counts.unlocked} color="#22c55e" />
-          <Stat label="En cours" value={counts.available} color="#f59e0b" />
+          <Stat label="Débloquées" value={counts.unlocked} color="#c5a364" />
+          <Stat label="En cours" value={counts.available} color="var(--color-blood-glow)" />
           <Stat label="Verrouillées" value={counts.locked} color="var(--color-text-subtle)" />
         </div>
 
         {/* Canvas or empty state */}
         {skills.length === 0 ? (
-          <div className="rounded-3xl bg-[var(--color-surface)] p-8 text-center ring-1 ring-[var(--color-border)]">
-            <p className="text-5xl">🌳</p>
+          <div className="rounded-none bg-[var(--color-surface)] p-8 text-center ghost-border">
+            <TreePine size={40} className="mx-auto text-[var(--color-gold-deep)]" />
             <h3 className="mt-3 text-lg font-bold">Ton arbre est vide</h3>
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
               Charge un exemple pour commencer, ou crée tes propres compétences.
@@ -136,8 +136,8 @@ export default function SkillTreePage() {
               type="button"
               whileTap={{ scale: 0.97 }}
               onClick={() => loadSeed(STARTER_SKILLS)}
-              className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-[#eab308] px-6 py-3 text-sm font-semibold text-white shadow-lg"
-              style={{ boxShadow: "0 12px 32px -14px #eab308" }}
+              className="mt-5 inline-flex items-center gap-2 rounded-none bg-[var(--color-gold)] px-6 py-3 text-sm font-semibold text-black shadow-lg"
+              style={{ boxShadow: "0 12px 32px -14px rgba(197,163,100,0.6)" }}
             >
               <Download size={16} /> Charger l&apos;exemple
             </motion.button>
@@ -158,7 +158,7 @@ export default function SkillTreePage() {
             type="button"
             whileTap={{ scale: 0.97 }}
             onClick={openCreate}
-            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--color-surface)] py-3.5 text-sm font-semibold ring-1 ring-[var(--color-border)]"
+            className="flex flex-1 items-center justify-center gap-2 rounded-none bg-[var(--color-surface)] py-3.5 text-sm font-semibold ghost-border"
           >
             <Plus size={16} /> Ajouter un nœud
           </motion.button>
@@ -170,7 +170,7 @@ export default function SkillTreePage() {
                   <button
                     type="button"
                     onClick={() => setConfirmWipe(false)}
-                    className="rounded-2xl bg-[var(--color-surface)] px-4 py-3.5 text-xs font-semibold ring-1 ring-[var(--color-border)]"
+                    className="rounded-none bg-[var(--color-surface)] px-4 py-3.5 text-xs font-semibold ghost-border"
                   >
                     Annuler
                   </button>
@@ -180,7 +180,7 @@ export default function SkillTreePage() {
                       replaceAll([]);
                       setConfirmWipe(false);
                     }}
-                    className="rounded-2xl bg-red-500 px-4 py-3.5 text-xs font-semibold text-white"
+                    className="rounded-none bg-red-500 px-4 py-3.5 text-xs font-semibold text-white"
                   >
                     Tout supprimer
                   </button>
@@ -190,7 +190,7 @@ export default function SkillTreePage() {
                   type="button"
                   whileTap={{ scale: 0.97 }}
                   onClick={() => setConfirmWipe(true)}
-                  className="flex items-center justify-center gap-1 rounded-2xl bg-[var(--color-surface)] px-4 py-3.5 text-xs font-medium text-[var(--color-text-subtle)] ring-1 ring-[var(--color-border)]"
+                  className="flex items-center justify-center gap-1 rounded-none bg-[var(--color-surface)] px-4 py-3.5 text-xs font-medium text-[var(--color-text-subtle)] ghost-border"
                 >
                   <Trash2 size={13} />
                 </motion.button>
@@ -200,14 +200,14 @@ export default function SkillTreePage() {
         </div>
 
         {/* XP summary */}
-        <div className="rounded-2xl bg-[var(--color-surface)] p-4 ring-1 ring-[var(--color-border)]">
+        <div className="rounded-none bg-[var(--color-surface)] p-4 ghost-border">
           <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--color-text-subtle)]">
             XP actuels
           </p>
           <div className="grid grid-cols-3 gap-3">
-            <XpPill label="Sport" value={xp.sport} color="#f97316" />
-            <XpPill label="Étude" value={xp.study} color="#a855f7" />
-            <XpPill label="Total" value={xp.any} color="#eab308" />
+            <XpPill label="Sport" value={xp.sport} color="#5a0f1f" />
+            <XpPill label="Étude" value={xp.study} color="#3a0a14" />
+            <XpPill label="Total" value={xp.any} color="#c5a364" />
           </div>
         </div>
       </div>
@@ -271,7 +271,7 @@ function XpPill({
   color: string;
 }) {
   return (
-    <div className="flex flex-col items-center gap-0.5 rounded-xl bg-[var(--color-surface-2)] py-2">
+    <div className="flex flex-col items-center gap-0.5 rounded-none bg-[var(--color-surface-2)] py-2">
       <span className="text-sm font-bold" style={{ color }}>
         {value.toLocaleString("fr-FR")}
       </span>
